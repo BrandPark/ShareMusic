@@ -1,4 +1,4 @@
-package kr.ac.hansung;
+package kr.ac.hansung.controller;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		List<String> li = ocrService.getTesseract("/users/jeon-yongho/Desktop/testsample/test11.png");
+		List<String> li = ocrService.getTesseract("C:/test/images/test1.jpeg");
 
 		model.addAttribute("li", li);
 

@@ -17,7 +17,7 @@ public class OCRService {
 
 		TessBaseAPI instance = new TessBaseAPI();
 
-		instance.Init("/users/jeon-yongho/Desktop/tessdata", "eng+kor");
+		instance.Init("C:/test/tessdata", "eng+kor");
 		PIX image = lept.pixRead(fileURL);
 
 		instance.SetImage(image);
