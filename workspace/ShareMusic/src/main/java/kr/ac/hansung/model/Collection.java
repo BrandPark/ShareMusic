@@ -9,10 +9,8 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-
-public class User {
-	private String userId;
-	private String userPassword;
-	private String userEmail;
-	private int enabled;
+public class Collection {
+	private int musicNo;
+	private String musicName;
+	private String singer;
 }
