@@ -15,5 +15,6 @@
 	</c:forEach> 
 	<p><a href ="${pageContext.request.contextPath}/insertMusic">직접 음악 넣기 테스트</a></p>
 	<p><a href ="${pageContext.request.contextPath}/getCollection">노래 리스트 출력 테스트</a></p>
+	<p><a href ="${pageContext.request.contextPath}/upload/uploadForm">파일 업로드 테스트</a></p>
 </body>
 </html>
