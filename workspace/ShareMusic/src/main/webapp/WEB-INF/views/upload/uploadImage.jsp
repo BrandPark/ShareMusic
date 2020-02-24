@@ -8,7 +8,7 @@
 
 </head>
 <body>
-	<form action="${pageContext.request.contextPath}/upload/uploadForm" method="post" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath}/upload/uploadImage" method="post" enctype="multipart/form-data">
 		<input type="file" name="file">
 		<input type="submit" value="업로드">
 	</form>

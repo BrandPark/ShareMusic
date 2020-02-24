@@ -38,12 +38,15 @@ public class CollectionDao {
 		});
 	}
 	
-	public void setMusic(Collection collection) {
-		
+	public void insertMusic(Collection collection) {
+		String userId = "userid";
 		String musicName = collection.getMusicName();
 		String singer = collection.getSinger();
-		String stmt = "insert into tb_collection_1(music_name, singer) values(?,?)";
 		
-		jdbcTemplate.update(stmt, new Object[] {musicName,singer});
+		String stmt = "insert into tb_collection_1(user_id,music_name, singer) values(?,?,?)";
+		
+		jdbcTemplate.update(stmt, new Object[] {userId,musicName,singer});
 	}
+	
+	
 }
