@@ -6,29 +6,38 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+
 import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.lept;
 import org.bytedeco.javacpp.lept.PIX;
+import org.bytedeco.javacpp.tesseract;
 import org.bytedeco.javacpp.tesseract.TessBaseAPI;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class OCRService {
+	private TessBaseAPI instance;
+	
+	public OCRService() {
+		instance = tesseract.TessBaseAPICreate();
+		instance.Init("/Users/jeon-yongho/Desktop/ShareMusic/tessdata", "eng+kor");
+//		instance.Init("/usr/local/share/tessdata", "eng+kor");
+//		instance.Init("/usr/CapstoneD/tessdata", "eng+kor");
+//		instance.Init("C:\\CapstoneD\\tessdata", "eng+kor");
+		
+	}
 	
 	public List<String> getTesseract(MultipartFile file) {
+		
 		byte[] imageBytes = null;
 		try {
 			imageBytes = file.getBytes();
 
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		TessBaseAPI instance = new TessBaseAPI();
 
-//		instance.Init("/usr/CapstoneD/tessdata", "eng+kor");
-		instance.Init("C:\\CapstoneD\\tessdata", "eng+kor");
 		PIX image = lept.pixReadMem(imageBytes,imageBytes.length);
 		instance.SetImage(image);
 
@@ -38,8 +47,6 @@ public class OCRService {
 
 		String[] outputArray = output.split("\n");
 		
-
-		System.out.println("-----------------------------------------------------------------");
 
 		// 빈 문자열 인덱스 제거 하여 문자열 배열정리
 

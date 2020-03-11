@@ -13,10 +13,16 @@
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="maxUploadSize" value="1048576" />
 	</bean>
+<!-- 	<bean class="java.lang.String" id="tessdataPath">
+		 <constructor-arg value="/Users/jeon-yongho/Desktop/ShareMusic/tessdata"/>
+		 <qualifier value="tessdataPath"></qualifier>
+	</bean> -->
 
 	<context:component-scan
 		base-package="kr.ac.hansung.service"></context:component-scan>
 	<context:component-scan
 		base-package="kr.ac.hansung.exception" />
 	<context:annotation-config></context:annotation-config>
+	
+
 </beans>

@@ -1,0 +1,20 @@
+create table tb_collection_1(
+music_no int auto_increment primary key,
+user_id varchar(50) not null,
+music_name varchar(50) not null,
+singer varchar(50) not null);
+
+CREATE TABLE `tb_user` (
+  `user_id` varchar(45) NOT NULL,
+  `user_password` varchar(45) DEFAULT NULL,
+  `user_email` varchar(45) DEFAULT NULL,
+  `enabled` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_authorities` (
+  `user_id` varchar(45) NOT NULL,
+  `authority` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
