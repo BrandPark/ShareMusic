@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item key="J2EE_EXPORT_OVERWRITE" value="true"/>
+	<item key="J2EE_EXPORT_SOURCE" value="false"/>
+	<list key="J2EE_EXPORT_JST_WEB">
+		<item value="/Users/jeon-yongho/Desktop/ShareMusic.war"/>
+		<item value="/Users/jeon-yongho/Desktop/ShareMusic/ShareMusic.war"/>
+		<item value="/Users/jeon-yongho/Desktop/exam3.war"/>
+		<item value="/Users/jeon-yongho/Desktop/testsample/exam3.war"/>
+		<item value="/Users/jeon-yongho/Desktop/exam2.war"/>
+	</list>
+</section>
