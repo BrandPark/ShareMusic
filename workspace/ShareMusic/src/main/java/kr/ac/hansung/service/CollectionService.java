@@ -27,9 +27,12 @@ public class CollectionService {
 		while (it.hasNext()) {
 			String musicName = it.next();
 			String singer = it.next();
+			String userId = "test";
 			Collection collection = new Collection();
 			collection.setMusicName(musicName);
 			collection.setSinger(singer);
+			collection.setUserId(userId);
+			
 
 			collectionDao.insertMusic(collection);
 		}

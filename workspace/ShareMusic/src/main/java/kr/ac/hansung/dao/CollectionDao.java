@@ -39,7 +39,8 @@ public class CollectionDao {
 	}
 	
 	public void insertMusic(Collection collection) {
-		String userId = "userid";
+		
+		String userId = collection.getUserId();
 		String musicName = collection.getMusicName();
 		String singer = collection.getSinger();
 		

@@ -11,6 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Collection {
 	private int musicNo;
+	private String userId;
 	private String musicName;
 	private String singer;
 }

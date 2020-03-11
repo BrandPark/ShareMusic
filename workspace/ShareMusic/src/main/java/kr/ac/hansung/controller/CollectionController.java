@@ -19,18 +19,12 @@ import kr.ac.hansung.service.OCRService;
 
 @Controller
 public class CollectionController {
-	private static final Logger logger = LoggerFactory.getLogger(CollectionController.class);
+
 
 	@Autowired
 	private OCRService ocrService;
 	@Autowired
 	private CollectionService collectionService;
-
-	// xml에 설정된 리소스 참조
-	// bean의 id가 uploadPath인 태그를 참조
-	@Autowired
-	@Qualifier("uploadPath")
-	String uploadPath;
 
 	@RequestMapping("/upload/uploadMusic")
 	public String uploadMusic() {
@@ -48,17 +42,12 @@ public class CollectionController {
 	}
 
 	@RequestMapping(value = "/upload/uploadImage", method = RequestMethod.POST)
-	public ModelAndView doUploadImage(MultipartFile file, ModelAndView mav) throws Exception {
+	public String doUploadImage(MultipartFile file, Model model) throws Exception {
 		List<String> collectionList = ocrService.getTesseract(file);
 		collectionService.insertCollection(collectionList);
 
-		logger.info("파일이름 :" + file.getOriginalFilename());
-		logger.info("파일크기 :" + file.getSize());
-		logger.info("컨텐트 타입 :" + file.getContentType());
-
-		mav.setViewName("upload/uploadResult");
-		mav.addObject("collectionList", collectionList);
-		return mav; // uploadResult.jsp로 포워딩
+		model.addAttribute("collectionList", collectionList);
+		return "upload/uploadResult"; // uploadResult.jsp로 포워딩
 	}
 
 	@RequestMapping("/getCollection")

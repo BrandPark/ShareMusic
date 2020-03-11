@@ -9,7 +9,6 @@
 
 </head>
 <body>
-	파일이 업로드 되었습니다. 파일명 : ${savedName} 파일 경로 : C:\CapstonD\fileDir
 
 	<c:forEach var="index" items="${collectionList}">
 		<p>

@@ -8,9 +8,11 @@
 
 </head>
 <body>
-	<form action="${pageContext.request.contextPath}/upload/uploadImage" method="post" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath}/upload/uploadImage?" method="post" enctype="multipart/form-data">
 		<input type="file" name="file">
+		<input name="_csrf" type="hidden" value="${_csrf.token}" />
 		<input type="submit" value="업로드">
+		
 	</form>
 </body>
 </html>

@@ -10,42 +10,26 @@ import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.lept;
 import org.bytedeco.javacpp.lept.PIX;
 import org.bytedeco.javacpp.tesseract.TessBaseAPI;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-
 public class OCRService {
 	
-	@Autowired
-	TessBaseAPI instance;
-
 	public List<String> getTesseract(MultipartFile file) {
 		byte[] imageBytes = null;
 		try {
 			imageBytes = file.getBytes();
+
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-//
-//		ByteBuffer imgBB = ByteBuffer.wrap(imageBytes);
-//
-//		System.out.println(imgBB.toString());
-//
-//		try {
-//
-//			Thread.sleep(5000);
-//
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		TessBaseAPI instance = new TessBaseAPI();
 
-		PIX image = lept.pixReadMem(imageBytes, imageBytes.length);
-
-		instance.Init("/users/jeon-yongho/Desktop/tessdata", "eng+kor");
-
+//		instance.Init("/usr/CapstoneD/tessdata", "eng+kor");
+		instance.Init("C:\\CapstoneD\\tessdata", "eng+kor");
+		PIX image = lept.pixReadMem(imageBytes,imageBytes.length);
 		instance.SetImage(image);
 
 		BytePointer bytePointer = instance.GetUTF8Text();
@@ -53,6 +37,7 @@ public class OCRService {
 		String output = bytePointer.getString();
 
 		String[] outputArray = output.split("\n");
+		
 
 		System.out.println("-----------------------------------------------------------------");
 
@@ -68,13 +53,14 @@ public class OCRService {
 
 		while (iter.hasNext()) {
 			String s = iter.next();
-			
+
 			if (s.equals("")) {
 				iter.remove();
 			}
 		}
 		return list;
 	}
+
 
 	// 들어온 문자열이 한글의 유니코드(0xAC00 - 0xD743)범위에 들어오는지 판단
 
@@ -83,15 +69,15 @@ public class OCRService {
 		if (cValue >= 0xAC00 && cValue <= 0xD743) {
 			return true;
 			// 한글 OK!
-			
+
 		} else if (cValue >= 0x61 && cValue <= 0x7A) {
 			return true;
 			// 영문(소문자) OK!
-			
+
 		} else if (cValue >= 0x41 && cValue <= 0x5A) {
 			return true;
 			// 영문(대문자) OK!
-			
+
 		} else if (cValue >= 0x30 && cValue <= 0x39) {
 			return true;
 			// 숫자 OK!
@@ -122,7 +108,7 @@ public class OCRService {
 				hangul.append(str.charAt(i));
 			}
 		}
-		
+
 		return hangul.toString();
 
 	}

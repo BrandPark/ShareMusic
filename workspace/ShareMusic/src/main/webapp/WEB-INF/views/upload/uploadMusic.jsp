@@ -16,9 +16,13 @@
 				<td>가수 :</td>	<td><input type="text" name="singer" size="10"/></td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="등록" /></td>
+				
+				<td><input name="_csrf" type="hidden" value="${_csrf.token}" />
+					<input type="submit" value="등록" />
+				</td>
 			</tr>
 		</table>
+		
 	</form>
 </body>
 </html>

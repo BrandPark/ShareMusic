@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	
+	<authentication-manager>
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="select user_id, user_password, enabled from tb_user where user_id=?"
+				authorities-by-username-query="select user_id, authority from tb_authorities where user_id=?" />
+		</authentication-provider>
+	</authentication-manager>
+	
+	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/" access="permitAll" />
+		<intercept-url pattern="/upload/uploadMusic" access="isAuthenticated()" />
+		<intercept-url pattern="/upload/uploadImage" access="isAuthenticated()" />
+		<intercept-url pattern="/upload/uploadResult" access="permitAll" />
+		<intercept-url pattern="/getCollection" access="isAuthenticated()" />
+		<intercept-url pattern="/login" access="permitAll" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
+		<intercept-url pattern="/**" access="denyAll" />
+		
+		
+		<form-login login-page="/login"
+			password-parameter="user_password" username-parameter="user_id"
+			authentication-failure-url="/login?error" />
+	</http>
+	<context:annotation-config></context:annotation-config>
+</b:beans>
