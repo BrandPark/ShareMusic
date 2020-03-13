@@ -23,31 +23,36 @@
 	charset="UTF-8"></script>
 </head>
 <body>
+
+
 	<div class="container">
 		<form class="form-signin" method="post"
 			action="${pageContext.request.contextPath}/login">
-			<h2 class="form-signin-heading">Login</h2>
+			<h2 class="form-signin-heading">로그인화면</h2>
 			<p>
-				<c:if test="${errorMsg =='login_error'}">
-					<c:out value="${errorMsg}" />
+				<c:if test="${not empty logoutMsg}">
+					<div style="color:#0000ff"><h4><c:out value="${logoutMsg}"/></h4></div>
 				</c:if>
-				<label for="username" class="sr-only">Username</label> <input
-					type="text" id="username" name="user_id" class="form-control"
-					placeholder="Username" required autofocus>
+				
+				<c:if test="${not empty errorMsg}">
+					<div style="color:#ff0000"><h4><c:out value="${errorMsg}"/></h4></div>
+				</c:if>
+				<input type="text" id="username" name="user_id" class="form-control"
+					placeholder="아이디" required autofocus>
 			</p>
 			<p>
 				<label for="password" class="sr-only">Password</label> <input
 					type="password" id="password" name="user_password"
-					class="form-control" placeholder="Password" required>
+					class="form-control" placeholder="비밀번호" required>
 
 			</p>
 			<p></p>
 
 			<input name="_csrf" type="hidden" value="${_csrf.token}" />
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
 		</form>
 
-
+		
 	</div>
 </body>
 </html>

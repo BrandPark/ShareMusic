@@ -13,8 +13,8 @@ public class CollectionService {
 	@Autowired
 	private CollectionDao collectionDao;
 
-	public List<Collection> getCollection() {
-		return collectionDao.getCollection();
+	public List<Collection> getCollection(String userId) {
+		return collectionDao.getCollection(userId);
 	}
 
 	public void insertMusic(Collection collection) {

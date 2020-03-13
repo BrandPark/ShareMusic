@@ -21,14 +21,15 @@ public class CollectionDao {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public List<Collection> getCollection(){
-		String stmt = "select * from tb_collection_1";
+	public List<Collection> getCollection(String userId){
+		String stmt = "select * from tb_collection_1 where user_id = '" + userId + "'";
 		
 		return jdbcTemplate.query(stmt, new RowMapper<Collection>() {
 
 			@Override
 			public Collection mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Collection collection = new Collection();
+				collection.setUserId(rs.getString("user_id"));
 				collection.setMusicName(rs.getString("music_name"));
 				collection.setMusicNo(rs.getInt("music_no"));
 				collection.setSinger(rs.getString("singer"));
@@ -39,7 +40,6 @@ public class CollectionDao {
 	}
 	
 	public void insertMusic(Collection collection) {
-		
 		String userId = collection.getUserId();
 		String musicName = collection.getMusicName();
 		String singer = collection.getSinger();
@@ -47,6 +47,10 @@ public class CollectionDao {
 		String stmt = "insert into tb_collection_1(user_id,music_name, singer) values(?,?,?)";
 		
 		jdbcTemplate.update(stmt, new Object[] {userId,musicName,singer});
+	}
+	
+	public void createCollection() {
+		jdbcTemplate.execute("create table employee (id int, name varchar(45))");	
 	}
 	
 	

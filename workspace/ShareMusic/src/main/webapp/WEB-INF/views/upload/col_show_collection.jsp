@@ -11,5 +11,9 @@
 	<c:forEach var="music" items="${collection}">
 		<c:out value="${music}"></c:out><br/>
 	</c:forEach>
+	
+	<form action="/" method="GET">
+		
+	</form>
 </body>
 </html>
