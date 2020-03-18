@@ -5,6 +5,7 @@
 <html>
 <head>
 	<title>Home</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 <h1>ShareMusic</h1>
@@ -12,26 +13,19 @@
 	<c:choose>
 	<c:when test="${pageContext.request.userPrincipal.name != null}">
 		<h3><c:out value="${pageContext.request.userPrincipal.name}"/>님 안녕하세요</h3>
-		<p><a id ="col-list" href ="${pageContext.request.contextPath}/upload/showCollection?userId=<c:out value="${pageContext.request.userPrincipal.name}"/>">노래 리스트 출력 테스트</a></p>
-		<p><a href ="${pageContext.request.contextPath}/upload/showUploadMusic">직접 음악 넣기 테스트</a></p>
-		<p><a href ="${pageContext.request.contextPath}/upload/showUploadImage">이미지로 테스트</a></p>
-		<p><a href ="javascript:document.getElementById('logout').submit()">Logout</a></p>
+		<p><a class="col-show-colletion" href='<c:out value="${pageContext.request.userPrincipal.name}"/>'>컬렉션 리스트 출력 테스트</a></p>
+		<p><a class="col-upload-music" href='<c:out value="${pageContext.request.userPrincipal.name}"/>'>직접 음악 넣기 테스트</a></p>
+		<p><a class="col-upload-image" href='<c:out value="${pageContext.request.userPrincipal.name}"/>'>이미지로 테스트</a></p>
+		<p><a class="logout" href=''>Logout</a></p>
 		
-		<form id="logout" action="<c:url value="/logout"/>" method="post">
+<%-- 		<form id="logout" action="<c:url value="/logout"/>" method="post">
 			<input type="hidden" name= "${_csrf.parameterName}" value="${_csrf.token}"/>
-		</form>
+		</form> --%>
 		
 		
 		
 		<form id="actionForm">
-		<input type="hidden" name= "ID" value=''/>
-				<%-- 	
-					<input type='hidden' id='bno' name='bno' value='<c:out value="${board.bno}"/>'> 
-					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-					<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
-					<input type="hidden" name='type' value='<c:out value="${cri.type}"/>'>
-					<input type="hidden" name='keyword' value='<c:out value="${cri.keyword}"/>'> 
-				--%>
+			<input type="hidden" name= "${_csrf.parameterName}" value="${_csrf.token}"/> 
 		</form>
 	</c:when>
 	
@@ -42,21 +36,48 @@
 	</c:choose>
 	
 	<script type = "text/javascript">
-/* $(document).ready(function(){
-	var operForm = $("#actionForm");
-	
-	$("#col-list").on("click",function(e){
-		e.preventDefault();
-		operForm.attr("action","/upload/showCollection?
-				${pageContext.request.userPrincipal.name}").submit();
-	}); */
-	
-/* 	$("button[data-oper='list']").on("click",function(e){
-		operForm.find("#bno").remove();
-		operForm.attr("action","/board/list")
-		operForm.submit();
-	});	 */
-/* }); */
+	$(document).ready(
+			
+			function() {
+				var operForm = $("#actionForm");
+				
+				$(".col-show-colletion").on("click",function(e){
+					e.preventDefault();
+					operForm.append("<input type='hidden' name='userId' value='"+$(this).attr("href")+"'>");
+					operForm.attr("action","${pageContext.request.contextPath}/upload/showCollection");
+					operForm.attr("method","post");
+					operForm.submit();
+				});
+				
+				
+				$(".col-upload-music").on("click",function(e){
+					e.preventDefault();
+					operForm.append("<input type='hidden' name='userId' value='"+$(this).attr("href")+"'>");
+					operForm.attr("action","${pageContext.request.contextPath}/upload/showUploadMusic");
+					operForm.attr("method","post");
+					operForm.submit();
+				});
+				
+				$(".col-upload-image").on("click",function(e){
+					e.preventDefault();
+					operForm.append("<input type='hidden' name='userId' value='"+$(this).attr("href")+"'>");
+					operForm.attr("action","${pageContext.request.contextPath}/upload/showUploadImage");
+					operForm.attr("method","post");
+					operForm.submit();
+				});
+				
+				$(".logout").on("click",function(e){
+					e.preventDefault();
+					/* operForm.append("<input type='hidden' name='userId' value='"+$(this).attr("href")+"'>"); */
+					operForm.attr("action","<c:url value="/logout"/>");
+					operForm.attr("method","post");
+					operForm.submit();
+				});
+				
+				
+			}
+			
+	);
 </script>
 </body>
 </html>

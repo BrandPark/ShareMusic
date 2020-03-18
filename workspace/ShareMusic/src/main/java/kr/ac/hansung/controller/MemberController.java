@@ -41,11 +41,10 @@ public class MemberController {
 	public String doRegMember(Member member) {
 		if(memberDao.checkId(member.getUserId()) == 0) {
 			memberDao.insertMember(member);
+			return "/member/mem_register_result";
 		}else {
 			return "/member/mem_register_form";
 		}
-		
-		return "home";
 	}
 	
 	@RequestMapping(value="/showUpdateMember", method=RequestMethod.GET)

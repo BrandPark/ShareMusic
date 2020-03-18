@@ -32,7 +32,6 @@ public class MemberDao {
 				member.setUserId(rs.getString("user_id"));
 				member.setUserPw(rs.getString("user_password"));
 				member.setUserEmail(rs.getString("user_email"));
-				member.setEnabled(rs.getInt("enabled"));
 				
 				return member;
 			}
@@ -42,13 +41,15 @@ public class MemberDao {
 	public boolean insertMember(Member member) {
 		String userId = member.getUserId();
 		String userPw = "{noop}" + member.getUserPw();
+		String userName = member.getUserEmail();
 		String userEmail = member.getUserEmail();
-		int enabled = 1;
+		System.out.println(member.toString());
+		String userBirthDate = Integer.toString(member.getUserBirthYear()) + "-" +Integer.toString(member.getUserBirthMonth()) + "-" +Integer.toString(member.getUserBirthDay());
 		
-		String userStmt = "insert into tb_user(user_id,user_password,user_email,enabled) values(?,?,?,?)";
+		String userStmt = "insert into tb_user(user_id,user_password,user_name,user_email,user_birth_date) values(?,?,?,?,?)";
 		String authoritieStmt = "insert into tb_authorities(user_id) values(?)";
 		
-		return (jdbcTemplate.update(userStmt, new Object[] {userId,userPw,userEmail,enabled}) ==1) && 
+		return (jdbcTemplate.update(userStmt, new Object[] {userId,userPw,userName,userEmail,userBirthDate}) ==1) && 
 		( jdbcTemplate.update(authoritieStmt,new Object[] {userId})==1 );
 	}
 	

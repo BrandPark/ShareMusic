@@ -8,12 +8,20 @@
 <title>tb_collection_1 노래리스트 출력 (테스트)</title>
 </head>
 <body>
-	<c:forEach var="music" items="${collection}">
-		<c:out value="${music}"></c:out><br/>
-	</c:forEach>
-	
-	<form action="/" method="GET">
-		
-	</form>
+	<table>
+
+		<c:forEach var="collection" items="${collection_list}">
+			<tr>
+				<td><c:out value="${collection.userId}"></c:out></td>
+				<td><c:out value="${collection.collectionName}"></c:out></td>
+			<c:forEach var="song" items="${collection.songList}">
+					<td><c:out value="${song.musicName}"></c:out></td>
+					<td><c:out value="${song.singer}"></c:out></td>
+			</c:forEach>
+			</tr>
+		</c:forEach>
+
+	</table>
+	<a href="${pageContext.request.contextPath}/">메인화면으로가기</a>
 </body>
 </html>

@@ -2,6 +2,7 @@ package kr.ac.hansung.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -12,6 +13,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.hansung.model.Collection;
+import kr.ac.hansung.model.Criteria;
+import kr.ac.hansung.model.Song;
 
 @Repository
 public class CollectionDao {
@@ -21,8 +24,28 @@ public class CollectionDao {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public List<Collection> getCollection(String userId){
-		String stmt = "select * from tb_collection_1 where user_id = '" + userId + "'";
+	public List<Collection> getCollection(Criteria cri){
+		String stmt = "select * from tb_collection where user_id = '" + cri.getUserId() + "'";
+		return jdbcTemplate.query(stmt, new RowMapper<Collection>() {
+
+			@Override
+			public Collection mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Collection collection = new Collection();
+				collection.setUserId(rs.getString("user_id"));
+				collection.setCollectionName(rs.getString("col_name"));
+				
+				List<Song> song = new ArrayList<Song>();
+				song.add(new Song(rs.getString("music_name"),rs.getString("singer")));
+				
+				collection.setSongList(song);
+				return collection;
+			}
+		});
+		
+	}
+	
+	public List<Collection> getMusicList(Criteria cri){
+		String stmt = "select * from tb_collection where user_id = '" + cri.getUserId() + "'";
 		
 		return jdbcTemplate.query(stmt, new RowMapper<Collection>() {
 
@@ -30,28 +53,26 @@ public class CollectionDao {
 			public Collection mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Collection collection = new Collection();
 				collection.setUserId(rs.getString("user_id"));
-				collection.setMusicName(rs.getString("music_name"));
-				collection.setMusicNo(rs.getInt("music_no"));
-				collection.setSinger(rs.getString("singer"));
+				collection.setCollectionName(rs.getString("col_name"));
+//				collection.setSong(n);
 				
 				return collection;
 			}
 		});
 	}
 	
-	public void insertMusic(Collection collection) {
+	public void insertCollection(Collection collection) {
 		String userId = collection.getUserId();
-		String musicName = collection.getMusicName();
-		String singer = collection.getSinger();
+		String collectionName = collection.getCollectionName();
 		
-		String stmt = "insert into tb_collection_1(user_id,music_name, singer) values(?,?,?)";
+		for(Song song:collection.getSongList()) {
+			String musicName = song.getMusicName();
+			String singer = song.getSinger();
+			
+			String stmt = "insert into tb_collection(user_id,col_name,music_name, singer) values(?,?,?,?)";
+			jdbcTemplate.update(stmt, new Object[] {userId,collectionName,musicName,singer});
+		}
 		
-		jdbcTemplate.update(stmt, new Object[] {userId,musicName,singer});
 	}
-	
-	public void createCollection() {
-		jdbcTemplate.execute("create table employee (id int, name varchar(45))");	
-	}
-	
 	
 }
