@@ -13,9 +13,9 @@
 	<c:choose>
 	<c:when test="${pageContext.request.userPrincipal.name != null}">
 		<h3><c:out value="${pageContext.request.userPrincipal.name}"/>님 안녕하세요</h3>
-		<p><a class="col-show-colletion" href='<c:out value="${pageContext.request.userPrincipal.name}"/>'>컬렉션 리스트 출력 테스트</a></p>
-		<p><a class="col-upload-music" href='<c:out value="${pageContext.request.userPrincipal.name}"/>'>직접 음악 넣기 테스트</a></p>
-		<p><a class="col-upload-image" href='<c:out value="${pageContext.request.userPrincipal.name}"/>'>이미지로 테스트</a></p>
+		<p><a class="col-show-colletion" href='<c:out value="${pageContext.request.userPrincipal.name}"/>'>내 컬렉션 리스트 조회</a></p>
+		<p><a class="col-upload-music" href='<c:out value="${pageContext.request.userPrincipal.name}"/>'>직접 컬렉션 생성</a></p>
+		<p><a class="col-upload-image" href='<c:out value="${pageContext.request.userPrincipal.name}"/>'>이미지로 컬렉션 생성</a></p>
 		<p><a class="logout" href=''>Logout</a></p>
 		
 <%-- 		<form id="logout" action="<c:url value="/logout"/>" method="post">

@@ -34,7 +34,6 @@ public class CollectionController {
 	
 	@RequestMapping(value = "/doUploadMusic", method = RequestMethod.POST)
 	public String doUploadMusic(Collection collection) {
-		System.out.println(collection.toString());
 		collectionService.insertCollection(collection);
 		return "home";
 	}

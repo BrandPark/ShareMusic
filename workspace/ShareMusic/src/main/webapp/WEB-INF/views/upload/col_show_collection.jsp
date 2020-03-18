@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>tb_collection_1 노래리스트 출력 (테스트)</title>
+<title>tb_collection 노래리스트 출력 (테스트)</title>
 </head>
 <body>
 	<table>

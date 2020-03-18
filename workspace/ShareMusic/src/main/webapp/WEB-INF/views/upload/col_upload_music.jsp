@@ -29,34 +29,21 @@
 	</form>
 	
 <script type = "text/javascript">
-/* 	$(document).ready(
-			
-			function() {
-				var operForm = $("#insertMusicForm");
-				
-				$(".col-show-colletion").on("click",function(e){
-					e.preventDefault();
-					operForm.append("<input type='hidden' name='userId' value='"+$(this).attr("href")+"'>");
-					operForm.attr("action","${pageContext.request.contextPath}/upload/showCollection");
-					operForm.attr("method","post");
-					operForm.submit();
-				});
-			}
-	); */
-	  
+	   var songCnt = 1;
+	   console.log(songCnt);
+	   
 	   function addMusic()
 	   {
-		
 		var objRow = document.all("collection_table").insertRow();
 		
 		var objCell_music_name = objRow.insertCell();
-		objCell_music_name.innerHTML = "노래 제목 : <input type='text' name='songList[1].musicName' placeholder='노래 제목' size='10'/>";
+		objCell_music_name.innerHTML = "노래 제목 : <input type='text' name='songList[" + String(songCnt)+ "].musicName' placeholder='노래 제목' size='10'/>";
 		
 		var objCell_singer = objRow.insertCell();
-		objCell_singer.innerHTML  = "가수명 : <input type='text' name='songList[1].singer' placeholder='가수명' size='10'/>";
-	
+		objCell_singer.innerHTML  = "가수명 : <input type='text' name='songList[" + String(songCnt)+ "].singer' placeholder='가수명' size='10'/>";
+		
+		songCnt++;
 	   }
-	  
 </script>
 </body>
 </html>
