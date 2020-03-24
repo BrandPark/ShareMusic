@@ -16,5 +16,5 @@ public class Collection {
 	private String userId;
 	private String collectionName;
 
-	private List<Song> songList;
+	private List<Song> songs;
 }

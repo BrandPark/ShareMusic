@@ -1,5 +1,6 @@
 package kr.ac.hansung.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,6 @@ public class CollectionController {
 
 	@RequestMapping(value="/showUploadMusic", method=RequestMethod.POST)
 	public String showUploadMusic(Model model,Criteria cri) {
-		List<Collection> collection = collectionService.getCollection(cri);
-		model.addAttribute("collection_list", collection);
 		return "/upload/col_upload_music";
 	}
 	
@@ -45,17 +44,18 @@ public class CollectionController {
 
 	@RequestMapping(value = "/doUploadImage", method = RequestMethod.POST)
 	public String doUploadImage(MultipartFile file,Collection collection,Model model) throws Exception {
-		List<Song> songList = ocrService.getTesseract(file);
-		collection.setSongList(songList);
+		List<Song> songs = ocrService.getTesseract(file);
+		collection.setSongs(songs);
 		collectionService.insertCollection(collection);
 		return "home"; // uploadResult.jsp로 포워딩
 	}
 
 	
 	@RequestMapping(value = "/showCollection", method = RequestMethod.POST)
-	public String showCollection(Model model,Criteria cri) {
-		List<Collection> collection = collectionService.getCollection(cri);
-		model.addAttribute("collection_list", collection);
+	public String showCollection(Model model,Criteria cri,Principal principal) {
+//		System.out.println(principal.getName() + " <---- Users name");
+		List<String> collectionNames = collectionService.getCollectionName(cri);
+		model.addAttribute("collectionList",collectionNames);
 		return "upload/col_show_collection";
 	}
 

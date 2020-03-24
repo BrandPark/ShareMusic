@@ -18,11 +18,11 @@
 		<p><a class="col-upload-image" href='<c:out value="${pageContext.request.userPrincipal.name}"/>'>이미지로 컬렉션 생성</a></p>
 		<p><a class="logout" href=''>Logout</a></p>
 		
-<%-- 		<form id="logout" action="<c:url value="/logout"/>" method="post">
+		<%-- 		
+		<form id="logout" action="<c:url value="/logout"/>" method="post">
 			<input type="hidden" name= "${_csrf.parameterName}" value="${_csrf.token}"/>
-		</form> --%>
-		
-		
+		</form>
+		 --%>
 		
 		<form id="actionForm">
 			<input type="hidden" name= "${_csrf.parameterName}" value="${_csrf.token}"/> 

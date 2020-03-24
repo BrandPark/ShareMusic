@@ -24,7 +24,7 @@ public class CollectionDao {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public List<Collection> getCollection(Criteria cri){
+	public List<Collection> getCollectionAll(Criteria cri){
 		String stmt = "select * from tb_collection where user_id = '" + cri.getUserId() + "'";
 		return jdbcTemplate.query(stmt, new RowMapper<Collection>() {
 
@@ -37,26 +37,36 @@ public class CollectionDao {
 				List<Song> song = new ArrayList<Song>();
 				song.add(new Song(rs.getString("music_name"),rs.getString("singer")));
 				
-				collection.setSongList(song);
+				collection.setSongs(song);
 				return collection;
 			}
 		});
-		
 	}
 	
-	public List<Collection> getMusicList(Criteria cri){
-		String stmt = "select * from tb_collection where user_id = '" + cri.getUserId() + "'";
-		
-		return jdbcTemplate.query(stmt, new RowMapper<Collection>() {
+	public List<String> getCollectionName(Criteria cri){
+		String stmt = "select distinct col_name from tb_collection where user_id = '" + cri.getUserId() + "'";
+		return jdbcTemplate.query(stmt, new RowMapper<String>() {
 
 			@Override
-			public Collection mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Collection collection = new Collection();
-				collection.setUserId(rs.getString("user_id"));
-				collection.setCollectionName(rs.getString("col_name"));
-//				collection.setSong(n);
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				String collectionName = rs.getString("col_name");
+				return collectionName;
+			}
+		});
+	}
+	
+	
+	public List<Song> getCollectionSong(Criteria cri){
+		String stmt = "select music_name,singer from tb_collection where user_id = '" + cri.getUserId() + "'";
+		
+		return jdbcTemplate.query(stmt, new RowMapper<Song>() {
+
+			@Override
+			public Song mapRow(ResultSet rs, int rowNum) throws SQLException {
+				String musicName = rs.getString("music_name");
+				String singer = rs.getString("singer");
 				
-				return collection;
+				return new Song(musicName,singer);
 			}
 		});
 	}
@@ -65,7 +75,7 @@ public class CollectionDao {
 		String userId = collection.getUserId();
 		String collectionName = collection.getCollectionName();
 		
-		for(Song song:collection.getSongList()) {
+		for(Song song:collection.getSongs()) {
 			String musicName = song.getMusicName();
 			String singer = song.getSinger();
 			

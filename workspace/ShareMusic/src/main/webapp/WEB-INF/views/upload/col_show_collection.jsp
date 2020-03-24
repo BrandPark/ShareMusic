@@ -10,15 +10,16 @@
 <body>
 	<table>
 
-		<c:forEach var="collection" items="${collection_list}">
-			<tr>
+		<c:forEach var="collection" items="${collectionList}">
+				<div><c:out value="${collection}"></c:out></div>
+<%-- 			<tr>
 				<td><c:out value="${collection.userId}"></c:out></td>
 				<td><c:out value="${collection.collectionName}"></c:out></td>
 			<c:forEach var="song" items="${collection.songList}">
 					<td><c:out value="${song.musicName}"></c:out></td>
 					<td><c:out value="${song.singer}"></c:out></td>
 			</c:forEach>
-			</tr>
+			</tr> --%>
 		</c:forEach>
 
 	</table>

@@ -31,6 +31,7 @@
 		<intercept-url pattern="/upload/showUploadResult" access="permitAll" />
 		<intercept-url pattern="/upload/showCollection" access="isAuthenticated()" />
 		
+		
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/**" access="denyAll" />
 		
