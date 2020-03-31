@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>190</x>
+      <x>200</x>
       <y>40</y>
       <w>150</w>
       <h>140</h>
@@ -22,7 +22,7 @@ enabled</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>530</x>
+      <x>540</x>
       <y>40</y>
       <w>150</w>
       <h>140</h>
@@ -36,7 +36,7 @@ authority*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
+      <x>340</x>
       <y>100</y>
       <w>220</w>
       <h>30</h>
@@ -47,7 +47,7 @@ authority*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
+      <x>110</x>
       <y>280</y>
       <w>150</w>
       <h>140</h>
@@ -62,7 +62,7 @@ to_user_id*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
+      <x>170</x>
       <y>170</y>
       <w>90</w>
       <h>130</h>
@@ -73,7 +73,7 @@ to_user_id*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
+      <x>280</x>
       <y>170</y>
       <w>100</w>
       <h>130</h>
@@ -84,7 +84,7 @@ to_user_id*
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>280</x>
+      <x>290</x>
       <y>280</y>
       <w>150</w>
       <h>140</h>
@@ -101,7 +101,7 @@ mod_date</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
+      <x>350</x>
       <y>410</y>
       <w>30</w>
       <h>140</h>
@@ -112,7 +112,7 @@ mod_date</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>50</x>
+      <x>60</x>
       <y>530</y>
       <w>190</w>
       <h>130</h>
@@ -127,7 +127,7 @@ from_user_id*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>120</x>
+      <x>130</x>
       <y>410</y>
       <w>210</w>
       <h>140</h>
@@ -138,7 +138,7 @@ from_user_id*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>500</x>
+      <x>510</x>
       <y>530</y>
       <w>170</w>
       <h>130</h>
@@ -156,7 +156,7 @@ content
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>360</x>
+      <x>370</x>
       <y>410</y>
       <w>220</w>
       <h>140</h>
@@ -167,7 +167,7 @@ content
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>720</x>
+      <x>730</x>
       <y>530</y>
       <w>170</w>
       <h>130</h>
@@ -183,7 +183,7 @@ tag*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>400</x>
+      <x>410</x>
       <y>410</y>
       <w>400</w>
       <h>140</h>
@@ -194,7 +194,7 @@ tag*
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>270</x>
+      <x>280</x>
       <y>530</y>
       <w>200</w>
       <h>130</h>
@@ -202,10 +202,24 @@ tag*
     <panel_attributes>tb_collection_song 
 (컬렉션에 수록된 곡 리스트 테이블)
 -
-cno*
-music_name*
-singer*
+sno*
+cno
+music_name
+singer
 </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>620</x>
+      <y>310</y>
+      <w>240</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Note..
+tb_collection_song테이블에
+ sno 컬럼추가</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
