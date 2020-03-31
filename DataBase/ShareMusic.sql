@@ -48,17 +48,15 @@ DROP TABLE IF EXISTS `tb_collection`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_collection` (
-  `music_no` int NOT NULL AUTO_INCREMENT,
+  `cno` int NOT NULL AUTO_INCREMENT,
   `user_id` varchar(20) NOT NULL,
   `col_name` varchar(20) NOT NULL,
-  `music_name` varchar(20) NOT NULL,
-  `singer` varchar(20) NOT NULL,
   `reg_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `mod_date` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`music_no`),
+  PRIMARY KEY (`cno`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `tb_collection_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,8 +65,113 @@ CREATE TABLE `tb_collection` (
 
 LOCK TABLES `tb_collection` WRITE;
 /*!40000 ALTER TABLE `tb_collection` DISABLE KEYS */;
-INSERT INTO `tb_collection` VALUES (1,'admin','컬렉션1','허각','헬로우','2020-03-24 19:18:32','2020-03-24 19:22:41'),(2,'admin','컬렉션1','장범준','벚꽃엔딩','2020-03-24 19:18:32','2020-03-24 19:22:41'),(3,'admin','컬렉션2','컬2','렉2','2020-03-24 19:18:32','2020-03-24 19:22:41'),(4,'admin','컬렉션2','션2','용2','2020-03-24 19:18:32','2020-03-24 19:22:41'),(5,'admin','컬렉션3','우리라고 쓰고 싶어','훈스 (HOONS)','2020-03-24 19:18:32','2020-03-24 19:22:41'),(6,'admin','컬렉션4','40','black','2020-03-24 19:18:32','2020-03-24 19:22:41'),(9,'admin','컬렉션6','hhh','hhh','2020-03-24 19:18:32','2020-03-24 19:22:41'),(12,'admin','컬렉션9','호호호','하하','2020-03-24 19:18:32','2020-03-24 19:23:01'),(13,'admin','new컬렉션','임재현노래','임재현','2020-03-24 19:18:32','2020-03-24 19:22:41');
+INSERT INTO `tb_collection` VALUES (1,'admin','컬렉션1','2020-03-31 14:03:02','2020-03-31 14:03:02');
 /*!40000 ALTER TABLE `tb_collection` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_collection_like`
+--
+
+DROP TABLE IF EXISTS `tb_collection_like`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_collection_like` (
+  `cno` int NOT NULL,
+  `from_user_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`cno`,`from_user_id`),
+  CONSTRAINT `fk_tb_collection_like_cno` FOREIGN KEY (`cno`) REFERENCES `tb_collection` (`cno`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_collection_like`
+--
+
+LOCK TABLES `tb_collection_like` WRITE;
+/*!40000 ALTER TABLE `tb_collection_like` DISABLE KEYS */;
+INSERT INTO `tb_collection_like` VALUES (1,'admin3');
+/*!40000 ALTER TABLE `tb_collection_like` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_collection_reply`
+--
+
+DROP TABLE IF EXISTS `tb_collection_reply`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_collection_reply` (
+  `rno` int NOT NULL AUTO_INCREMENT,
+  `cno` int NOT NULL,
+  `from_user_id` varchar(20) NOT NULL,
+  `content` varchar(200) NOT NULL,
+  PRIMARY KEY (`rno`),
+  KEY `fk_tb_collection_reply_idx` (`cno`),
+  KEY `fk_tb_collection_reply_from_user_id_idx` (`from_user_id`),
+  CONSTRAINT `fk_tb_collection_reply_cno` FOREIGN KEY (`cno`) REFERENCES `tb_collection` (`cno`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_collection_reply`
+--
+
+LOCK TABLES `tb_collection_reply` WRITE;
+/*!40000 ALTER TABLE `tb_collection_reply` DISABLE KEYS */;
+INSERT INTO `tb_collection_reply` VALUES (3,1,'admin2','감성 굿굿입니다');
+/*!40000 ALTER TABLE `tb_collection_reply` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_collection_song`
+--
+
+DROP TABLE IF EXISTS `tb_collection_song`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_collection_song` (
+  `cno` int NOT NULL,
+  `music_name` varchar(100) NOT NULL,
+  `singer` varchar(100) NOT NULL,
+  PRIMARY KEY (`cno`,`music_name`,`singer`),
+  CONSTRAINT `fk_tb_collection_song_cno` FOREIGN KEY (`cno`) REFERENCES `tb_collection` (`cno`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_collection_song`
+--
+
+LOCK TABLES `tb_collection_song` WRITE;
+/*!40000 ALTER TABLE `tb_collection_song` DISABLE KEYS */;
+INSERT INTO `tb_collection_song` VALUES (1,'방탄소년단','헬로우'),(1,'우디','이노래가'),(1,'허각','하늘을');
+/*!40000 ALTER TABLE `tb_collection_song` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_collection_tag`
+--
+
+DROP TABLE IF EXISTS `tb_collection_tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_collection_tag` (
+  `cno` int NOT NULL,
+  `tag` varchar(100) NOT NULL,
+  PRIMARY KEY (`cno`,`tag`),
+  CONSTRAINT `fk_tb_collection_tag_cno` FOREIGN KEY (`cno`) REFERENCES `tb_collection` (`cno`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_collection_tag`
+--
+
+LOCK TABLES `tb_collection_tag` WRITE;
+/*!40000 ALTER TABLE `tb_collection_tag` DISABLE KEYS */;
+INSERT INTO `tb_collection_tag` VALUES (1,'lazy'),(1,'sleepy');
+/*!40000 ALTER TABLE `tb_collection_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -79,15 +182,13 @@ DROP TABLE IF EXISTS `tb_follow`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_follow` (
-  `follower_no` int NOT NULL AUTO_INCREMENT,
   `from_user_id` varchar(20) NOT NULL,
   `to_user_id` varchar(20) NOT NULL,
-  PRIMARY KEY (`follower_no`),
+  PRIMARY KEY (`to_user_id`,`from_user_id`),
   KEY `from_user_id` (`from_user_id`),
-  KEY `to_user_id` (`to_user_id`),
   CONSTRAINT `tb_follow_ibfk_1` FOREIGN KEY (`from_user_id`) REFERENCES `tb_user` (`user_id`),
   CONSTRAINT `tb_follow_ibfk_2` FOREIGN KEY (`to_user_id`) REFERENCES `tb_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +197,7 @@ CREATE TABLE `tb_follow` (
 
 LOCK TABLES `tb_follow` WRITE;
 /*!40000 ALTER TABLE `tb_follow` DISABLE KEYS */;
-INSERT INTO `tb_follow` VALUES (1,'admin','admin2'),(4,'admin','admin3');
+INSERT INTO `tb_follow` VALUES ('admin','admin2'),('admin','admin3'),('admin2','admin');
 /*!40000 ALTER TABLE `tb_follow` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,4 +239,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-24 21:02:06
+-- Dump completed on 2020-03-31 14:05:25

@@ -32,7 +32,7 @@ public class FollowerDao {
 	
 	public List<String> getFollower(String userId){
 	
-		String stmt = "select from_user_id from tb_follower where to_user_id = '" + userId + "'";
+		String stmt = "select from_user_id from_user_id from tb_follow where to_user_id = '" + userId + "'";
 		
 		return jdbcTemplate.query(stmt,new RowMapper<String>() {
 
@@ -46,7 +46,7 @@ public class FollowerDao {
 	
 	public List<String> getFollowing(String userId){
 		
-		String stmt = "select to_user_id from tb_follower where from_user_id = '" + userId + "'";
+		String stmt = "select to_user_id from tb_follow where from_user_id = '" + userId + "'";
 		
 		return jdbcTemplate.query(stmt,new RowMapper<String>() {
 
