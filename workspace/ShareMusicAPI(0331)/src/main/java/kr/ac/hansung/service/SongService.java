@@ -21,10 +21,16 @@ public class SongService {
 	public List<SongVO> getSongs(int cno) {
 		return songDao.getSongs(cno);
 	}
+	
+	public int modify(SongVO song) {
+		return songDao.modify(song);
+	}
 
 	public int removeSong(int sno) {
 		return songDao.removeSong(sno);
 	}
+
+
 
 
 

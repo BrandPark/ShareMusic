@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.ac.hansung.model.CollectionVO;
 import kr.ac.hansung.model.SongVO;
 import kr.ac.hansung.service.SongService;
 import lombok.extern.log4j.Log4j;
@@ -44,6 +46,18 @@ public class SongController {
 		List<SongVO> collectionSongs = songService.getSongs(cno);
 		return new ResponseEntity<>(collectionSongs,HttpStatus.OK);
 	}
+	
+	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH},
+			value="/")
+	public ResponseEntity<String> modify(
+			@RequestBody SongVO song){
+		
+//			log.info("modify" + collection);
+			
+			return songService.modify(song) == 1 ?
+					new ResponseEntity<String>("success",HttpStatus.OK):
+					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 	
 	//해당 곡 삭제
 	@DeleteMapping(value="/{sno}")

@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import kr.ac.hansung.model.CollectionVO;
 import kr.ac.hansung.model.SongVO;
 
 @Repository
@@ -50,11 +51,17 @@ public class SongDao {
 		});
 	}
 	
+	//컬렉션 이름 변경
+	public int modify(SongVO song) {
+		String stmt = "update tb_collection_song set music_name =? , singer = ? where sno = ?" ;
+		
+		return jdbcTemplate.update(stmt, new Object[] {song.getMusicName(),song.getSinger(),song.getSno()}); //update된 레코드갯수가 리턴됨
+	}
+	
 	//앨범 삭제
 	public int removeSong(int sno) {
 		String stmt = "delete from tb_collection_song where sno = ?";
 		return jdbcTemplate.update(stmt, new Object[] {sno}); //update된 레코드갯수가 리턴됨
 	}
-	
 
 }

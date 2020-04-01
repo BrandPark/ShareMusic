@@ -49,6 +49,12 @@ public class CollectionDao {
 		});
 	}
 	
+	//컬렉션 이름 변경
+	public int modify(CollectionVO collection) {
+		String stmt = "update tb_collection set col_name = ? where cno = ?" ;
+		
+		return jdbcTemplate.update(stmt, new Object[] {collection.getCollectionName(),collection.getCno()}); //update된 레코드갯수가 리턴됨
+	}
 	
 	//컬렉션번호로 컬렉션 삭제
 	public int removeCollection(int cno) {
@@ -56,7 +62,6 @@ public class CollectionDao {
 		jdbcTemplate.execute("alter table tb_collection auto_increment=");
 		return jdbcTemplate.update(stmt, new Object[] {cno}); //update된 레코드갯수가 리턴됨
 	}
-	
 
 		
 }

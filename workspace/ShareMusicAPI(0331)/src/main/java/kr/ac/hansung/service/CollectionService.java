@@ -21,9 +21,15 @@ public class CollectionService {
 		return collectionDao.getCollections(userId);
 	}
 	
+	public int modify(CollectionVO collection) {
+		return collectionDao.modify(collection);
+	}
+	
 	public int removeCollection(int cno) {
 		return collectionDao.removeCollection(cno);
 	}
+
+
 
 
 

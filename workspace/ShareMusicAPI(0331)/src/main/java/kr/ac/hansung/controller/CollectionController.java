@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.ac.hansung.model.CollectionVO;
@@ -44,6 +45,17 @@ public class CollectionController {
 		return new ResponseEntity<>(collections,HttpStatus.OK);
 	}
 	
+	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH},
+			value="/")
+	public ResponseEntity<String> modify(
+			@RequestBody CollectionVO collection){
+		
+//			log.info("modify" + collection);
+			
+			return collectionService.modify(collection) == 1 ?
+					new ResponseEntity<String>("success",HttpStatus.OK):
+					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	
 	//해당 컬렉션 삭제
 	@DeleteMapping(value="/{cno}")
@@ -54,27 +66,9 @@ public class CollectionController {
 	}
 	
 	
-	/*
-	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH},
-			value="/{userId}/{collectionName}",
-			consumes = "application/json",
-			produces = {MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<String> modify(
-			@RequestBody CollectionVO collection,
-			@PathVariable("userId") String userId,
-			@PathVariable("collectionName") String collectionName){
-		
-		
-			vo.setRno(rno);
-			
-			log.info("rno: " + rno);
-			log.info("modify" + vo);
-			
-			return service.modify(vo) == 1 ?
-					new ResponseEntity<String>("success",HttpStatus.OK):
-					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-	 */
+	
+
+	 
 
 	
 }
