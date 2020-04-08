@@ -3,6 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=java,eclipse
 
 ### Eclipse ###
+Servers/
 .metadata
 bin/
 tmp/
