@@ -19,7 +19,7 @@ import kr.ac.hansung.service.CollectionService;
 import lombok.extern.log4j.Log4j;
 
 @RestController
-@RequestMapping("/collection")
+@RequestMapping("/collections")
 @Log4j
 public class CollectionController {
 	
