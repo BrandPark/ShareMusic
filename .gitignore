@@ -110,7 +110,10 @@ hs_err_pid*
 temp/
 
 #Target Folder
-target/
+classes/
+generated-sources/
+getnerated-test-sources/
+test-classes/
 
 
 
