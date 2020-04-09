@@ -66,16 +66,33 @@ public class CollectionDao {
 	//팔로워들의 최근 업데이트 컬력센 리스트 조회
 	public List<CollectionVO> getRecentCollectionsWithFollower(List<String> followers) {
 		
-		String stmt = "select * from tb_collection where " ;
+		String stmt = "select * from tb_collection where" ;
+		int cnt = 0;
+		
 		for(String user:followers) {
-			stmt += "user_id = " + user + ", or";
-			
+			cnt+=1;
+			stmt += " user_id = '" + user + "'";
+			if(cnt != followers.size()) {
+				stmt += " or";
+			}
 		}
+		System.out.println(stmt);
+		stmt += " order by reg_date desc";
 		
-		
-		
-		
-		return null;
+		return jdbcTemplate.query(stmt, new RowMapper<CollectionVO>() {
+
+			@Override
+			public CollectionVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				CollectionVO collection = new CollectionVO();
+				collection.setCno(rs.getInt("cno"));
+				collection.setUserId(rs.getString("user_id"));
+				collection.setCollectionName(rs.getString("col_name"));
+				collection.setRegTime(rs.getTimestamp("reg_date"));
+				collection.setModTime(rs.getTimestamp("mod_date"));
+				
+				return collection;
+			}
+		});
 	}
 		
 }

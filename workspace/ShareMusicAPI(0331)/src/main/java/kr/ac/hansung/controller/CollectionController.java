@@ -69,6 +69,7 @@ public class CollectionController {
 		List<String> followers = followerService.getFollower(userId);
 		
 		List<CollectionVO> collections = collectionService.getRecentCollectionsWithFollower(followers);
+		
 		return new ResponseEntity<>(collections,HttpStatus.OK);
 	}
 	
