@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.ac.hansung.dao.FollowerDao;
+import kr.ac.hansung.model.CollectionVO;
 import kr.ac.hansung.model.FollowerVO;
 
 @Service
@@ -31,5 +32,6 @@ public class FollowerSerivce {
 	public int remove(String fromUserId,String toUserId) {
 		return followerDao.remove(fromUserId, toUserId);
 	}
-	
+
+
 }

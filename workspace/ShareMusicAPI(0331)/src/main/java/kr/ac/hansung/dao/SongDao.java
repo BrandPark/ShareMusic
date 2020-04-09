@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import kr.ac.hansung.model.CollectionVO;
 import kr.ac.hansung.model.SongVO;
 
 @Repository
