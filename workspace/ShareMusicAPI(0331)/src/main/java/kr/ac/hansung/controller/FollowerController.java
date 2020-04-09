@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.ac.hansung.model.CollectionVO;
 import kr.ac.hansung.model.FollowerVO;
 import kr.ac.hansung.service.FollowerSerivce;
-import lombok.extern.log4j.Log4j;
 
-@Log4j
 @RestController
 @RequestMapping("/follow")
 public class FollowerController {
@@ -30,8 +29,6 @@ public class FollowerController {
 	public ResponseEntity<String> insertCollection(@RequestBody FollowerVO followerVO) {
 		
 		int insertCount = followerService.insert(followerVO);
-		
-//		log.info("Reply INSERT COUNT : " + insertCount);
 		
 		return insertCount == 1 ? 
 				new ResponseEntity<>("success",HttpStatus.OK) :
@@ -61,6 +58,7 @@ public class FollowerController {
 				? new ResponseEntity<String>("success",HttpStatus.OK) :
 				  new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
 
 	
 	

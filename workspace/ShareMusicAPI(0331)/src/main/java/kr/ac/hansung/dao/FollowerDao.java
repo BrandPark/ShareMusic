@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import kr.ac.hansung.model.CollectionVO;
 import kr.ac.hansung.model.FollowerVO;
 
 @Repository
@@ -62,6 +63,8 @@ public class FollowerDao {
 		String stmt = "delete from tb_follow where from_user_id = ? and to_user_id =?";
 		return jdbcTemplate.update(stmt, new Object[] {fromUserId,toUserId}); //update된 레코드갯수가 리턴됨
 	}
+
+
 	
 	
 	

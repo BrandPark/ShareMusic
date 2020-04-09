@@ -63,5 +63,19 @@ public class CollectionDao {
 		return jdbcTemplate.update(stmt, new Object[] {cno}); //update된 레코드갯수가 리턴됨
 	}
 
+	//팔로워들의 최근 업데이트 컬력센 리스트 조회
+	public List<CollectionVO> getRecentCollectionsWithFollower(List<String> followers) {
+		
+		String stmt = "select * from tb_collection where " ;
+		for(String user:followers) {
+			stmt += "user_id = " + user + ", or";
+			
+		}
+		
+		
+		
+		
+		return null;
+	}
 		
 }

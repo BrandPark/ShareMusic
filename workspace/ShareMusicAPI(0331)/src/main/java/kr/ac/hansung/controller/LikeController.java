@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.ac.hansung.model.LikeVO;
 import kr.ac.hansung.service.LikeService;
-import lombok.extern.log4j.Log4j;
 
 @RestController
 @RequestMapping("/like")
-@Log4j
 public class LikeController {
 	@Autowired
 	private LikeService likeService;
@@ -29,7 +27,6 @@ public class LikeController {
 	public ResponseEntity<String> insertLike(@RequestBody LikeVO like) {
 		
 		int insertCount = likeService.insertLike(like);
-//		log.info("Reply INSERT COUNT : " + insertCount);
 		
 		return insertCount == 1 ? 
 				new ResponseEntity<>("success",HttpStatus.OK) :
@@ -38,8 +35,7 @@ public class LikeController {
 	
 	//해당 컬렉션에 대한 좋아요 유저아이디 리스트 조회
 	@GetMapping("/{cno}")
-	public ResponseEntity<List<String>> getLikesMember(
-			@PathVariable("cno") int cno) {
+	public ResponseEntity<List<String>> getLikesMember(@PathVariable("cno") int cno) {
 		List<String> likes = likeService.getLikes(cno);
 		
 		return new ResponseEntity<>(likes,HttpStatus.OK);

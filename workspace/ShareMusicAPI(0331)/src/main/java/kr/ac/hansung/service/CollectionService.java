@@ -29,6 +29,11 @@ public class CollectionService {
 		return collectionDao.removeCollection(cno);
 	}
 
+	public List<CollectionVO> getRecentCollectionsWithFollower(List<String> followers) {
+		return collectionDao.getRecentCollectionsWithFollower(followers);
+	}
+	
+
 
 
 
