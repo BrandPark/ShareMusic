@@ -17,14 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.ac.hansung.model.CollectionVO;
 import kr.ac.hansung.service.CollectionService;
 import kr.ac.hansung.service.FollowerSerivce;
+import lombok.extern.log4j.Log4j;
 
 @RestController
-<<<<<<< HEAD
 @RequestMapping("/collections")
 @Log4j
-=======
-@RequestMapping("/collection")
->>>>>>> dev
 public class CollectionController {
 	
 	@Autowired
