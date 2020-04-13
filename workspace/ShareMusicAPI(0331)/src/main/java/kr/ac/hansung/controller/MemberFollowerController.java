@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.ac.hansung.model.CollectionVO;
 import kr.ac.hansung.model.FollowerVO;
-import kr.ac.hansung.service.FollowerSerivce;
+import kr.ac.hansung.service.MemberFollowerSerivce;
 
 @RestController
-@RequestMapping("/follow")
-public class FollowerController {
+@RequestMapping("/member/follow")
+public class MemberFollowerController {
 	
 	@Autowired
-	private FollowerSerivce followerService;
+	private MemberFollowerSerivce followerService;
 	
 	//팔로우 삽입
 	@PostMapping("/new")
-	public ResponseEntity<String> insertCollection(@RequestBody FollowerVO followerVO) {
+	public ResponseEntity<String> insertMemberFollower(@RequestBody FollowerVO followerVO) {
 		
-		int insertCount = followerService.insert(followerVO);
+		int insertCount = followerService.insertMemberFollower(followerVO);
 		
 		return insertCount == 1 ? 
 				new ResponseEntity<>("success",HttpStatus.OK) :
@@ -37,24 +37,24 @@ public class FollowerController {
 	
 	//해당 유저아이디에 대한 팔로워 조회
 	@GetMapping("/follower/{userId}")
-	public ResponseEntity<List<String>> getFollower(@PathVariable("userId") String userId) {
-		List<String> followers = followerService.getFollower(userId);
+	public ResponseEntity<List<String>> getMemberFollower(@PathVariable("userId") String userId) {
+		List<String> followers = followerService.getMemberFollower(userId);
 		return new ResponseEntity<>(followers,HttpStatus.OK);
 	}
 	
 	//해당 유저아이디에 대한 팔로잉 조회
 	@GetMapping("/following/{userId}")
-	public ResponseEntity<List<String>> getFollowing(@PathVariable("userId") String userId) {
-		List<String> followings = followerService.getFollowing(userId);
+	public ResponseEntity<List<String>> getMemberFollowing(@PathVariable("userId") String userId) {
+		List<String> followings = followerService.getMemberFollowing(userId);
 		return new ResponseEntity<>(followings,HttpStatus.OK);
 	}
 	
 	//팔로우 취소
 	@DeleteMapping(value="/{fromUserId}/{toUserId}")
-	public ResponseEntity<String> remove(@PathVariable("fromUserId") String fromUserId,
+	public ResponseEntity<String> deleteMemberFollower(@PathVariable("fromUserId") String fromUserId,
 			@PathVariable("toUserId") String toUserId)
 	{
-		return followerService.remove(fromUserId,toUserId) != 0
+		return followerService.deleteMemberFollower(fromUserId,toUserId) != 0
 				? new ResponseEntity<String>("success",HttpStatus.OK) :
 				  new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}

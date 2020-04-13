@@ -15,14 +15,14 @@ import kr.ac.hansung.model.CollectionVO;
 import kr.ac.hansung.model.FollowerVO;
 
 @Repository
-public class FollowerDao {
+public class MemberFollowerDao {
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public int insert(FollowerVO followerVO) {
+	public int insertMemberFollower(FollowerVO followerVO) {
 		String fromUserId = followerVO.getFromUserId();
 		String toUserId = followerVO.getToUserId();
 		
@@ -31,7 +31,7 @@ public class FollowerDao {
 		return jdbcTemplate.update(stmt,new Object[] {fromUserId,toUserId});
 	}
 	
-	public List<String> getFollowing(String userId){
+	public List<String> getMemberFollowing(String userId){
 	
 		String stmt = "select from_user_id from_user_id from tb_follow where to_user_id = '" + userId + "'";
 		
@@ -45,7 +45,7 @@ public class FollowerDao {
 		});
 	}
 	
-	public List<String> getFollower(String userId){
+	public List<String> getMemberFollower(String userId){
 		
 		String stmt = "select to_user_id from tb_follow where from_user_id = '" + userId + "'";
 		
@@ -59,7 +59,7 @@ public class FollowerDao {
 		});
 	}
 	
-	public int remove(String fromUserId,String toUserId) {
+	public int deleteMemberFollower(String fromUserId,String toUserId) {
 		String stmt = "delete from tb_follow where from_user_id = ? and to_user_id =?";
 		return jdbcTemplate.update(stmt, new Object[] {fromUserId,toUserId}); //update된 레코드갯수가 리턴됨
 	}

@@ -20,47 +20,46 @@ import kr.ac.hansung.service.MemberSerivce;
 public class MemberController {
 	@Autowired
 	private MemberSerivce memberService;
-	
-	//사용자 정보 등록
+
+	// 사용자 정보 등록
 	@PostMapping("/new")
 	public ResponseEntity<String> insertMember(@RequestBody MemberVO memberVO) {
-		
-		return memberService.insertMember(memberVO) ? 
-				new ResponseEntity<>("success",HttpStatus.OK) :
-				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+		return memberService.insertMember(memberVO) ?
+				new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	//사용자 정보 조회
+
+	// 사용자 정보 조회
 	@GetMapping("/{userId}")
 	public ResponseEntity<MemberVO> getMember(@PathVariable("userId") String userId) {
 		MemberVO member = memberService.getMember(userId);
-		return new ResponseEntity<>(member,HttpStatus.OK);
-	}
-	
-	//사용자 정보 수정
-	@PutMapping("/")
-	public ResponseEntity<String> updateUser(@RequestBody MemberVO memberVO) {
-		
-		return memberService.updateMember(memberVO) ? 
-				new ResponseEntity<>("success",HttpStatus.OK) :
-				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(member, HttpStatus.OK);
 	}
 
-	//회원 삭제
-	@DeleteMapping(value="/{userId}")
-	public ResponseEntity<String> removeMember(@PathVariable("userId") String userId){
-		
-		return memberService.deleteMember(userId)
-				? new ResponseEntity<String>("success",HttpStatus.OK) :
-				  new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	// 사용자 정보 수정
+	@PutMapping("/")
+	public ResponseEntity<String> updateUser(@RequestBody MemberVO memberVO) {
+		return memberService.updateMember(memberVO) ?
+				new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	//아이디 중복 검사
+
+	// 회원 삭제
+	@DeleteMapping(value = "/{userId}")
+	public ResponseEntity<String> removeMember(@PathVariable("userId") String userId) {
+
+		return memberService.deleteMember(userId) ?
+				new ResponseEntity<String>("success", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	// 아이디 중복 검사
 	@GetMapping("/check/{userId}")
 	public ResponseEntity<String> checkUserId(@PathVariable("userId") String userId) {
-		
-		return memberService.checkUserId(userId) == 1 
-				? new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR) :
-					  new ResponseEntity<String>("success",HttpStatus.OK);
+
+		return memberService.checkUserId(userId) == 1 ?
+				new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR)
+				: new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 }

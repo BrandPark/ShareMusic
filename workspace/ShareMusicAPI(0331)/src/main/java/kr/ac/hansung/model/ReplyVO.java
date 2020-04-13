@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class ReplyDTO {
+public class ReplyVO {
 	private int rno;
 	private int cno;
 	private String fromUserId;

@@ -14,47 +14,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.ac.hansung.model.LikeVO;
-import kr.ac.hansung.service.LikeService;
+import kr.ac.hansung.service.CollectionLikeService;
 
 @RestController
-@RequestMapping("/like")
-public class LikeController {
+@RequestMapping("/collection//like")
+public class CollectionLikeController {
 	@Autowired
-	private LikeService likeService;
+	private CollectionLikeService likeService;
 	
 	//해당 컬렉션에 대한 좋아요 삽입
 	@PostMapping("/new")
-	public ResponseEntity<String> insertLike(@RequestBody LikeVO like) {
+	public ResponseEntity<String> insertColletionLike(@RequestBody LikeVO like) {
 		
-		int insertCount = likeService.insertLike(like);
-		
-		return insertCount == 1 ? 
+		return likeService.insertColletionLike(like) == 1 ? 
 				new ResponseEntity<>("success",HttpStatus.OK) :
 				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	//해당 컬렉션에 대한 좋아요 유저아이디 리스트 조회
 	@GetMapping("/{cno}")
-	public ResponseEntity<List<String>> getLikesMember(@PathVariable("cno") int cno) {
-		List<String> likes = likeService.getLikes(cno);
+	public ResponseEntity<List<String>> getColletionLikeMembers(@PathVariable("cno") int cno) {
+		List<String> likes = likeService.getColletionLikeMembers(cno);
 		
 		return new ResponseEntity<>(likes,HttpStatus.OK);
 	}
 	
 	//좋아요 수 조회
 	@GetMapping("/count/{cno}")
-	public ResponseEntity<Integer> getLikeCount(@PathVariable("cno") int cno){
+	public ResponseEntity<Integer> getColletionLikeCount(@PathVariable("cno") int cno){
 		
-		int likeCount = likeService.getLikeCount(cno);
+		int likeCount = likeService.getColletionLikeCount(cno);
 		
 		return new ResponseEntity<>(likeCount,HttpStatus.OK);
 	}
 	
 	//좋아효 취소
 	@DeleteMapping(value="/{cno}/{fromUserId}")
-	public ResponseEntity<String> remove(@PathVariable("cno") int cno,
+	public ResponseEntity<String> deleteColletionLike(@PathVariable("cno") int cno,
 			@PathVariable("fromUserId") String fromUserId) {
-		return likeService.removeLike(cno,fromUserId) != 0
+		return likeService.deleteColletionLike(cno,fromUserId) != 0
 				? new ResponseEntity<String>("success",HttpStatus.OK) :
 				  new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}

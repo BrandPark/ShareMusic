@@ -23,6 +23,7 @@ public class CollectionDao {
 	
 	//컬렉션 추가
 	public int insertCollection(CollectionVO collection) {
+		
 		String userId = collection.getUserId();
 		String collectionName = collection.getCollectionName();
 		String stmt = "insert into tb_collection(user_id,col_name) values(?,?)";
@@ -32,6 +33,7 @@ public class CollectionDao {
 	
 	//사용자id로 모든 컬렉션 정보 조회 , 최근에 등록된 순으로 정렬
 	public List<CollectionVO> getCollections(String userId){
+		
 		String stmt = "select * from tb_collection where user_id = '" + userId + "' order by reg_date desc";
 		return jdbcTemplate.query(stmt, new RowMapper<CollectionVO>() {
 
@@ -50,16 +52,16 @@ public class CollectionDao {
 	}
 	
 	//컬렉션 이름 변경
-	public int modify(CollectionVO collection) {
-		String stmt = "update tb_collection set col_name = ? where cno = ?" ;
+	public int updateCollection(CollectionVO collection) {
 		
+		String stmt = "update tb_collection set col_name = ? where cno = ?" ;
 		return jdbcTemplate.update(stmt, new Object[] {collection.getCollectionName(),collection.getCno()}); //update된 레코드갯수가 리턴됨
 	}
 	
 	//컬렉션번호로 컬렉션 삭제
-	public int removeCollection(int cno) {
+	public int deleteCollection(int cno) {
+	
 		String stmt = "delete from tb_collection where cno = ?";
-		jdbcTemplate.execute("alter table tb_collection auto_increment=");
 		return jdbcTemplate.update(stmt, new Object[] {cno}); //update된 레코드갯수가 리턴됨
 	}
 

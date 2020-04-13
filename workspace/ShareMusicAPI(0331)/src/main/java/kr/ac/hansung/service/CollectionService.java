@@ -21,12 +21,12 @@ public class CollectionService {
 		return collectionDao.getCollections(userId);
 	}
 	
-	public int modify(CollectionVO collection) {
-		return collectionDao.modify(collection);
+	public int updateCollection(CollectionVO collection) {
+		return collectionDao.updateCollection(collection);
 	}
 	
-	public int removeCollection(int cno) {
-		return collectionDao.removeCollection(cno);
+	public int deleteCollection(int cno) {
+		return collectionDao.deleteCollection(cno);
 	}
 
 	public List<CollectionVO> getRecentCollectionsWithFollower(List<String> followers) {

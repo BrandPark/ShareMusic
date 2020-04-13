@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import kr.ac.hansung.model.LikeVO;
 
 @Repository
-public class LikeDao {
+public class CollectionLikeDao {
 	
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
@@ -22,7 +22,7 @@ public class LikeDao {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public int insertLike(LikeVO like) {
+	public int insertColletionLike(LikeVO like) {
 		int cno = like.getCno();
 		String fromUserId = like.getFromUserId();
 		String stmt = "insert into tb_collection_like(cno,from_user_id) values(?,?)";
@@ -30,7 +30,7 @@ public class LikeDao {
 		return jdbcTemplate.update(stmt, new Object[] {cno,fromUserId}); //update된 레코드갯수가 리턴됨
 	}
 	
-	public List<String> getLikes(int cno){
+	public List<String> getColletionLikeMembers(int cno){
 		String stmt = "select from_user_id from tb_collection_like where cno = '" + cno + "'";
 		
 		return jdbcTemplate.query(stmt, new RowMapper<String>() {
@@ -44,14 +44,14 @@ public class LikeDao {
 		});
 	}
 	
-	public int getLikeCount(int cno){
+	public int getColletionLikeCount(int cno){
 		String stmt = "select count(from_user_id) from tb_collection_like where cno = '" + cno + "'";
 		
 		return jdbcTemplate.queryForObject(stmt,int.class);
 
 	}
 
-	public int removeLike(int cno, String fromUserId) {
+	public int deleteColletionLike(int cno, String fromUserId) {
 			String stmt = "delete from tb_collection_like where cno = ? and from_user_id = ?";
 			return jdbcTemplate.update(stmt, new Object[] {cno,fromUserId}); //update된 레코드갯수가 리턴됨
 	}

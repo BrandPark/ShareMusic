@@ -12,21 +12,18 @@ public class MemberSerivce {
 	@Autowired
 	private MemberDao memberDao;
 	
-	//C
 	public Boolean insertMember(MemberVO memberVO) {
 		return memberDao.insertMember(memberVO);
 	}
 
-	//R
 	public MemberVO getMember(String userId) {
 		return memberDao.getMember(userId);
 	}
-	//U
+
 	public boolean updateMember(MemberVO memberVO) {
 		return memberDao.updateMember(memberVO);
 	}
 	
-	//D
 	public boolean deleteMember(String userId) {
 		return memberDao.deleteMember(userId);
 	}

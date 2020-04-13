@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import kr.ac.hansung.model.SongVO;
 
 @Repository
-public class SongDao {
+public class CollectionSongDao {
 	
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
@@ -22,7 +22,7 @@ public class SongDao {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public int insertSong(SongVO song) {
+	public int insertCollectionSong(SongVO song) {
 		int cno = song.getCno();
 		String musicName = song.getMusicName();
 		String singer = song.getSinger();
@@ -32,7 +32,7 @@ public class SongDao {
 	}
 	
 	//사용자id와 컬렉션명으로 곡리스트 조회
-	public List<SongVO> getSongs(int cno){
+	public List<SongVO> getCollectionSongs(int cno){
 		String stmt = "select * from tb_collection_song where cno = '" + cno + "'";
 		
 		return jdbcTemplate.query(stmt, new RowMapper<SongVO>() {
@@ -51,14 +51,14 @@ public class SongDao {
 	}
 	
 	//컬렉션 이름 변경
-	public int modify(SongVO song) {
+	public int updateCollectionSong(SongVO song) {
 		String stmt = "update tb_collection_song set music_name =? , singer = ? where sno = ?" ;
 		
 		return jdbcTemplate.update(stmt, new Object[] {song.getMusicName(),song.getSinger(),song.getSno()}); //update된 레코드갯수가 리턴됨
 	}
 	
 	//앨범 삭제
-	public int removeSong(int sno) {
+	public int deleteCollectionSong(int sno) {
 		String stmt = "delete from tb_collection_song where sno = ?";
 		return jdbcTemplate.update(stmt, new Object[] {sno}); //update된 레코드갯수가 리턴됨
 	}

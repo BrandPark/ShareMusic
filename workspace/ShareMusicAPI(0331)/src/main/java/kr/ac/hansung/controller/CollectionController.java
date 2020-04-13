@@ -16,67 +16,57 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.ac.hansung.model.CollectionVO;
 import kr.ac.hansung.service.CollectionService;
-import kr.ac.hansung.service.FollowerSerivce;
-import lombok.extern.log4j.Log4j;
+import kr.ac.hansung.service.MemberFollowerSerivce;
 
 @RestController
-@RequestMapping("/collections")
-@Log4j
+@RequestMapping("/collection")
 public class CollectionController {
-	
+
 	@Autowired
 	private CollectionService collectionService;
 	@Autowired
-	private FollowerSerivce followerService;
-	
-	
-	//컬렉션 삽입
+	private MemberFollowerSerivce followerService;
+
+	// 컬렉션 삽입
 	@PostMapping("/new")
 	public ResponseEntity<String> insertCollection(@RequestBody CollectionVO collection) {
-		
-		int insertCount = collectionService.insertCollection(collection);
-		
-		return insertCount == 1 ? 
-				new ResponseEntity<>("success",HttpStatus.OK) :
-				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+		return collectionService.insertCollection(collection) == 1 ?
+				new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	//사용자에 대한 모든 컬렉션 조회
+
+	// 사용자에 대한 모든 컬렉션 조회
 	@GetMapping("/{userId}")
 	public ResponseEntity<List<CollectionVO>> getCollections(@PathVariable("userId") String userId) {
 		List<CollectionVO> collections = collectionService.getCollections(userId);
-		return new ResponseEntity<>(collections,HttpStatus.OK);
+		return new ResponseEntity<>(collections, HttpStatus.OK);
 	}
-	
-	//사용자 컬렉션 정보 수정
+
+	// 사용자 컬렉션 정보 수정
 	@PutMapping("/")
-	public ResponseEntity<String> modify(@RequestBody CollectionVO collection){
-		
-			return collectionService.modify(collection) == 1 ?
-					new ResponseEntity<String>("success",HttpStatus.OK):
-					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<String> updateCollection(@RequestBody CollectionVO collection) {
+
+		return collectionService.updateCollection(collection) == 1 ?
+				new ResponseEntity<String>("success", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	//해당 컬렉션 삭제
-	@DeleteMapping(value="/{cno}")
-	public ResponseEntity<String> remove(@PathVariable("cno") int cno) {
-		return collectionService.removeCollection(cno) != 0
-				? new ResponseEntity<String>("success",HttpStatus.OK) :
-				  new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	// 해당 컬렉션 삭제
+	@DeleteMapping(value = "/{cno}")
+	public ResponseEntity<String> deleteCollection(@PathVariable("cno") int cno) {
+		return collectionService.deleteCollection(cno) != 0 ?
+				new ResponseEntity<String>("success", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	//팔로워들의 최근 업데이트 컬렉션
+	// 팔로워들의 최근 업데이트 컬렉션
 	@GetMapping("/recent/follower/{userId}")
 	public ResponseEntity<List<CollectionVO>> getRecentCollectionsWithFollower(@PathVariable("userId") String userId) {
-		List<String> followers = followerService.getFollower(userId);
-		
+		List<String> followers = followerService.getMemberFollower(userId);
+
 		List<CollectionVO> collections = collectionService.getRecentCollectionsWithFollower(followers);
-		
-		return new ResponseEntity<>(collections,HttpStatus.OK);
+
+		return new ResponseEntity<>(collections, HttpStatus.OK);
 	}
-	
-
-	 
-
-	
 }
