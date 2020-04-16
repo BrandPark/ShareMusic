@@ -18,19 +18,7 @@
 	
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/" access="permitAll" />
-		
-		<intercept-url pattern="/member/showRegMember" access="permitAll" />
-		<intercept-url pattern="/member/doRegMember" access="permitAll" />
-		<intercept-url pattern="/member/showUpdateMember" access="permitAll" />
 		<intercept-url pattern="/member/login" access="permitAll" />
-		
-		<intercept-url pattern="/upload/showUploadMusic" access="isAuthenticated()" />
-		<intercept-url pattern="/upload/doUploadMusic" access="isAuthenticated()" />
-		<intercept-url pattern="/upload/showUploadImage" access="isAuthenticated()" />
-		<intercept-url pattern="/upload/doUploadImage" access="isAuthenticated()" />
-		<intercept-url pattern="/upload/showUploadResult" access="permitAll" />
-		<intercept-url pattern="/upload/showCollection" access="isAuthenticated()" />
-		
 		
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/**" access="denyAll" />

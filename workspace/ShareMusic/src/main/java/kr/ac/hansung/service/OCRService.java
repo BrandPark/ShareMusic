@@ -12,7 +12,7 @@ import org.bytedeco.javacpp.tesseract.TessBaseAPI;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.ac.hansung.model.Song;
+import kr.ac.hansung.model.SongVO;
 
 @Service
 public class OCRService {
@@ -27,7 +27,7 @@ public class OCRService {
 		
 	}
 	
-	public List<Song> getTesseract(MultipartFile file) {
+	public List<SongVO> getTesseract(MultipartFile file) {
 		
 		byte[] imageBytes = null;
 		try {
@@ -46,17 +46,17 @@ public class OCRService {
 
 		String[] outputArray = output.split("\n");
 		
-		List<Song> songList = new ArrayList<Song>();
+		List<SongVO> songs = new ArrayList<SongVO>();
 		// 빈 문자열 인덱스 제거 하여 문자열 배열정리
 
 		for (int i = 0; i < outputArray.length; i+=2 ) {
-			Song song = new Song();
+			SongVO song = new SongVO();
 			song.setMusicName(getHangul(outputArray[i]).trim());
 			song.setSinger(getHangul(outputArray[++i]).trim());
-			songList.add(song);
+			songs.add(song);
 		}
 
-		return songList;
+		return songs;
 	}
 
 

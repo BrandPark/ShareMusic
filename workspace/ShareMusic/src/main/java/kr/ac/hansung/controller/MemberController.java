@@ -1,55 +1,65 @@
 package kr.ac.hansung.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import kr.ac.hansung.dao.MemberDao;
-import kr.ac.hansung.model.Member;
+import kr.ac.hansung.model.MemberVO;
+import kr.ac.hansung.service.MemberSerivce;
 
-
-@Controller
+@RestController
 @RequestMapping("/member")
 public class MemberController {
-	
 	@Autowired
-	private MemberDao memberDao;
-	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String  doLogin(@RequestParam(value="error", required=false) String error,
-						   @RequestParam(value="logout", required=false)String logout,
-						   Model model) {
-		if(error != null) {
-			model.addAttribute("errorMsg", "login_error");
-		}
-		if(logout != null) {
-			model.addAttribute("logoutMsg","logout_successfully");
-		}
-		
-		return "/member/mem_login_form";
+	private MemberSerivce memberService;
+
+	// 사용자 정보 등록
+	@PostMapping("/new")
+	public ResponseEntity<String> insertMember(@RequestBody MemberVO memberVO) {
+
+		return memberService.insertMember(memberVO) ?
+				new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	@RequestMapping(value="/showRegMember", method=RequestMethod.GET)
-	public String showMemberRegisterForm() {
-		return "/member/mem_register_form";
+
+	// 사용자 정보 조회
+	@GetMapping("/{userId}")
+	public ResponseEntity<MemberVO> getMember(@PathVariable("userId") String userId) {
+		MemberVO member = memberService.getMember(userId);
+		return new ResponseEntity<>(member, HttpStatus.OK);
 	}
-	
-	@RequestMapping(value="/doRegMember", method=RequestMethod.POST)
-	public String doRegMember(Member member) {
-		if(memberDao.checkId(member.getUserId()) == 0) {
-			memberDao.insertMember(member);
-			return "/member/mem_register_result";
-		}else {
-			return "/member/mem_register_form";
-		}
+
+	// 사용자 정보 수정
+	@PutMapping("/")
+	public ResponseEntity<String> updateUser(@RequestBody MemberVO memberVO) {
+		return memberService.updateMember(memberVO) ?
+				new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	@RequestMapping(value="/showUpdateMember", method=RequestMethod.GET)
-	public String showUpdateMember() {
-		return "/member/mem_update_form";
+
+	// 회원 삭제
+	@DeleteMapping(value = "/{userId}")
+	public ResponseEntity<String> removeMember(@PathVariable("userId") String userId) {
+
+		return memberService.deleteMember(userId) ?
+				new ResponseEntity<String>("success", HttpStatus.OK)
+				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
+	// 아이디 중복 검사
+	@GetMapping("/check/{userId}")
+	public ResponseEntity<String> checkUserId(@PathVariable("userId") String userId) {
+
+		return memberService.checkUserId(userId) == 1 ?
+				new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR)
+				: new ResponseEntity<String>("success", HttpStatus.OK);
+	}
 }
