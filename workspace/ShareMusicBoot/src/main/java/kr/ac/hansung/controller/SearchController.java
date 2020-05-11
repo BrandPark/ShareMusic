@@ -23,8 +23,8 @@ public class SearchController {
 	
 	// 검색
 	@GetMapping("/{type}/{content}")
-	public ResponseEntity<Object> search(@PathVariable("type") String type,@PathVariable("content") String content) {
-		
+	public ResponseEntity<Object> search(@PathVariable("type") String type,
+									@PathVariable("content") String content) {
 		
 		// 태그명으로 컬렉션들 검색
 		if(type.equals("tag")) {
