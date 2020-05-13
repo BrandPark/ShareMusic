@@ -2,6 +2,7 @@ package kr.ac.hansung.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -87,6 +88,50 @@ public class MemberDao {
 		String stmt = "select count(*) from tb_user where user_id = '" + userId + "'";
 		return jdbcTemplate.queryForObject(stmt, Integer.class);
 	}
+
+	//사용자 아이디와 패스워드에 맞는 객체 조회
+	public MemberVO getAuthentication(MemberVO memberVO) {
+		String stmt = "select * from tb_user where user_id = ?";
+		
+		return jdbcTemplate.queryForObject(stmt,new Object[] {memberVO.getUserId()} ,new RowMapper<MemberVO>() {
+
+			@Override
+			public MemberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				MemberVO member = new MemberVO();
+				member.setUserId(rs.getString("user_id"));
+				member.setUserPw(rs.getString("user_password"));
+				member.setUserName(rs.getString("user_name"));
+				member.setUserEmail(rs.getString("user_email"));
+				
+				String userBirthDate = rs.getString("user_birth_date");
+				String[] birthArray = userBirthDate.split("-");
+			
+				member.setUserBirthYear(Integer.parseInt(birthArray[0]));
+				member.setUserBirthMonth(Integer.parseInt(birthArray[1]));
+				member.setUserBirthDay(Integer.parseInt(birthArray[2]));
+				
+				return member;
+			}
+		});
+	}
+
+	// 해당 유저에 일치하는 권한들 조회
+	public List<String> getAuthorities(MemberVO memberVO) {
+		String stmt = "SELECT a.authority FROM tb_user u, tb_authorities a where u.user_id = a.user_id and u.user_id = '"
+							+ memberVO.getUserId() + "'";
+
+		return jdbcTemplate.query(stmt, new RowMapper<String>() {
+
+								@Override
+								public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+									
+									String auth = rs.getString("a.authority");
+									return auth;
+								}
+							});
+	}
+
+
 	
 
 	
