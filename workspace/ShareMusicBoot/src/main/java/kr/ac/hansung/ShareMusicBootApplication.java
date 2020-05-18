@@ -9,5 +9,4 @@ public class ShareMusicBootApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ShareMusicBootApplication.class, args);
 	}
-
 }

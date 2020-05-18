@@ -17,8 +17,10 @@
 	</authentication-manager>
 	
 	<http auto-config="true" use-expressions="true">
+		<csrf disabled="true"></csrf>
 		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="/member/login" access="permitAll" />
+		<intercept-url pattern="/search/**" access="permitAll" />
 		
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/**" access="denyAll" />
