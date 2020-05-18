@@ -1,5 +1,7 @@
 package kr.ac.hansung.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,14 @@ public class MemberSerivce {
 	
 	public int checkUserId(String userId) {
 		return memberDao.checkUserId(userId);
+	}
+
+	public MemberVO getAuthentication(MemberVO memberVO){
+		return memberDao.getAuthentication(memberVO);
+	}
+
+	public List<String> getAuthorities(MemberVO memberVO){
+		return memberDao.getAuthorities(memberVO);
 	}
 
 }
