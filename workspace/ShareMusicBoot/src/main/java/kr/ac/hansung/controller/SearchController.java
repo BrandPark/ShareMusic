@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.ac.hansung.model.CollectionVO;
+import kr.ac.hansung.exception.CollectionException;
+import kr.ac.hansung.model.CollectionDTO;
 import kr.ac.hansung.model.MemberVO;
 import kr.ac.hansung.service.SearchService;
 
@@ -26,22 +27,23 @@ public class SearchController {
 	// 검색
 	@GetMapping("/{type}/{content}")
 	public ResponseEntity<Object> search(@PathVariable("type") String type,
-									@PathVariable("content") String content) {
+									@PathVariable("content") String content) throws CollectionException {
 		
 		// 태그명으로 컬렉션들 검색
 		if(type.equals("tag")) {
-			List<CollectionVO> collections = searchService.searchCollectionWithTag(content);
-			return new ResponseEntity<>(collections,HttpStatus.OK);
+			List<CollectionDTO> collectionDTOs = searchService.searchCollectionWithTag(content);
+			return new ResponseEntity<>(collectionDTOs,HttpStatus.OK);
 		}
 		// 컬렉션이름으로 컬렉션들 검색
 		else if(type.equals("collectionname")) {
-			List<CollectionVO> collections = searchService.searchCollectionWithName(content);
-			return new ResponseEntity<>(collections,HttpStatus.OK);
+			List<CollectionDTO> collectionDTOs = searchService.searchCollectionWithName(content);
+			return new ResponseEntity<>(collectionDTOs,HttpStatus.OK);
 		}
 		// 곡 제목으로 컬렉션들 검색
 		else if(type.equals("musicname")) {
-			List<CollectionVO> collections = searchService.searchCollectionWithMusicName(content);
-			return new ResponseEntity<>(collections,HttpStatus.OK);
+			System.out.println("aa" + content);
+			List<CollectionDTO> collectionDTOs = searchService.searchCollectionWithMusicName(content);
+			return new ResponseEntity<>(collectionDTOs,HttpStatus.OK);
 		}
 		// 유저id로 유저 검색
 		else if(type.equals("userid")) {

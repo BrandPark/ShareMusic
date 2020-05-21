@@ -20,13 +20,13 @@ import kr.ac.hansung.service.CollectionReplyService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/collection//reply")
+@RequestMapping("/collections/replys")
 public class CollectionReplyController {
 	@Autowired
 	private CollectionReplyService replyService;
 	
 	//특정 컬렉션에 reply insert
-	@PostMapping("/new")
+	@PostMapping("/")
 	public ResponseEntity<String> insertColletionReply(
 			@RequestBody ReplyVO reply) {
 
@@ -37,7 +37,6 @@ public class CollectionReplyController {
 	//특정 컬렉션의 특정 댓글 조회
 	@GetMapping("/{rno}")
 	public ResponseEntity<ReplyVO> getColletionReply(@PathVariable("rno") int rno){
-		
 		ReplyVO reply = replyService.getCollectionReply(rno);
 
 //		if(reply != null)
@@ -51,9 +50,7 @@ public class CollectionReplyController {
 	//특정 컬렉션의 모든 댓글들 조회
 	@GetMapping("/all/{cno}")
 	public ResponseEntity<List<ReplyVO>> getColletionReplys(@PathVariable("cno") int cno){
-		
 		List<ReplyVO> replys = replyService.getCollectionReplys(cno);
-
 		return new ResponseEntity<>(replys,HttpStatus.OK);
 	}
 	
@@ -61,6 +58,7 @@ public class CollectionReplyController {
 	//특정 태그 수정
 	@PutMapping("/")
 	public ResponseEntity<String> updateColletionReply(@RequestBody ReplyVO reply){
+		
 		return replyService.updateCollectionReply(reply) == 1?
 				new ResponseEntity<>("success",HttpStatus.OK) :
 					new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,7 +68,6 @@ public class CollectionReplyController {
 	@DeleteMapping("/{rno}")
 	public ResponseEntity<String> deleteColletionReply(
 			@PathVariable("rno") int rno){
-	
 		
 		return replyService.deleteCollectionReply(rno) == 1?
 				new ResponseEntity<>("success",HttpStatus.OK) :

@@ -24,7 +24,7 @@ public class MemberDao {
 	//C
 	public Boolean insertMember(MemberVO member) {
 		String userId = member.getUserId();
-		String userPw = "{noop}" + member.getUserPw();
+		String userPw = member.getUserPw();
 		String userName = member.getUserName();
 		String userEmail = member.getUserEmail();
 		String userBirthDate = Integer.toString(member.getUserBirthYear()) + "-" +Integer.toString(member.getUserBirthMonth()) + "-" +Integer.toString(member.getUserBirthDay());
@@ -66,7 +66,7 @@ public class MemberDao {
 	//U
 	public boolean updateMember(MemberVO member) {
 		String userId = member.getUserId();
-		String userPw = "{noop}" + member.getUserPw();
+		String userPw = member.getUserPw();
 		String userName = member.getUserName();
 		String userEmail = member.getUserEmail();
 		String userBirthDate = Integer.toString(member.getUserBirthYear()) + "-" +Integer.toString(member.getUserBirthMonth()) + "-" +Integer.toString(member.getUserBirthDay());

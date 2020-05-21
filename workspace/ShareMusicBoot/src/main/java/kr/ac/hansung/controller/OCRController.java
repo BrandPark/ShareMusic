@@ -20,7 +20,7 @@ public class OCRController {
 	@Autowired
 	private OCRService ocrService;
 	
-	@PostMapping("/uploadImage")
+	@PostMapping("/")
 	public ResponseEntity<String> doUploadImage(@RequestBody MultipartFile file) throws Exception {
 		String text = ocrService.getTesseract(file);
 		

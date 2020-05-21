@@ -5,19 +5,36 @@ import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.ac.hansung.model.SongVO;
+
 @Service
 public class OCRService {
 
 	@Autowired
 	private CloudVisionTemplate cloudVisionTemplate;
+	@Autowired
+	private YoutubeService youtubeService;
 
 	public String getTesseract(MultipartFile file) {
-
-		
 			
-		String text = cloudVisionTemplate.extractTextFromImage(file.getResource());
+		String textFromImage = cloudVisionTemplate.extractTextFromImage(file.getResource());
+		
+		String[] textArray = textFromImage.split("\n");
+		
+		for(int i=0;i<textArray.length;i+=2) {
+//			System.out.println(textArray[i]);
+//			System.out.println(textArray[i+1]);
+			try {
+				String videoId = youtubeService.searchSong(textArray[i],textArray[i+1]);
+				SongVO song = new SongVO();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 
-		return text;
+		return textFromImage;
 	}
 
 	// 들어온 문자열이 한글의 유니코드(0xAC00 - 0xD743)범위에 들어오는지 판단

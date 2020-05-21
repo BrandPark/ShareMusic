@@ -26,9 +26,10 @@ public class CollectionSongDao {
 		int cno = song.getCno();
 		String musicName = song.getMusicName();
 		String singer = song.getSinger();
-		String stmt = "insert into tb_collection_song(cno,music_name,singer) values(?,?,?)";
+		String videoId = song.getVideoId();
+		String stmt = "insert into tb_collection_song(cno,music_name,singer,video_id) values(?,?,?,?)";
 		
-		return jdbcTemplate.update(stmt, new Object[] {cno,musicName,singer}); //update된 레코드갯수가 리턴됨
+		return jdbcTemplate.update(stmt, new Object[] {cno,musicName,singer,videoId}); //update된 레코드갯수가 리턴됨
 	}
 	
 	//사용자id와 컬렉션명으로 곡리스트 조회
@@ -44,6 +45,7 @@ public class CollectionSongDao {
 				song.setCno(rs.getInt("cno"));
 				song.setMusicName(rs.getString("music_name"));
 				song.setSinger(rs.getString("singer"));
+				song.setVideoId(rs.getString("video_id"));
 				
 				return song;
 			}
@@ -63,6 +65,7 @@ public class CollectionSongDao {
 				song.setCno(rs.getInt("cno"));
 				song.setMusicName(rs.getString("music_name"));
 				song.setSinger(rs.getString("singer"));
+				song.setVideoId(rs.getString("video_id"));
 				
 				return song;
 			}
@@ -73,7 +76,6 @@ public class CollectionSongDao {
 	//컬렉션 이름 변경
 	public int updateCollectionSong(SongVO song) {
 		String stmt = "update tb_collection_song set music_name =? , singer = ? where sno = ?" ;
-		
 		return jdbcTemplate.update(stmt, new Object[] {song.getMusicName(),song.getSinger(),song.getSno()}); //update된 레코드갯수가 리턴됨
 	}
 	

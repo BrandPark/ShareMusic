@@ -16,4 +16,5 @@ public class SongVO {
 	private int cno;
 	private String musicName;
 	private String singer;
+	private String videoId;
 }

@@ -19,16 +19,16 @@ import kr.ac.hansung.service.MemberFollowerSerivce;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/member/follow")
+@RequestMapping("/members/follows")
 public class MemberFollowerController {
 	
 	@Autowired
 	private MemberFollowerSerivce followerService;
 	
 	//팔로우 삽입
-	@PostMapping("/new")
+	@PostMapping("/")
 	public ResponseEntity<String> insertMemberFollower(@RequestBody FollowerVO followerVO) {
-		
+		System.out.println(followerVO);
 		int insertCount = followerService.insertMemberFollower(followerVO);
 		
 		return insertCount == 1 ? 
