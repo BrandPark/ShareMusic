@@ -1,0 +1,227 @@
+1-1) 컬렉션 등록
+Request URL : /collections/
+{	
+	"collection":{
+		"userId":"admin3",
+		"collectionName":"BestCollection"
+	},
+	"songs":[
+		{	
+			"musicName":"염따",
+			"singer":"아마두"
+		},
+		{
+			"musicName":"창모",
+			"singer":"아름다워"
+		}
+	],
+	"tags":[
+		{
+		"tag":"lucky"
+		},
+		{
+		"tag":"holymoly"
+		}
+	]	
+}
+
+1-2) 특정 사용자에 대한 모든 컬렉션  조회
+Request URL : http://localhost:8081/ShareMusic/collections/userid/admin3
+
+1-3) 특정 컬렉션 조회
+Request URL : http://localhost:8081/ShareMusic/collections/cno/59
+
+1-4) 컬렉션 수정
+Request URL : /collections/
+{	
+	"collection":{
+		"cno":59,
+		"userId":"admin3",
+		"collectionName":"BestCollection"
+	},
+	"songs":[
+		{	
+			"sno":70,
+			"musicName":"정준일",
+			"singer":"고백"
+		},
+		{
+			"sno":71,
+			"musicName":"임재범",
+			"singer":"고해"
+		}
+	],
+	"tags":[
+		{
+		"tno":46,
+		"tag":"yoyo"
+		},
+		{
+		"tno":47,
+		"tag":"good"
+		}
+	]	
+}
+
+1-5) 컬렉션 삭제
+Request URL : http://localhost:8081/ShareMusic/collections/56
+
+1-6) 최근 팔로워들의 업데이트 목록 조회
+Request URL : http://localhost:8081/ShareMusic/collections/recent/followers/admin
+
+2-1) 이미지 텍스트 인식
+Request URL : /ocr/
+
+3-1) 좋아요 등록
+Request URL : http://localhost:8081/ShareMusic/collections/likes/
+{
+		"cno":55,
+		"fromUserId":"admin2"
+}
+
+3-2) 특정 컬렉션에 대한 좋아요 유저리스트 조회
+Request URL : http://localhost:8081/ShareMusic/collections/likes/55
+
+3-3) 특정 컬렉션에 대한 좋아요 수 조회
+Request URL : http://localhost:8081/ShareMusic/collections/likes/count/55
+
+3-4) 좋아요 취소
+Request URL : http://localhost:8081/ShareMusic/collections/likes/55/admin2
+
+4-1) 댓글 등록
+Request URL : http://localhost:8081/ShareMusic/collections/replys/
+{
+		"cno":55,
+		"fromUserId":"admin2",
+		"content":"wow good ~"
+}
+
+4-2) 특정 댓글 조회
+Request URL : http://localhost:8081/ShareMusic/collections/replys/13
+
+4-3) 특정 컬렉션에 대한 모든 댓글들 조회
+Request URL : http://localhost:8081/ShareMusic/collections/replys/all/55
+
+4-4) 특정 컬렉션에 대한 댓글 수정
+Request URL : http://localhost:8081/ShareMusic/collections/replys/
+{
+		"rno":13,
+		"content":"babay"
+}
+
+4-5) 특정 댓글 삭제
+Request URL : http://localhost:8081/ShareMusic/collections/replys/13
+
+5-1) 회원 정보 등록
+Request URL : http://localhost:8081/ShareMusic/members/
+{
+		"userId":"user1",
+		"userPw":"user1pw",
+		"userName":"alice",
+		"userEmail":"alice@naver.com",
+		"userBirthYear":1994,
+		"userBirthMonth":1,
+		"userBirthDay":3
+		
+}
+
+5-2) 회원 정보 조회
+Request URL : http://localhost:8081/ShareMusic/members/admin
+
+5-3) 회원 정보 수정
+Request URL : http://localhost:8081/ShareMusic/members/
+{
+		"userId":"user1",
+		"userPw":"user1pw",
+		"userName":"alice",
+		"userEmail":"updddd@naver.com",
+		"userBirthYear":1994,
+		"userBirthMonth":1,
+		"userBirthDay":3
+		
+}
+
+5-4) 회원 정보 삭제
+Request URL : http://localhost:8081/ShareMusic/members/user1
+
+5-5) 아이디 중복 검사
+Request URL : http://localhost:8081/ShareMusic/members/check/admin
+
+5-6) 로그인 검사
+Request URL : http://localhost:8081/ShareMusic/members/doLogin
+
+6-1) 팔로우 추가
+Request URL : http://localhost:8081/ShareMusic/members/follows/
+{
+		"fromUserId":"admin3",
+		"toUserId":"admin2"
+}
+
+6-2) 팔로워 조회
+Request URL : http://localhost:8081/ShareMusic/members/follows/follower/admin
+
+6-3) 팔로잉 조회
+Request URL : http://localhost:8081/ShareMusic/members/follows/following/admin
+
+6-4) 팔로우 취소
+Request URL : http://localhost:8081/ShareMusic/members/follows/admin/admin2
+
+7-1) 태그로 검색
+Request URL : http://localhost:8081/ShareMusic/search/tag/tag7
+
+7-2) 컬렉션명으로 검색
+Request URL : http://localhost:8081/ShareMusic/search/collectionname/adminCollection3u
+
+7-3) 곡명으로 검색
+Request URL : http://localhost:8081/ShareMusic/search/musicname/Tell me
+
+7-4) 사용자 검색
+Request URL : http://localhost:8081/ShareMusic/search/userid/admin
+
+8-1) 곡 등록
+Request URL : http://localhost:8081/ShareMusic/collections/songs/
+{
+		"cno":59,
+		"musicName":"아름다워",
+		"singer":"창모"
+}
+
+8-2) 특정 컬렉션에 대한 곡 리스트 조회
+Request URL : http://localhost:8081/ShareMusic/collections/songs/cno/59
+
+8-3) 특정 곡 조회
+Request URL : http://localhost:8081/ShareMusic/collections/songs/sno/70
+
+8-4) 곡 수정
+Request URL : http://localhost:8081/ShareMusic/collections/songs/
+{
+		"sno":59,
+		"musicName":"초사이언",
+		"singer":"한요한"
+}
+
+8-5) 곡 삭제
+Request URL : http://localhost:8081/ShareMusic/collections/songs/59
+
+9-1) 태그 등록
+Request URL : http://localhost:8081/ShareMusic/collections/tags/
+{
+		"cno":59,
+		"tag":"new2"
+}
+
+9-2) 특정 태그 조회
+Request URL : http://localhost:8081/ShareMusic/collections/tags/48
+
+9-3) 특정 컬렉션에 대한 모든 태그들 조회
+Request URL : http://localhost:8081/ShareMusic/collections/tags/all/59
+
+9-4) 특정 태그 수정
+Request URL : http://localhost:8081/ShareMusic/collections/tags/
+{
+		"tno":49,
+		"tag":"newUpdate"
+}
+
+9-5) 특정 태그 삭제
+Request URL : http://localhost:8081/ShareMusic/collections/tags/49
