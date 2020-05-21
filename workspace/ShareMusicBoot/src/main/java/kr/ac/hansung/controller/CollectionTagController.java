@@ -20,14 +20,14 @@ import kr.ac.hansung.service.CollectionTagService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/collection/tag")
+@RequestMapping("/collections/tags")
 public class CollectionTagController {
 
 	@Autowired
 	private CollectionTagService tagService;
 
 	//특정 컬렉션에 태그 추가
-	@PostMapping("/new")
+	@PostMapping("/")
 	public ResponseEntity<String> insertTag(@RequestBody TagVO tag) {
 
 		return tagService.insertCollectionTag(tag) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
@@ -51,7 +51,6 @@ public class CollectionTagController {
 	@GetMapping("/all/{cno}")
 	public ResponseEntity<List<TagVO>> getCollectionTags(@PathVariable("cno") int cno) {
 		List<TagVO> tags = tagService.getCollectionTags(cno);
-		
 		return new ResponseEntity<>(tags, HttpStatus.OK);
 	}
 
@@ -66,6 +65,7 @@ public class CollectionTagController {
 	//특정 컬렉션의 특정 태그 delete
 	@DeleteMapping("/{tno}")
 	public ResponseEntity<String> deleteTag(@PathVariable("tno") int tno) {
+	
 		return tagService.deleteCollectionTag(tno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}

@@ -30,14 +30,19 @@ public class CollectionLikeDao {
 		return jdbcTemplate.update(stmt, new Object[] {cno,fromUserId}); //update된 레코드갯수가 리턴됨
 	}
 	
-	public List<String> getColletionLikeMembers(int cno){
+	public List<LikeVO> getColletionLikes(int cno){
 		String stmt = "select from_user_id from tb_collection_like where cno = '" + cno + "'";
 		
-		return jdbcTemplate.query(stmt, new RowMapper<String>() {
+		return jdbcTemplate.query(stmt, new RowMapper<LikeVO>() {
 
 			@Override
-			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				String like = rs.getString("from_user_id");
+			public LikeVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				LikeVO like = new LikeVO();
+				
+				like.setCno(cno);
+				String likeUser = rs.getString("from_user_id");
+				like.setFromUserId(likeUser);
+				
 				
 				return like;
 			}

@@ -2,20 +2,22 @@ package kr.ac.hansung.model;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
+import kr.ac.hansung.model.CollectionVO;
+import kr.ac.hansung.model.SongVO;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class CollectionDTO {
+	private CollectionVO collection;
+	private List<SongVO> songs;
+	private List<TagVO> tags;
+	private List<LikeVO> likes;
+	private List<ReplyVO> replys;
 	
-	private String collectionName;
-	private List<CollectionVO> list;	
-	private Criteria cri;
-
-
 }

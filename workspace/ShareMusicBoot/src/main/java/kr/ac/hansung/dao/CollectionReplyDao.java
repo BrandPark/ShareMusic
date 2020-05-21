@@ -72,16 +72,13 @@ public class CollectionReplyDao {
 	
 	//U
 	public int updateCollectionReply(ReplyVO reply) {
-		String stmt = "update tb_collection_reply set content=? where rno='";
-		
+		String stmt = "update tb_collection_reply set content=? where rno=?";
 		return jdbcTemplate.update(stmt, new Object[] {reply.getContent(),reply.getRno()}); //update된 레코드갯수가 리턴됨
 	}
 	
 	//D
 	public int deleteCollectionReply(int rno) {
-		
 		String stmt = "delete from tb_collection_reply where rno=?";
-		
 		return jdbcTemplate.update(stmt,new Object [] {rno});
 	}
 

@@ -18,9 +18,6 @@
 --
 -- Table structure for table `tb_authorities`
 --
-
-USE sharemusic;
-
 DROP TABLE IF EXISTS `tb_authorities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -38,7 +35,7 @@ CREATE TABLE `tb_authorities` (
 
 LOCK TABLES `tb_authorities` WRITE;
 /*!40000 ALTER TABLE `tb_authorities` DISABLE KEYS */;
-INSERT INTO `tb_authorities` VALUES ('admin','ROLE_USER'),('admin2','ROLE_USER'),('admin3','ROLE_USER'),('jyh2','ROLE_USER');
+INSERT INTO `tb_authorities` VALUES ('admin','ROLE_ADMIN'),('admin','ROLE_USER'),('admin2','ROLE_USER'),('admin3','ROLE_USER'),('jyh2','ROLE_USER');
 /*!40000 ALTER TABLE `tb_authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,13 +49,13 @@ DROP TABLE IF EXISTS `tb_collection`;
 CREATE TABLE `tb_collection` (
   `cno` int NOT NULL AUTO_INCREMENT,
   `user_id` varchar(20) NOT NULL,
-  `col_name` varchar(20) NOT NULL,
+  `col_name` varchar(100) NOT NULL,
   `reg_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `mod_date` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`cno`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `tb_collection_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +64,7 @@ CREATE TABLE `tb_collection` (
 
 LOCK TABLES `tb_collection` WRITE;
 /*!40000 ALTER TABLE `tb_collection` DISABLE KEYS */;
-INSERT INTO `tb_collection` VALUES (1,'admin','컬렉션1','2020-03-31 14:03:02','2020-03-31 14:03:02'),(2,'admin','컬렉션2','2020-03-31 18:34:56','2020-03-31 20:46:45'),(3,'admin3','컬렉션3','2020-03-31 20:42:52','2020-03-31 20:46:45'),(7,'admin3','update컬렉션','2020-03-31 20:48:19','2020-04-01 20:04:58');
+INSERT INTO `tb_collection` VALUES (50,'admin','adminCollection1','2020-05-19 20:18:08','2020-05-19 20:18:08'),(51,'admin','adminCollection2','2020-05-19 20:19:06','2020-05-19 20:19:06'),(52,'admin2','admin2Collection1','2020-05-19 20:19:49','2020-05-19 20:19:49'),(53,'admin2','admin2Collection2','2020-05-19 20:20:31','2020-05-19 20:20:31'),(54,'admin3','admin3Collection1','2020-05-19 20:21:03','2020-05-19 20:21:03'),(55,'admin3','adminCollection3u','2020-05-19 20:21:35','2020-05-20 19:13:50'),(57,'admin','adminCollection3','2020-05-19 21:06:46','2020-05-19 21:06:46'),(58,'admin','adminCollection3','2020-05-20 18:34:39','2020-05-20 18:34:39'),(59,'admin3','BestCollection','2020-05-20 19:44:31','2020-05-20 19:44:31');
 /*!40000 ALTER TABLE `tb_collection` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +89,7 @@ CREATE TABLE `tb_collection_like` (
 
 LOCK TABLES `tb_collection_like` WRITE;
 /*!40000 ALTER TABLE `tb_collection_like` DISABLE KEYS */;
-INSERT INTO `tb_collection_like` VALUES (1,'admin'),(1,'admin2');
+INSERT INTO `tb_collection_like` VALUES (55,'admin');
 /*!40000 ALTER TABLE `tb_collection_like` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,7 +109,7 @@ CREATE TABLE `tb_collection_reply` (
   KEY `fk_tb_collection_reply_idx` (`cno`),
   KEY `fk_tb_collection_reply_from_user_id_idx` (`from_user_id`),
   CONSTRAINT `fk_tb_collection_reply_cno` FOREIGN KEY (`cno`) REFERENCES `tb_collection` (`cno`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +118,7 @@ CREATE TABLE `tb_collection_reply` (
 
 LOCK TABLES `tb_collection_reply` WRITE;
 /*!40000 ALTER TABLE `tb_collection_reply` DISABLE KEYS */;
-INSERT INTO `tb_collection_reply` VALUES (3,1,'admin2','감성 굿굿입니다'),(4,1,'jyh2','대박대박');
+INSERT INTO `tb_collection_reply` VALUES (9,55,'admin','It\'s very nice'),(10,55,'admin','my style~'),(11,55,'admin','Good~'),(12,55,'admin2','My name is admin2');
 /*!40000 ALTER TABLE `tb_collection_reply` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,10 +134,11 @@ CREATE TABLE `tb_collection_song` (
   `cno` int NOT NULL,
   `music_name` varchar(100) NOT NULL,
   `singer` varchar(100) NOT NULL,
+  `video_id` varchar(100) NOT NULL,
   PRIMARY KEY (`sno`),
   KEY `FOREIGN` (`cno`),
   CONSTRAINT `fk_tb_collection_song_cno` FOREIGN KEY (`cno`) REFERENCES `tb_collection` (`cno`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +147,7 @@ CREATE TABLE `tb_collection_song` (
 
 LOCK TABLES `tb_collection_song` WRITE;
 /*!40000 ALTER TABLE `tb_collection_song` DISABLE KEYS */;
-INSERT INTO `tb_collection_song` VALUES (1,1,'방탄소년단','헬로우'),(2,1,'우디','이노래가'),(3,1,'허각','하늘을'),(5,3,'get','어반자카파'),(6,7,'update','임재현'),(7,7,'testmusic3','testsinger3');
+INSERT INTO `tb_collection_song` VALUES (53,50,'박재범','몸매','gx_mg-1WhWw'),(54,50,'씨야','미친사랑의노래','MqeZPPqzJJo'),(55,51,'사랑 안해','백지영','jN0uXBwKn8w'),(56,52,'한동근','보통같으면','f1Job7kNJ8Y'),(57,52,'한동근','그대라는 사치','WYy2fROj7uU'),(58,53,'걸스데이','반짝반짝','EEEIN-mtN6c'),(60,54,'Tell me','Tell me','3vVHy0XoIN4'),(61,54,'남진','둥지','OX0XWuYQ8XE'),(62,55,'비','깡','Y-yfW9XBB2Q'),(63,55,'창모','메테오','lYgYR5rtZMs'),(66,57,'아웃사이더','외톨이','t6DdXcegr9E'),(67,57,'바이브','미친거니','1Z_U1pube1U'),(68,58,'아웃사이더','외톨이','t6DdXcegr9E'),(69,58,'바이브','미친거니','1Z_U1pube1U'),(70,59,'정준일','고백','LHUAmHYOXFM'),(71,59,'임재범','고해','yPZrUOMHlvM'),(72,59,'아름다워','창모','yPZrUOMHlvM');
 /*!40000 ALTER TABLE `tb_collection_song` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +165,7 @@ CREATE TABLE `tb_collection_tag` (
   PRIMARY KEY (`tno`),
   KEY `fk_tb_collection_tag_idx` (`cno`),
   CONSTRAINT `fk_tb_collection_tag` FOREIGN KEY (`cno`) REFERENCES `tb_collection` (`cno`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +174,7 @@ CREATE TABLE `tb_collection_tag` (
 
 LOCK TABLES `tb_collection_tag` WRITE;
 /*!40000 ALTER TABLE `tb_collection_tag` DISABLE KEYS */;
-INSERT INTO `tb_collection_tag` VALUES (4,1,'a'),(5,1,'b'),(6,1,'c');
+INSERT INTO `tb_collection_tag` VALUES (28,50,'tag1'),(29,50,'tag2'),(30,51,'tag3'),(31,51,'tag4'),(32,52,'tag3'),(33,52,'tag4'),(34,53,'tag5'),(35,53,'tag6'),(36,54,'tag5'),(37,54,'tag6'),(38,55,'tag7'),(39,55,'tag8'),(42,57,'tag9'),(43,57,'tag10'),(44,58,'tag9'),(45,58,'tag10'),(46,59,'yoyo'),(47,59,'good'),(48,59,'new');
 /*!40000 ALTER TABLE `tb_collection_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +201,7 @@ CREATE TABLE `tb_follow` (
 
 LOCK TABLES `tb_follow` WRITE;
 /*!40000 ALTER TABLE `tb_follow` DISABLE KEYS */;
-INSERT INTO `tb_follow` VALUES ('admin','admin2'),('admin','admin3'),('admin2','admin'),('admin2','admin3');
+INSERT INTO `tb_follow` VALUES ('admin','admin3'),('admin2','admin'),('admin2','admin3'),('admin3','admin2');
 /*!40000 ALTER TABLE `tb_follow` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,7 +230,7 @@ CREATE TABLE `tb_user` (
 
 LOCK TABLES `tb_user` WRITE;
 /*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
-INSERT INTO `tb_user` VALUES ('admin','{noop}adminpw','홍길동','a@naver.com','1994-10-04',1),('admin2','{noop}adminpw2','홍길삼','b@naver.com','1994-10-11',1),('admin3','{noop}adminpw3','홍길북','c@naver.com','1991-10-11',1),('jyh2','{noop}1q2w3e4r','updateyhjeon2','adsf2@naver.com','1994-10-04',1);
+INSERT INTO `tb_user` VALUES ('admin','adminpw','홍길동','a@naver.com','1994-10-04',1),('admin2','adminpw2','홍길삼','b@naver.com','1994-10-11',1),('admin3','adminpw3','홍길북','c@naver.com','1991-10-11',1),('jyh2','1q2w3e4r','updateyhjeon2','adsf2@naver.com','1994-10-04',1);
 /*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -245,4 +243,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-13 19:19:24
+-- Dump completed on 2020-05-21 15:59:47

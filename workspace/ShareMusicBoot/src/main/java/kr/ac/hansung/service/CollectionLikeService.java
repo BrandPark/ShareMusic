@@ -18,8 +18,8 @@ public class CollectionLikeService {
 		return likeDao.insertColletionLike(like);
 	}
 	
-	public List<String> getColletionLikeMembers(int cno) {
-		return likeDao.getColletionLikeMembers(cno);
+	public List<LikeVO> getColletionLikes(int cno) {
+		return likeDao.getColletionLikes(cno);
 	}
 	
 	public int getColletionLikeCount(int cno) {

@@ -19,15 +19,14 @@ import kr.ac.hansung.service.CollectionLikeService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/collection//like")
+@RequestMapping("/collections/likes")
 public class CollectionLikeController {
 	@Autowired
 	private CollectionLikeService likeService;
 	
 	//해당 컬렉션에 대한 좋아요 삽입
-	@PostMapping("/new")
+	@PostMapping("/")
 	public ResponseEntity<String> insertColletionLike(@RequestBody LikeVO like) {
-		
 		return likeService.insertColletionLike(like) == 1 ? 
 				new ResponseEntity<>("success",HttpStatus.OK) :
 				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -35,25 +34,23 @@ public class CollectionLikeController {
 	
 	//해당 컬렉션에 대한 좋아요 유저아이디 리스트 조회
 	@GetMapping("/{cno}")
-	public ResponseEntity<List<String>> getColletionLikeMembers(@PathVariable("cno") int cno) {
-		List<String> likes = likeService.getColletionLikeMembers(cno);
-		
+	public ResponseEntity<List<LikeVO>> getColletionLikeMembers(@PathVariable("cno") int cno) {
+		List<LikeVO> likes = likeService.getColletionLikes(cno);
 		return new ResponseEntity<>(likes,HttpStatus.OK);
 	}
 	
 	//좋아요 수 조회
 	@GetMapping("/count/{cno}")
 	public ResponseEntity<Integer> getColletionLikeCount(@PathVariable("cno") int cno){
-		
 		int likeCount = likeService.getColletionLikeCount(cno);
-		
 		return new ResponseEntity<>(likeCount,HttpStatus.OK);
 	}
 	
-	//좋아효 취소
+	//좋아요 취소
 	@DeleteMapping(value="/{cno}/{fromUserId}")
 	public ResponseEntity<String> deleteColletionLike(@PathVariable("cno") int cno,
 			@PathVariable("fromUserId") String fromUserId) {
+		
 		return likeService.deleteColletionLike(cno,fromUserId) != 0
 				? new ResponseEntity<String>("success",HttpStatus.OK) :
 				  new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);

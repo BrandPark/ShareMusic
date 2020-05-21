@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MainPage from './components/MainPage';
 import LoginPage from './components/LoginPage';
 import IframeTest from './components/IframeTest';
+import Test from './components/Test';
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -17,11 +18,12 @@ function App() {
   }
   return (
     <>
-    <Router>
+    <Test></Test>
+    {/* <Router>
       <Route exact path="/login" render={(props) => <LoginPage auth={auth} onCommunicate={onCommunicate} {...props}/>} />
       <Route exact path="/" render={(props) => <MainPage auth={auth} userId={userId} onCommunicate={onCommunicate} {...props}/>} />
       <Route exact path='/i' component={IframeTest} />
-    </Router>
+    </Router> */}
     </>
   );
 }

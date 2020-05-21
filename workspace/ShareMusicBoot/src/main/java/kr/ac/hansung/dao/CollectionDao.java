@@ -1,14 +1,19 @@
 package kr.ac.hansung.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.hansung.model.CollectionVO;
@@ -28,7 +33,20 @@ public class CollectionDao {
 		String collectionName = collection.getCollectionName();
 		String stmt = "insert into tb_collection(user_id,col_name) values(?,?)";
 		
-		return jdbcTemplate.update(stmt, new Object[] {userId,collectionName}); //update된 레코드갯수가 리턴됨
+		GeneratedKeyHolder holder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator() {
+		    @Override
+		    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+		        PreparedStatement statement = con.prepareStatement(stmt, Statement.RETURN_GENERATED_KEYS);
+		        statement.setString(1, userId);
+		        statement.setString(2, collectionName);
+		        return statement;
+		    }
+		}, holder);
+		
+		return holder.getKey().intValue();
+		
+//		return jdbcTemplate.update(stmt, new Object[] {userId,collectionName}); //update된 레코드갯수가 리턴됨
 	}
 	
 	//사용자id로 모든 컬렉션 정보 조회 , 최근에 등록된 순으로 정렬
@@ -75,8 +93,8 @@ public class CollectionDao {
 	//컬렉션 이름 변경
 	public int updateCollection(CollectionVO collection) {
 		
-		String stmt = "update tb_collection set col_name = ? where cno = ?" ;
-		return jdbcTemplate.update(stmt, new Object[] {collection.getCollectionName(),collection.getCno()}); //update된 레코드갯수가 리턴됨
+		String stmt = "update tb_collection set col_name = ? where user_id = ? and cno = ? ";
+		return jdbcTemplate.update(stmt, new Object[] {collection.getCollectionName(), collection.getUserId(), collection.getCno()}); //update된 레코드갯수가 리턴됨
 	}
 	
 	//컬렉션번호로 컬렉션 삭제
@@ -116,6 +134,14 @@ public class CollectionDao {
 				return collection;
 			}
 		});
+	}
+	
+	public int getNextCollectionId() {
+	String stmt = "select auto_increment "
+			+ "from information_schema.tables "
+			+ "where table_schema = 'sharemusic' and table_name = 'tb_collection'";
+		
+		return jdbcTemplate.queryForObject(stmt, Integer.class);
 	}
 
 

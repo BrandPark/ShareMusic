@@ -1,9 +1,14 @@
 package kr.ac.hansung.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import kr.ac.hansung.model.SongVO;
 
 @Service
 public class OCRService {
@@ -11,13 +16,30 @@ public class OCRService {
 	@Autowired
 	private CloudVisionTemplate cloudVisionTemplate;
 
-	public String getTesseract(MultipartFile file) {
+	public List<SongVO> getTesseract(MultipartFile file) {
 
+		String textFromImage = cloudVisionTemplate.extractTextFromImage(file.getResource());
 		
-			
-		String text = cloudVisionTemplate.extractTextFromImage(file.getResource());
+		List<SongVO> songs = new ArrayList<SongVO>();
+		
+		if (!textFromImage.equals("")) {
+			String[] textArray = textFromImage.split("\n");
 
-		return text;
+			for (int i = 0; i < textArray.length; i += 2) {
+				try {
+					SongVO song = new SongVO();
+					song.setMusicName(textArray[i]);
+					song.setSinger(textArray[i + 1]);
+					songs.add(song);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+			
+		}
+		
+		return songs;
 	}
 
 	// 들어온 문자열이 한글의 유니코드(0xAC00 - 0xD743)범위에 들어오는지 판단
