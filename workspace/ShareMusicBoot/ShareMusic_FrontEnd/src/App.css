@@ -1,0 +1,8 @@
+.hideError {
+    display:none;
+    color:red;
+}
+.showError {
+    display:block;
+    color:red;
+}
