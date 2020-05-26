@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Test = () => {
-    return (
-        <>
-        <h1>asdfasdf</h1>
-        <button className="btn" type="submit">
-            <span className="navbar-toggler-icon" style={{fontSize:"1.5em"}}></span>
-        </button>
-        </>
-    );
-};
+class Test extends Component {
+    onTest() {
+        // login rest api 호출
+        
+    }
+    render() {
+        return (
+            <button onClick={onTest}></button>
+        );
+    }
+}
 
 export default Test;

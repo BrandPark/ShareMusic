@@ -1,0 +1,100 @@
+/*제목*/
+.titlename{
+    text-align: center;
+    /* margin-top: 2em; */
+}
+
+/*부제*/
+.info{
+    text-align: center;
+    color: lightgray;
+}
+
+
+/*전체 속성*/
+.input-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*컬렉션 이미지, 이름 업로드 폼*/
+.filebox{
+    display: inline;
+}
+
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip:rect(0,0,0,0);
+    border: 0;
+}
+
+.filebox label {
+    display: inline-block;
+    padding: .5em .75em;
+    color: #0bc452;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    border: 1px solid #0bc452;
+    border-bottom-color: #0bc452;
+    border-radius: .25em;
+}
+
+/* named upload */
+.filebox .upload-name {
+    display: inline-block;
+    padding: .5em .75em;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #f5f5f5;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: .25em;
+    -webkit-appearance: none; /* 네이티브 외형 감추기 */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+
+@media(min-width: 768px) {
+    .filebox .upload-display {
+        display: inline-block;
+        margin-right: 4em;
+        margin-bottom: 0;
+    }
+}
+
+
+/* 미리보기 div */
+#View_area1{
+    width: 20em; 
+    height: 20em; 
+    color: black; 
+    margin: 1em;
+    display: inline;
+}
+
+/* 이미지 삽입 전 틀*/
+#preimg1{
+    width: 17em;
+    height: 17em;
+    border: 0.5px solid lightgray;
+    background-color: #fdfdfd;
+}
+
+/* 컬렉션 이름 input*/
+.filebox .form-control{
+    width: 20em;    
+}

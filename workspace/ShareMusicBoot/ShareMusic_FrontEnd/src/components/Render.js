@@ -1,31 +1,26 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import MainPage from './MainPage';
-import CompA from './CompA';
-import Header from './Header';
-import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import LoginPage from './LoginPage';
+import Header from './Header';
+import IframeTest from './IframeTest';
 
-const Render = () => {
-
-  const [auth, setAuth] = useState("false");
-  const onCommunicate = (aut) => {
-    console.log("onCommunicate on Render");
-    setAuth(aut);
-    console.log(aut + " , " + auth);
-  }
-  
-  return (
-    <>
-    <Router>
-        <Header></Header>
-        <Switch>
-          <Route exact path='/' render={() => <MainPage auth={auth} onCommunicate={onCommunicate}/>} />
-          <Route exact path='/login' render={() => <LoginPage auth={auth} onCommunicate={onCommunicate}/>}/>
-        </Switch>
-    </Router>
-    </>
+class Render extends Component {
+  render() {
+    const {userId, auth, history} = this.props;
+    console.log("RENDER!!!!!!!!!!!!!!!!!!!!!!");
+    return (
+      <>
+      {/* history={history} */}
+        <Header userId={userId} {...this.props}></Header>
+        <Router>
+          <Switch>
+          <Route path="/i" render={() => <IframeTest {...this.props}/>} />
+          <Route path="/main" render={(props) => <MainPage auth={auth} {...props}/>} />
+          </Switch>
+        </Router>
+      </>
     );
+  }
 };
 
 export default Render;
