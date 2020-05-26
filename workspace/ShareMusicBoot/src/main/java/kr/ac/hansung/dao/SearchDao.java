@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.hansung.model.CollectionVO;
+import kr.ac.hansung.model.Criteria;
 import kr.ac.hansung.model.MemberVO;
 
 @Repository
@@ -25,11 +26,12 @@ public class SearchDao {
 	}
 
 	// tag로 컬렉션들 검색
-	public List<CollectionVO> searchCollectionWithTag(String content) {
+	public List<CollectionVO> searchCollectionWithTag(String content, Criteria cri) {
 		String stmt = "select c.cno cno, c.user_id user_id, c.col_name col_name, c.reg_date reg_date, c.mod_date mod_date"
 				+ " from tb_collection_tag t, tb_collection c where "
-				+ "t.cno = c.cno and t.tag like '%" + content + "%' order by c.reg_date desc";
-
+				+ "t.cno = c.cno and t.tag like '%" + content + "%' order by c.reg_date desc"
+				+ " limit "+cri.getPageStart() + ", " + cri.getAmount();
+		
 		return jdbcTemplate.query(stmt, new RowMapper<CollectionVO>() {
 
 			@Override
@@ -48,8 +50,10 @@ public class SearchDao {
 	}
 	
 	// 컬렉션이름으로 컬렉션들 검색
-	public List<CollectionVO> searchCollectionWithName(String content) {
-		String stmt = "select * from tb_collection where col_name like '%" + content + "%' order by reg_date desc";
+	public List<CollectionVO> searchCollectionWithName(String content, Criteria cri) {
+		String stmt = "select * from tb_collection where col_name like '%" 
+				+ content + "%' order by reg_date desc" 
+				+ " limit "+cri.getPageStart() + ", " + cri.getAmount();
 		return jdbcTemplate.query(stmt, new RowMapper<CollectionVO>() {
 
 			@Override
@@ -67,10 +71,12 @@ public class SearchDao {
 	}
 
 	// 곡 제목으로 컬렉션 검색
-	public List<CollectionVO> searchCollectionWithMusicName(String content) {
+	public List<CollectionVO> searchCollectionWithMusicName(String content, Criteria cri) {
 		String stmt = "select c.cno cno, c.user_id user_id, c.col_name col_name, c.reg_date reg_date, c.mod_date mod_date"
 				+ " from tb_collection_song s, tb_collection c where "
-				+ "s.cno = c.cno and s.music_name like '%" + content + "%' order by c.reg_date desc";
+				+ "s.cno = c.cno and s.music_name like '%" + content 
+				+ "%' order by c.reg_date desc"
+				+ " limit "+cri.getPageStart() + ", " + cri.getAmount();
 		
 		return jdbcTemplate.query(stmt, new RowMapper<CollectionVO>() {
 
@@ -89,8 +95,9 @@ public class SearchDao {
 	}
 	
 	// 유저 아이디로 유저 검색
-	public List<MemberVO> searchMemberWithUserId(String content) {
-		String stmt = "select * from tb_user where user_id like '%" + content + "%'";
+	public List<MemberVO> searchMemberWithUserId(String content, Criteria cri) {
+		String stmt = "select * from tb_user where user_id like '%" + content + "%'"
+				+ " limit "+cri.getPageStart() + ", " + cri.getAmount();
 	
 		return jdbcTemplate.query(stmt, new RowMapper<MemberVO>() {
 

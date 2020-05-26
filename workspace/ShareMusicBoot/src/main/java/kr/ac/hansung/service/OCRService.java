@@ -16,7 +16,7 @@ public class OCRService {
 	@Autowired
 	private CloudVisionTemplate cloudVisionTemplate;
 
-	public List<SongVO> getTesseract(MultipartFile file) {
+	public List<SongVO> doOCR(MultipartFile file) {
 
 		String textFromImage = cloudVisionTemplate.extractTextFromImage(file.getResource());
 		

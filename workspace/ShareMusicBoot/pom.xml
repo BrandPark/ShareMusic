@@ -36,8 +36,24 @@
 
 	<dependencies>
 
+		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+
+
+		<!-- AWS-SDK -->
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.11.783</version>
+		</dependency>
+
+
 		<!-- YouTube Data V3 support -->
-		
 		<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-youtube -->
 		<dependency>
 			<groupId>com.google.apis</groupId>

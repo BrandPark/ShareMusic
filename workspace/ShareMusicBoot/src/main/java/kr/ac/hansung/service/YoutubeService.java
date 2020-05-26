@@ -38,6 +38,7 @@ public class YoutubeService {
 		JsonElement jelement = com.google.gson.JsonParser.parseString(response.toString());
 		JsonObject  jobject = jelement.getAsJsonObject();
 		JsonArray jarray = jobject.getAsJsonArray("items");
+		
 		jobject = jarray.get(0).getAsJsonObject().get("id").getAsJsonObject();
 		
 		String videoId = jobject.get("videoId").getAsString();

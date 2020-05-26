@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.ac.hansung.model.Criteria;
 import kr.ac.hansung.model.LikeVO;
 import kr.ac.hansung.service.CollectionLikeService;
 
@@ -34,8 +35,9 @@ public class CollectionLikeController {
 	
 	//해당 컬렉션에 대한 좋아요 유저아이디 리스트 조회
 	@GetMapping("/{cno}")
-	public ResponseEntity<List<LikeVO>> getColletionLikeMembers(@PathVariable("cno") int cno) {
-		List<LikeVO> likes = likeService.getColletionLikes(cno);
+	public ResponseEntity<List<LikeVO>> getColletionLikeMembers(@PathVariable("cno") int cno,
+			Criteria cri) {
+		List<LikeVO> likes = likeService.getColletionLikes(cno, cri);
 		return new ResponseEntity<>(likes,HttpStatus.OK);
 	}
 	

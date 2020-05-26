@@ -17,6 +17,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.hansung.model.CollectionVO;
+import kr.ac.hansung.model.Criteria;
 
 @Repository
 public class CollectionDao {
@@ -50,9 +51,11 @@ public class CollectionDao {
 	}
 	
 	//사용자id로 모든 컬렉션 정보 조회 , 최근에 등록된 순으로 정렬
-	public List<CollectionVO> getCollections(String userId){
+	public List<CollectionVO> getCollections(String userId, Criteria cri){
 		
-		String stmt = "select * from tb_collection where user_id = '" + userId + "' order by reg_date desc";
+		String stmt = "select * from tb_collection where user_id = '" + userId + "' order by reg_date desc"
+				+ " limit "+cri.getPageStart() + ", " + cri.getAmount();
+		
 		return jdbcTemplate.query(stmt, new RowMapper<CollectionVO>() {
 
 			@Override
@@ -105,9 +108,10 @@ public class CollectionDao {
 	}
 
 	//팔로워들의 최근 업데이트 컬력센 리스트 조회
-	public List<CollectionVO> getRecentCollectionsWithFollower(List<String> followers) {
+	public List<CollectionVO> getRecentCollectionsWithFollower(List<String> followers, Criteria cri) {
 		
-		String stmt = "select * from tb_collection where" ;
+		String stmt = "select * from tb_collection where"; 
+		
 		int cnt = 0;
 		
 		for(String user:followers) {
@@ -117,8 +121,9 @@ public class CollectionDao {
 				stmt += " or";
 			}
 		}
-		System.out.println(stmt);
-		stmt += " order by reg_date desc";
+		
+		stmt += " order by reg_date desc "
+		+ " limit "+cri.getPageStart() + ", " + cri.getAmount();
 		
 		return jdbcTemplate.query(stmt, new RowMapper<CollectionVO>() {
 

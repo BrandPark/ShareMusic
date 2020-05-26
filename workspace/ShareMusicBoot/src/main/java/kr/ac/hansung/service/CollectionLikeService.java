@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.ac.hansung.dao.CollectionLikeDao;
+import kr.ac.hansung.model.Criteria;
 import kr.ac.hansung.model.LikeVO;
 
 @Service
@@ -18,8 +19,8 @@ public class CollectionLikeService {
 		return likeDao.insertColletionLike(like);
 	}
 	
-	public List<LikeVO> getColletionLikes(int cno) {
-		return likeDao.getColletionLikes(cno);
+	public List<LikeVO> getColletionLikes(int cno, Criteria cri) {
+		return likeDao.getColletionLikes(cno, cri);
 	}
 	
 	public int getColletionLikeCount(int cno) {
