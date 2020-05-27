@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.ac.hansung.exception.UserException;
-import kr.ac.hansung.model.CollectionDTO;
 import kr.ac.hansung.model.MemberVO;
 import kr.ac.hansung.service.AWSService;
 import kr.ac.hansung.service.MemberSerivce;

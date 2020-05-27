@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import AddColl1 from './AddColl1';
 import Header from './Header';
+
 class MainPage extends Component {
     
     render() {
-        const {onCommunicate, userId, auth} = this.props;
-        console.log("auth::::" + auth);
-        console.log("userId::::" + userId);
+        const {userId, auth} = this.props;
 
         if(auth == false) {
             this.props.history.push("/login");
@@ -14,12 +13,10 @@ class MainPage extends Component {
 
         return (
             <>
-            <Header></Header>
-            <h1>{userId}</h1>
+            <Header userId={userId} {...this.props}></Header>
             <div>
-                Mainpage
+                메인페이지 입니다.
             </div>
-            
             </>
         );
     }
