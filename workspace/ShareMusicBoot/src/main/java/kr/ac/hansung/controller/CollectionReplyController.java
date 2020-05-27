@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.ac.hansung.model.Criteria;
 import kr.ac.hansung.model.ReplyVO;
 import kr.ac.hansung.service.CollectionReplyService;
 
@@ -49,8 +50,9 @@ public class CollectionReplyController {
 	
 	//특정 컬렉션의 모든 댓글들 조회
 	@GetMapping("/all/{cno}")
-	public ResponseEntity<List<ReplyVO>> getColletionReplys(@PathVariable("cno") int cno){
-		List<ReplyVO> replys = replyService.getCollectionReplys(cno);
+	public ResponseEntity<List<ReplyVO>> getColletionReplys(
+			@PathVariable("cno") int cno, Criteria cri){
+		List<ReplyVO> replys = replyService.getCollectionReplys(cno, cri);
 		return new ResponseEntity<>(replys,HttpStatus.OK);
 	}
 	

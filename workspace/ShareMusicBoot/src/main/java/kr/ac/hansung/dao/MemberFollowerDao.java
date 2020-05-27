@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import kr.ac.hansung.model.Criteria;
 import kr.ac.hansung.model.FollowerVO;
 
 @Repository
@@ -30,23 +31,25 @@ public class MemberFollowerDao {
 		return jdbcTemplate.update(stmt,new Object[] {fromUserId,toUserId});
 	}
 	
-	public List<String> getMemberFollowing(String userId){
-	
-		String stmt = "select from_user_id from_user_id from tb_follow where to_user_id = '" + userId + "'";
-		
+	public List<String> getMemberAllFollowers(String userId) {
+		String stmt = "select to_user_id from tb_follow "
+				+ "where from_user_id = '" + userId + "'";
+				
 		return jdbcTemplate.query(stmt,new RowMapper<String>() {
 
 			@Override
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-				String follower = rs.getString("from_user_id");
+				String follower = rs.getString("to_user_id");
 				return follower;
 			}
 		});
 	}
 	
-	public List<String> getMemberFollower(String userId){
+	public List<String> getMemberFollowers(String userId, Criteria cri){
 		
-		String stmt = "select to_user_id from tb_follow where from_user_id = '" + userId + "'";
+		String stmt = "select to_user_id from tb_follow "
+				+ "where from_user_id = '" + userId + "'"
+				+ " limit "+cri.getPageStart() + ", " + cri.getAmount();
 		
 		return jdbcTemplate.query(stmt,new RowMapper<String>() {
 
@@ -58,13 +61,25 @@ public class MemberFollowerDao {
 		});
 	}
 	
+	public List<String> getMemberFollowings(String userId, Criteria cri){
+	
+		String stmt = "select from_user_id from_user_id from tb_follow "
+				+ "where to_user_id = '" + userId + "'"
+				+ " limit "+cri.getPageStart() + ", " + cri.getAmount();
+		
+		return jdbcTemplate.query(stmt,new RowMapper<String>() {
+
+			@Override
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				String follower = rs.getString("from_user_id");
+				return follower;
+			}
+		});
+	}
+	
 	public int deleteMemberFollower(String fromUserId,String toUserId) {
 		String stmt = "delete from tb_follow where from_user_id = ? and to_user_id =?";
 		return jdbcTemplate.update(stmt, new Object[] {fromUserId,toUserId}); //update된 레코드갯수가 리턴됨
 	}
 
-
-	
-	
-	
 }

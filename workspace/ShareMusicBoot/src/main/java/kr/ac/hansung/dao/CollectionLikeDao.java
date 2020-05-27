@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import kr.ac.hansung.model.Criteria;
 import kr.ac.hansung.model.LikeVO;
 
 @Repository
@@ -30,8 +31,10 @@ public class CollectionLikeDao {
 		return jdbcTemplate.update(stmt, new Object[] {cno,fromUserId}); //update된 레코드갯수가 리턴됨
 	}
 	
-	public List<LikeVO> getColletionLikes(int cno){
-		String stmt = "select from_user_id from tb_collection_like where cno = '" + cno + "'";
+	public List<LikeVO> getColletionLikes(int cno, Criteria cri){
+		String stmt = "select from_user_id from tb_collection_like "
+				+ "where cno = '" + cno + "'"
+				+ " limit "+ cri.getPageStart() + ", " + cri.getAmount();
 		
 		return jdbcTemplate.query(stmt, new RowMapper<LikeVO>() {
 

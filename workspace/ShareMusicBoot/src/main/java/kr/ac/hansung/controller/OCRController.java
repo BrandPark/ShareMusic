@@ -24,14 +24,14 @@ public class OCRController {
 	private OCRService ocrService;
 	
 	@PostMapping("/")
-	public ResponseEntity<List<SongVO>> doUploadImage(@RequestBody MultipartFile file) throws Exception {
-		List<SongVO> songs = ocrService.getTesseract(file);
+	public ResponseEntity<List<SongVO>> doOCR(@RequestBody MultipartFile file) throws Exception {
+		List<SongVO> songs = ocrService.doOCR(file);
 
 //		if(songs == null) {
 //			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 //		}
 		
 		return new ResponseEntity<>(songs, HttpStatus.OK);
-		
 	}
+
 }

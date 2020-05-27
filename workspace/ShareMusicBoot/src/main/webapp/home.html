@@ -5,6 +5,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-webapp
+	<form name="fileUpload" method="post"
+		action="/ShareMusic/action"
+		enctype="multipart/form-data">
+		<label>Select File</label> <br /> <input type="file" name="file"/>
+		<input type="submit" name="submit" value="Upload" />
+	</form>
+	
+	
+	<!-- <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/test21.png" alt="Girl in a jacket" width="200" height="200"> -->
 </body>
 </html>

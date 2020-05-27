@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import kr.ac.hansung.model.Criteria;
 import kr.ac.hansung.model.ReplyVO;
 
 @Repository
@@ -52,8 +53,11 @@ public class CollectionReplyDao {
 		});
 	}
 	
-	public List<ReplyVO> getCollectionReplys(int cno) {
-	String stmt = "select * from tb_collection_reply where cno = '" + cno + "'";
+	public List<ReplyVO> getCollectionReplys(int cno, Criteria cri) {
+	String stmt = "select * from tb_collection_reply "
+			+ "where cno = '" + cno + "'"
+			+ " limit "+ cri.getPageStart() + ", " + cri.getAmount();
+			
 		
 		return jdbcTemplate.query(stmt, new RowMapper<ReplyVO>() {
 

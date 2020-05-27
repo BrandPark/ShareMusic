@@ -2,8 +2,6 @@ package kr.ac.hansung.model;
 
 import java.util.List;
 
-import kr.ac.hansung.model.CollectionVO;
-import kr.ac.hansung.model.SongVO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

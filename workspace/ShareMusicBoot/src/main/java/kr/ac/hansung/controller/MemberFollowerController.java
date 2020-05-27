@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.ac.hansung.model.Criteria;
 import kr.ac.hansung.model.FollowerVO;
 import kr.ac.hansung.service.MemberFollowerSerivce;
 
@@ -38,15 +39,17 @@ public class MemberFollowerController {
 	
 	//해당 유저아이디에 대한 팔로워 조회
 	@GetMapping("/follower/{userId}")
-	public ResponseEntity<List<String>> getMemberFollower(@PathVariable("userId") String userId) {
-		List<String> followers = followerService.getMemberFollower(userId);
+	public ResponseEntity<List<String>> getMemberFollower(
+			@PathVariable("userId") String userId, Criteria cri) {
+		List<String> followers = followerService.getMemberFollowers(userId, cri);
 		return new ResponseEntity<>(followers,HttpStatus.OK);
 	}
 	
 	//해당 유저아이디에 대한 팔로잉 조회
 	@GetMapping("/following/{userId}")
-	public ResponseEntity<List<String>> getMemberFollowing(@PathVariable("userId") String userId) {
-		List<String> followings = followerService.getMemberFollowing(userId);
+	public ResponseEntity<List<String>> getMemberFollowing(
+			@PathVariable("userId") String userId, Criteria cri) {
+		List<String> followings = followerService.getMemberFollowings(userId, cri);
 		return new ResponseEntity<>(followings,HttpStatus.OK);
 	}
 	

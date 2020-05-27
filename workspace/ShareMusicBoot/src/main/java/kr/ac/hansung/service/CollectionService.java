@@ -3,13 +3,11 @@ package kr.ac.hansung.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import kr.ac.hansung.dao.CollectionDao;
 import kr.ac.hansung.model.CollectionVO;
-import kr.ac.hansung.model.SongVO;
+import kr.ac.hansung.model.Criteria;
 
 @Service
 public class CollectionService {
@@ -20,8 +18,8 @@ public class CollectionService {
 		return collectionDao.insertCollection(collection);
 	}
 
-	public List<CollectionVO> getCollections(String userId) {
-		return collectionDao.getCollections(userId);
+	public List<CollectionVO> getCollections(String userId, Criteria cri) {
+		return collectionDao.getCollections(userId, cri);
 	}
 
 	public CollectionVO getCollection(int cno) {
@@ -36,8 +34,8 @@ public class CollectionService {
 		return collectionDao.deleteCollection(cno);
 	}
 
-	public List<CollectionVO> getRecentCollectionsWithFollower(List<String> followers) {
-		return collectionDao.getRecentCollectionsWithFollower(followers);
+	public List<CollectionVO> getRecentCollectionsWithFollower(List<String> followers, Criteria cri) {
+		return collectionDao.getRecentCollectionsWithFollower(followers, cri);
 	}
 
 	public int getNextCollectionId() {

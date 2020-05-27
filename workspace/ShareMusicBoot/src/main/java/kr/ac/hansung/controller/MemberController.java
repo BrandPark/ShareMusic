@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ac.hansung.exception.UserException;
+import kr.ac.hansung.model.CollectionDTO;
 import kr.ac.hansung.model.MemberVO;
+import kr.ac.hansung.service.AWSService;
 import kr.ac.hansung.service.MemberSerivce;
 
 @RestController
@@ -25,13 +29,27 @@ import kr.ac.hansung.service.MemberSerivce;
 public class MemberController {
 	@Autowired
 	private MemberSerivce memberService;
+	@Autowired
+	private AWSService awsService;
 
 	// 사용자 정보 등록
 	@PostMapping("/")
-	public ResponseEntity<String> insertMember(@RequestBody MemberVO memberVO) {
+	public ResponseEntity<String> insertMember(MemberVO memberVO, @RequestParam(required = false) MultipartFile file) {
 
-		return memberService.insertMember(memberVO) ? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		if (memberService.checkUserId(memberVO.getUserId()) >= 1) {
+			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+
+			awsService.createFolder(memberVO.getUserId());
+
+			if (file != null) {
+				awsService.doUploadFile(file, memberVO.getUserId(), memberVO.getUserId());
+			}
+			memberService.insertMember(memberVO);
+
+		}
+		return new ResponseEntity<>("success", HttpStatus.OK);
+
 	}
 
 	// 사용자 정보 조회
@@ -44,7 +62,7 @@ public class MemberController {
 	// 사용자 정보 수정
 	@PutMapping("/")
 	public ResponseEntity<String> updateUser(@RequestBody MemberVO memberVO) {
-		
+
 		return memberService.updateMember(memberVO) ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
@@ -53,8 +71,14 @@ public class MemberController {
 	@DeleteMapping(value = "/{userId}")
 	public ResponseEntity<String> removeMember(@PathVariable("userId") String userId) {
 
-		return memberService.deleteMember(userId) ? new ResponseEntity<String>("success", HttpStatus.OK)
-				: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		if (memberService.checkUserId(userId) >= 1) {
+			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			awsService.deleteFolder(userId);
+			memberService.deleteMember(userId);
+		}
+		
+		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 
 	// 아이디 중복 검사
