@@ -29,7 +29,8 @@ const LoginPage = ({location, history, auth, onCommunicate}) => {
 
     const onLoginClick = (e) => {
         // login rest api 호출
-        fetch('http://localhost:8081/ShareMusic/members/doLogin', {
+        //fetch('http://localhost:8081/ShareMusic/members/doLogin', {
+        fetch("/ShareMusic/members/doLogin", {
             method :"POST",
             headers:{
               'content-type':'application/json'

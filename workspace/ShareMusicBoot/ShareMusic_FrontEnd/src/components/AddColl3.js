@@ -49,9 +49,9 @@ class AddColl3 extends Component {
         console.log("OCR!!");
 
         const formData = new FormData();
-        formData.append('file', this.state.selectedImg, this.state.selectedImg.name);
+        formData.append('file', this.state.selectedImg);
         console.log(this.state.selectedImg.name);
-        fetch('http://localhost:8081/ShareMusic/ocr/', {
+        fetch("/ShareMusic/ocr/", {
             method :"POST",
             body:formData
         })

@@ -103,15 +103,15 @@ public class MemberController {
 				if (auths.contains("ROLE_USER") || auths.contains("ROLE_ADMIN")) {
 					return new ResponseEntity<String>("success", HttpStatus.OK);
 				} else { // 권한이 없을 때
-					throw new UserException("NotExistAuthority");
+					return new ResponseEntity<String>("NotExistAuthority", HttpStatus.OK);
 				}
 
 			} else { // 패스워드가 존재하지 않을 때
-				throw new UserException("NotMismatchPassword");
+				return new ResponseEntity<String>("NotExistPassword", HttpStatus.OK);
 			}
 
 		} else { // 일치하는 아이디가 없을 때
-			throw new UserException("NotExistUser");
+			return new ResponseEntity<String>("NotExistUserId", HttpStatus.OK);
 		}
 
 	}

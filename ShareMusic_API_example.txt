@@ -1,5 +1,39 @@
 1-1) 컬렉션 등록
 Request URL : /collections/
+
+^^^
+{	
+	"collection":{
+		"userId":"admin",
+		"collectionName":"BestCollection1"
+	},
+	"songs":[
+		{
+          "sno":0,
+          "musicName":"gocka",
+          "singer":"gaa",
+          "videoId":null
+		},
+		{
+          "sno":0,
+          "musicName":"gockb",
+          "singer":"gab",
+          "videoId":null
+		}
+	],
+	"tags":[
+		{
+		"tag":"taa"
+		},
+		{
+		"tag":"taag"
+		}
+	]	
+}
+^^^
+
+
+
 {	
 	"collection":{
 		"userId":"admin3",

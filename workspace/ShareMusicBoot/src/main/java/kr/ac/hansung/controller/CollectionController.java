@@ -63,7 +63,7 @@ public class CollectionController {
 
 	// 컬렉션 삽입
 	@Transactional(rollbackFor = Exception.class)
-	@PostMapping("/")
+	@PostMapping("/new")
 	public ResponseEntity<String> insertCollection(CollectionDTO collectionDTO,
 			@RequestParam(required = false) MultipartFile file) {
 		
