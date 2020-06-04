@@ -1,8 +1,52 @@
 import React, { Component } from 'react';
 import '../css/modal.css';
-
+import defaultImg from '../images/defaultImg.PNG';
 class CollectionContent extends Component {
+    constructor(props) {
+        super(props);
+        console.log(props);
+        this.state={
+            likeColor:'',
+            imgURL:defaultImg,
+            tracks:'',
+            songs:[],
+            collectionInfo:{
+                collection:{
+                },
+                songs:[],
+                likes:[],
+                tags:[],
+                replys:[]
+            }
+        }
+    }
+
+    componentDidMount() {
+        const {match} = this.props;
+        if(true) {
+            fetch("/ShareMusic/collections/cno/" + match.params.cno, {
+                method :"GET"
+            })
+            .then(res=>res.json())
+            .then(data=> {
+                this.setState({
+                    collectionInfo:data,
+                    imgURL:"https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/"
+                    + data.collection.userId + "/"
+                    + data.collection.cno + "-"
+                    + data.collection.collectionName + ".png",
+                    // songs:data.collection.songs
+                    // tracks:data.collection.songs.length
+                });
+                
+                if(data.likes)
+          });
+        }
+    }
     render() {
+        console.log(this.state.imgURL);
+        const {match} = this.props;
+        const {imgURL, tracks, collectionInfo} = this.state;
         return (
             <section>
             <div className="main">
@@ -10,50 +54,57 @@ class CollectionContent extends Component {
                 <div className="profile">
                     <div id="image-box">
                     <img
-                        src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image2.png"
+                        src={imgURL}
                         className="collection-image"
                         alt="image"
                     />
                     </div>
 
                     <div className="container collection-information">
-                    <div className="row">
-                        <div id="collection-title" style={{fontSize:"4vh"}}>
-                        Chill out
+                        <div className="row">
+                            <div id="collection-title" style={{fontSize:"4vh"}}>
+                            {collectionInfo.collection.collectionName}
+                            </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <strong>hyongsoo</strong>
-                    </div>
-                    <div className="row">
-                        <strong>32&nbsp;</strong><small> Tracks</small>
-                    </div>
-                    <div className="row">
-                        <strong>20&nbsp;</strong><small>Likes</small>
-                    </div>
-
-                    <div className="row">
-                        <span id="tag">#sleepy #hello #lonely</span>
-                    </div>
-
-                    <div className="row" style={{width:"80%", marginTop:"0.5vh"}}>
-                        <div style={{display:"inline-block"}}>
-                        <span>      
-                        <i className="fas fa-heart fa-lg"
-                            style={{color:"#ED4956"}}
-                        ></i>
-                        </span>
+                        <div className="row">
+                            <strong>{collectionInfo.collection.userId}</strong>
+                        </div>
+                        <div className="row"> {/* {collectionInfo.collection.songs.length} */}
+                            <strong>{collectionInfo.songs.length}&nbsp;</strong><small>Tracks</small>
+                        </div>
+                        <div className="row">
+                            <strong>{collectionInfo.likes.length}&nbsp;</strong><small>Likes</small> 
                         </div>
 
-                        <div style={{display:"inline-block", marginLeft:"2vh"}}>
-                        <span> 
-                        <i className="far fa-comment fa-lg"
-                            datatoggle="modal"
-                            datatarget="#myModal"
-                        ></i>
-                        </span>
+                        <div className="row">
+
+                        {collectionInfo.tags.map((tag, i) => {
+                            return (
+                                <span id="tag" key={i}>
+                                    #{tag.tag}&nbsp;
+                                </span>
+                            );
+                        })}
                         </div>
-                    </div>
+
+                        <div className="row" style={{width:"80%", marginTop:"0.5vh"}}>
+                            <div style={{display:"inline-block"}}>
+                            <span> {/*#ED4956*/}
+                            <i className="fas fa-heart fa-lg" style={{color:"#ED4956"}} 
+                                onClick={onClickLike}
+                            ></i>
+                            </span>
+                            </div>
+
+                            <div style={{display:"inline-block", marginLeft:"2vh"}}>
+                            <span> 
+                            <i className="far fa-comment fa-lg"
+                                datatoggle="modal"
+                                datatarget="#myModal"
+                            ></i>
+                            </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 </div>

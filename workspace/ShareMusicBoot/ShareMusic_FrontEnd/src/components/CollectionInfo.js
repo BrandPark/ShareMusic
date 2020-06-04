@@ -13,7 +13,7 @@ class CollectionInfo extends Component {
     }
 
     onClick(e) {
-        this.props.history.push("/login");
+        this.props.history.push("/collection/" + this.props.cno);
     }
 
     render() {

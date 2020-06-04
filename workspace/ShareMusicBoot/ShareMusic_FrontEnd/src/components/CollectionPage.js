@@ -10,7 +10,7 @@ class CollectionPage extends Component {
         return (
             <>
             <Header2 userId={userId} {...this.props}></Header2>
-            <CollectionContent></CollectionContent>
+            <CollectionContent {...this.props}></CollectionContent>
             </>
         );
     }
