@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/addcoll1.css'
+// import '../css/addcoll1.css'
 //import {Link } from 'react-router-dom'
 
 

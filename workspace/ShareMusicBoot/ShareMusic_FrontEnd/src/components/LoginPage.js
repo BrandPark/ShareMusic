@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import '../css/login.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 
 const LoginPage = ({location, history, auth, onCommunicate}) => {
     const [userId, setUserId] = useState('');

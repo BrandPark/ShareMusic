@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../css/addcoll2.css'
+// import '../css/addcoll2.css'
 //import { Link } from 'react-router-dom';
 
 class AddColl2 extends Component {

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import AddColl1 from './AddColl1';
 import Header from './Header';
+import Header2 from './Header2';
+import MainContent from './MainContent';
+
+import '../css/mainPage.css';
 
 class MainPage extends Component {
     
@@ -13,10 +16,8 @@ class MainPage extends Component {
 
         return (
             <>
-            <Header userId={userId} {...this.props}></Header>
-            <div>
-                메인페이지 입니다.
-            </div>
+            <Header2 userId={userId} {...this.props}></Header2>
+            <MainContent userId={userId} {...this.props}></MainContent>
             </>
         );
     }

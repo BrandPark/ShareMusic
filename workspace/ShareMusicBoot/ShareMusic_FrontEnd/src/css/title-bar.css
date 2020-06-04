@@ -1,211 +1,402 @@
 @charset "UTF-8";
-.title-bar{
-    position: fixed;
-    z-index:2;
-    left:80px;
-    top:0;
-    width:100vw;
-    height:15vh;
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: right;
+
+.title-bar {
+  position: fixed;
+  z-index: 2;
+  left: 80px;
+  top: 0;
+  width: 100vw;
+  height: 15vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: right;
 }
 
-.title-bar .title{
+.title-bar .title {
+  position: absolute;
 
-    display:inline-block;
-    position:absolute;
-   
-    left:300px;
-    top:4.5vh;
-    transform:translate(-240px) scale(3);
-    transition: all 800ms cubic-bezier(.7, 0, .33, 1);
-    opacity:1;
+  left: 250px;
+  top: 4.5vh;
+  transform: translate(-240px);
+  transition: all 800ms cubic-bezier(0.8, 0, 0.33, 1);
+  opacity: 1;
 }
-.title-bar .title.slide{
-    transform:translate(80vw);
-    opacity:0;
-    pointer-events: none;
+.title-bar .title.slide {
+  transform: translate(100px);
+  pointer-events: none;
 }
-.title-bar .title > a{
-    color:white;
-    text-decoration: none;
-    font-size:xx-small;
+.title-bar .title > a {
+  color: white;
+  text-decoration: none;
+  font-size: 2rem;
 }
-.title-bar .title > a:hover{
-    text-decoration:none;
+.title-bar .title > a:hover {
+  text-decoration: none;
 }
-.title-bar .user{
-    position:absolute;
-    right:-100px; 
-    top:5vh;
-    font-size:20px;
-    
-    width:220px;
-    
-    transform:translateX(-230px);
-    transition: all 800ms cubic-bezier(0.9, 0, .33, 1);
+/*********************************************************
+                    User Dropdown Button
+ ***********************************************************/
+.title-bar .user {
+  position: absolute;
+  right: -100px;
+  top: 5vh;
+  font-size: 20px;
+  z-index: 2;
+  width: 200px;
+
+  transform: translateX(-230px);
+  transition: all 800ms cubic-bezier(0.9, 0, 0.33, 1);
 }
 
-.title-bar .user i{
-    margin-right:20px;
-    font-size:2rem;
-    color:white;
+.title-bar .user i {
+  margin-right: 20px;
+  font-size: 2rem;
+  color: white;
 }
 
 .user > .dropdown {
-    --arrow: #6C7486;
-    --arrowActive: #E4ECFA;
-    
-    width: 100%;
-    
-  }
-  
-  /* 셀렉트 태그를 안보이게 해줌 */
-  .user > .dropdown > select {    
-    display: none
-  }
-  /* dropdown button : user icon과 id, 화살표 모두 여기있음 */ 
-  .user > .dropdown > span {  
-    cursor: pointer;
-    
-    border-radius: 6px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-content: flex-end;
-    margin-right:20px;  /* 화살표와의 거리 */
-    color: white;
-  }
-  
+  --arrow: #6c7486;
+  --arrowActive: #e4ecfa;
 
-  /* 화살표 */
-  .dropdown > span::before, .dropdown > span::after {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    width: 8px;
-    height: 2px;
-    border-radius: 1px;
-    top: 50%;
-    right: 0;
-    background: var(--arrow);
-    transition: all .3s ease;
-  }
-  .dropdown > span:before {
-    margin-right: 4px;
-    -webkit-transform: scale(0.96, 0.8) rotate(50deg);
-            transform: scale(0.96, 0.8) rotate(50deg);
-  }
-  .dropdown > span:after {
-    -webkit-transform: scale(0.96, 0.8) rotate(-50deg);
-            transform: scale(0.96, 0.8) rotate(-50deg);
-  }
-  
-  .dropdown ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    z-index:inherit;
-    top: 30px;
-    right: 0;
-    border:2px solid #67bcf8;
-    background-color:#67bcf8;
-    border-radius: 6px;
-    overflow: hidden;
-    -webkit-transform-origin: 0 0;
-            transform-origin: 0 0;
-    transition: opacity 0.2s ease, visibility 0.2s ease, -webkit-transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
-    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
-    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32), -webkit-transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
-    -webkit-transform: scale(0.8) translate(0, 4px);
-            transform: scale(0.8) translate(0, 4px);
-  }
-  .dropdown ul li {
-    position:relative;
-    
-    opacity: 0;
-    text-align:right;
-    -webkit-transform: translate(6px, 0);
-            transform: translate(6px, 0);
-    transition: all .3s ease;
-    
-  }
-  .dropdown ul li div {
-    position:relative;
-    
-    cursor: pointer;
-  
-    padding: 10px 16px;
-    color: whitesmoke;
-    text-decoration: none;
- 
-    position: relative;
-    transition: all .3s ease;
-  }
-  .dropdown ul li div:hover {
-    background-color:#82c7f8;
-  }
-  
-  .dropdown.open > span:before, .dropdown.open > span:after {
-    background: var(--arrowActive);
-  }
-  .dropdown.open > span:before {
-    -webkit-transform: scale(0.96, 0.8) rotate(-50deg);
-            transform: scale(0.96, 0.8) rotate(-50deg);
-  }
-  .dropdown.open > span:after {
-    -webkit-transform: scale(0.96, 0.8) rotate(50deg);
-            transform: scale(0.96, 0.8) rotate(50deg);
-  }
-  .dropdown.open ul {
-    opacity: 1;
-    visibility: visible;
-    -webkit-transform: scale(1) translate(0, 12px);
-            transform: scale(1) translate(0, 12px);
-    transition: opacity 0.3s ease, visibility 0.3s ease, -webkit-transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32), -webkit-transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
-  }
-  .dropdown.open ul li {
-    opacity: 1;
-    -webkit-transform: translate(0, 0);
-            transform: translate(0, 0);
-  }
-  /* 각 링크 나오는 딜레이 조정 */
-  .dropdown.open ul li:nth-child(1) {
-    transition-delay: 80ms;
-  }
-  .dropdown.open ul li:nth-child(2) {
-    transition-delay: 160ms;
-  }
-  .dropdown.open ul li:nth-child(3) {
-    transition-delay: 240ms;
-  }
-  .dropdown.open ul li:nth-child(4) {
-    transition-delay: 320ms;
-  }
-  .dropdown.open ul li:nth-child(5) {
-    transition-delay: 400ms;
-  }
-  .dropdown.open ul li:nth-child(6) {
-    transition-delay: 480ms;
-  }
-  .dropdown.open ul li:nth-child(7) {
-    transition-delay: 560ms;
-  }
-  .dropdown.open ul li:nth-child(8) {
-    transition-delay: 640ms;
-  }
-  .dropdown.open ul li:nth-child(9) {
-    transition-delay: 720ms;
-  }
-  .dropdown.open ul li:nth-child(10) {
-    transition-delay: 800ms;
-  }
-  
-  
+  width: 100%;
+}
+
+/* 셀렉트 태그를 안보이게 해줌 */
+.user > .dropdown > select {
+  display: none;
+}
+.user > .dropdown {
+  display: flex;
+  flex-direction: row;
+  z-index: 2;
+  justify-content: flex-end;
+}
+
+/* dropdown button : user icon과 id, 화살표 모두 여기있음 */
+.user > .dropdown > span {
+  cursor: pointer;
+
+  border-radius: 6px;
+  display: flex;
+  width: min-content;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-content: flex-end;
+  margin-right: 20px; /* 화살표와의 거리 */
+  color: white;
+}
+
+/* 화살표 */
+.dropdown > span::before,
+.dropdown > span::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 8px;
+  height: 2px;
+  border-radius: 1px;
+  top: 50%;
+  right: 0;
+  background: var(--arrow);
+  transition: all 0.3s ease;
+}
+.dropdown > span:before {
+  margin-right: 4px;
+  -webkit-transform: scale(0.96, 0.8) rotate(50deg);
+  transform: scale(0.96, 0.8) rotate(50deg);
+}
+.dropdown > span:after {
+  -webkit-transform: scale(0.96, 0.8) rotate(-50deg);
+  transform: scale(0.96, 0.8) rotate(-50deg);
+}
+
+.dropdown ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  z-index: inherit;
+  top: 30px;
+  right: 0;
+  border: 4px double #fff;
+  background-color: #ffd0d6;
+  border-radius: 6px;
+  overflow: hidden;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  transition: opacity 0.2s ease, visibility 0.2s ease,
+    -webkit-transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
+  transition: opacity 0.2s ease, visibility 0.2s ease,
+    transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
+  transition: opacity 0.2s ease, visibility 0.2s ease,
+    transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32),
+    -webkit-transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
+  -webkit-transform: scale(0.8) translate(0, 4px);
+  transform: scale(0.8) translate(0, 4px);
+}
+.dropdown ul li {
+  position: relative;
+
+  opacity: 0;
+  text-align: right;
+  -webkit-transform: translate(6px, 0);
+  transform: translate(6px, 0);
+  transition: all 0.3s ease;
+}
+.dropdown ul li div {
+  position: relative;
+
+  cursor: pointer;
+
+  padding: 10px 16px;
+  color: whitesmoke;
+  text-decoration: none;
+
+  position: relative;
+  transition: all 0.3s ease;
+}
+.dropdown ul li div:hover {
+  /* background-color: #e2dee0; */
+  color:black;
+}
+
+.dropdown.open > span:before,
+.dropdown.open > span:after {
+  background: var(--arrowActive);
+}
+.dropdown.open > span:before {
+  -webkit-transform: scale(0.96, 0.8) rotate(-50deg);
+  transform: scale(0.96, 0.8) rotate(-50deg);
+}
+.dropdown.open > span:after {
+  -webkit-transform: scale(0.96, 0.8) rotate(50deg);
+  transform: scale(0.96, 0.8) rotate(50deg);
+}
+.dropdown.open ul {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transform: scale(1) translate(0, 12px);
+  transform: scale(1) translate(0, 12px);
+  transition: opacity 0.3s ease, visibility 0.3s ease,
+    -webkit-transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
+  transition: opacity 0.3s ease, visibility 0.3s ease,
+    transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
+  transition: opacity 0.3s ease, visibility 0.3s ease,
+    transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32),
+    -webkit-transform 0.3s cubic-bezier(0.4, 0.6, 0.5, 1.32);
+}
+.dropdown.open ul li {
+  opacity: 1;
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+/* 각 링크 나오는 딜레이 조정 */
+.dropdown.open ul li:nth-child(1) {
+  transition-delay: 80ms;
+}
+.dropdown.open ul li:nth-child(2) {
+  transition-delay: 160ms;
+}
+.dropdown.open ul li:nth-child(3) {
+  transition-delay: 240ms;
+}
+.dropdown.open ul li:nth-child(4) {
+  transition-delay: 320ms;
+}
+.dropdown.open ul li:nth-child(5) {
+  transition-delay: 400ms;
+}
+.dropdown.open ul li:nth-child(6) {
+  transition-delay: 480ms;
+}
+.dropdown.open ul li:nth-child(7) {
+  transition-delay: 560ms;
+}
+.dropdown.open ul li:nth-child(8) {
+  transition-delay: 640ms;
+}
+.dropdown.open ul li:nth-child(9) {
+  transition-delay: 720ms;
+}
+.dropdown.open ul li:nth-child(10) {
+  transition-delay: 800ms;
+}
+
+/*************************************************  
+                    Search
+ *****************************************************/
+::selection {
+  background: white;
+}
+
+.search-wrapper {
+  position: absolute;
+  /*  right: -100px; */
+  z-index: 3;
+  top: 4vh;
+  right: -100px;
+  transform: translateX(-400px);
+  transition: all 800ms cubic-bezier(0.9, 0, 0.33, 1);
+}
+
+.search-wrapper .input-holder {
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0);
+  border-radius: 50px;
+  position: relative;
+  z-index: 3;
+  transition: all 0.3s ease-in-out;
+}
+.search-wrapper.active .input-holder {
+  width: 30vw;
+  border-radius: 50px;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 0.5s cubic-bezier(0, 0.105, 0.035, 1.57);
+}
+.search-wrapper .input-holder .search-input {
+  width: 100%;
+  height: 50%;
+  margin-left: 40px;
+  padding: 0px 70px 0 20px;
+  opacity: 0;
+  position: absolute;
+  background: transparent;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  font-family: "Open Sans", Arial, Verdana;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #fff;
+  transform: translate(0, 60px);
+  transition: all 0.3s cubic-bezier(0, 0.105, 0.035, 1.57);
+  transition-delay: 0.3s;
+}
+.search-wrapper.active .input-holder .search-input {
+  opacity: 1;
+  transform: translate(0, 10px);
+}
+.search-wrapper .input-holder .search-icon {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50px;
+  background: #fff;
+  padding: 0px;
+  outline: none;
+  position: relative;
+
+  float: right;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.search-wrapper.active .input-holder .search-icon {
+  width: 50px;
+  height: 100%;
+  border-radius: 50px;
+}
+
+/* 닫기 버튼 */
+.search-wrapper .input-holder .search-icon span {
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+
+  transform: rotate(45deg);
+  transition: all 0.4s cubic-bezier(0.65, -0.6, 0.24, 1.65);
+}
+.search-wrapper.active .input-holder .search-icon span {
+  transform: rotate(-45deg);
+}
+.search-wrapper .input-holder .search-icon span::before,
+.search-wrapper .input-holder .search-icon span::after {
+  position: absolute;
+  content: "";
+}
+.search-wrapper .input-holder .search-icon span::before {
+  width: 4px;
+  height: 11px;
+  left: 9px;
+  top: 18px;
+  border-radius: 3px;
+  background: #fe5f55;
+}
+.search-wrapper .input-holder .search-icon span::after {
+  width: 20px;
+  height: 20px;
+  left: 0px;
+  top: 0px;
+  border-radius: 16px;
+  border: 4px solid #fe5f55;
+}
+.search-wrapper .close {
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  top: 24px;
+  right: 20px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  transform: rotate(-180deg);
+  transition: all 0.3s cubic-bezier(0.285, -0.45, 0.935, 0.11);
+  transition-delay: 0.2s;
+}
+.search-wrapper.active .close {
+  right: -30px;
+  opacity: 1;
+  transform: rotate(45deg);
+  transition: all 0.6s cubic-bezier(0, 0.105, 0.035, 1.57);
+  transition-delay: 0.5s;
+}
+.search-wrapper .close::before,
+.search-wrapper .close::after {
+  position: absolute;
+  content: "";
+  background: #fe5f55;
+  border-radius: 2px;
+}
+.search-wrapper .close::before {
+  width: 5px;
+  height: 25px;
+  left: 10px;
+  top: 0px;
+}
+.search-wrapper .close::after {
+  width: 25px;
+  height: 5px;
+  left: 0px;
+  top: 10px;
+}
+.search-dropdown {
+  position: absolute;
+  z-index: 4;
+  left: 10px;
+  transform: translate(0, 5px);
+
+  transition: all 0.3s cubic-bezier(0, 0.105, 0.035, 1.57);
+  transition-delay: 0.3s;
+}
+
+/* 검색 드롭다운 */
+.search-dropdown > button {
+  display: inline-block;
+  width: 50px;
+  border: 0;
+  outline: 0;
+}
+
+.search-wrapper .hide {
+  opacity: 0;
+  transform: translate(0, 50px);
+  transition: all 0.3s cubic-bezier(0, 0.105, 0.035, 1.57);
+  pointer-events: none;
+}

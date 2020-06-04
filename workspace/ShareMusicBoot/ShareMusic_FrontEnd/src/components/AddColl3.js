@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import '../css/addcoll3.css';
+// import '../css/addcoll3.css';
 import defaultImg from '../images/defaultImg.PNG';
 
 class AddColl3 extends Component {

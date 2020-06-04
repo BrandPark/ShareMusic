@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MainPage from './MainPage';
 import {BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import Header from './Header';
+import Header2 from './Header2';
 import IframeTest from './IframeTest';
 
 class Render extends Component {
@@ -11,7 +11,7 @@ class Render extends Component {
     return (
       <>
       {/* history={history} */}
-        <Header userId={userId} {...this.props}></Header>
+        <Header2 userId={userId} {...this.props}></Header2>
         <Router>
           <Switch>
           <Route path="/i" render={() => <IframeTest {...this.props}/>} />
