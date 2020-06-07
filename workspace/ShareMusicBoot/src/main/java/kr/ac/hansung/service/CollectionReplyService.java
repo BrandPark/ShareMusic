@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.ac.hansung.dao.CollectionReplyDao;
-import kr.ac.hansung.model.Criteria;
 import kr.ac.hansung.model.ReplyVO;
 
 @Service
@@ -22,8 +21,8 @@ public class CollectionReplyService {
 		return replyDao.getCollectionReply(rno);
 	}
 
-	public List<ReplyVO> getCollectionReplys(int cno, Criteria cri) {
-		return replyDao.getCollectionReplys(cno, cri);
+	public List<ReplyVO> getCollectionReplys(int cno) {
+		return replyDao.getCollectionReplys(cno);
 	}
 	
 	public int updateCollectionReply(ReplyVO reply) {
