@@ -5,8 +5,10 @@ class Header2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            searchBy:'컬렉션',
             searchType:false
         }
+        this.onClickSearchBy = this.onClickSearchBy.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onClickLogo = this.onClickLogo.bind(this);
         this.onSearchType = this.onSearchType.bind(this);
@@ -142,8 +144,22 @@ class Header2 extends Component {
         this.props.history.push("/");
     }
 
+    onClickSearchBy(e) {
+        if(e.target.id == "tag") {
+            this.setState({
+                searchBy:'태그'
+            });
+        }
+        else if(e.target.id == "collectionName") {
+            this.setState({
+                searchBy:'컬렉션'
+            }); 
+        }
+    }
+
     render() {
-        const { onClick, onClickLogo, searchToggle, onSearchType } = this;
+        const { onClick, onClickLogo, searchToggle, onSearchType, onClickSearchBy } = this;
+        const {searchBy} = this.state;
         const show = (this.state.searchType) ? "show" : "";
         return (
             <>
@@ -163,13 +179,16 @@ class Header2 extends Component {
                     datatoggle="dropdown"
                     onClick={onSearchType}
                     >
-                    z
+                    {searchBy}
                     </button>
                     {/* <!-- 검색 드롭다운 메뉴: id넣어야함 --> */}
                     <div className={"dropdown-menu" + show}>
-                        <div className="dropdown-item">Link 1</div>
-                        <div className="dropdown-item">Link 2</div>
-                        <div className="dropdown-item">Link 3</div>
+                        <div id="collectionName" className="dropdown-item" onClick={onClickSearchBy}>
+                            컬렉션
+                        </div>
+                        <div id="tag" className="dropdown-item" onClick={onClickSearchBy}>
+                            태그
+                        </div>
                     </div>
                 </div>
                 <div className="input-holder">

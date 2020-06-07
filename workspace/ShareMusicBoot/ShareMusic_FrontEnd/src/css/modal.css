@@ -8,13 +8,8 @@
   height: 60vh;
   overflow-y: auto;
   -ms-overflow-style: none;
-}
-
   /* // IE에서 스크롤바 감춤  */
-  /* ::-webkit-scrollbar {
-    display: none !important; */
-    /* // 윈도우 크롬 등 */
-  
+}
 
 .modal-body::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera*/
@@ -40,8 +35,8 @@
 }
 
 .reply-image {
-  width: 7vh;
-  height: 7vh;
+  width: 6vh;
+  height:6vh;
   margin-top: 1vh;
   margin-left: 2vh;
   margin-right: 1vh;
@@ -64,13 +59,13 @@
   width: 11vh;
   height: 7vh;
   margin-left: 1px;
-  margin-right: 2px;
+  margin-right: 1px;
   margin-top: 3vh;
   word-break: break-all;
 }
 
 #reply-message {
-  width: 65%;
+  width: 45%;
   padding-left: 1vh;
   margin-left: 1vh;
   margin-right: 1vh;
@@ -91,7 +86,7 @@
 
 #reply-input {
   display: flex;
-  width: 66%;
+  width: 67%;
   padding-left: 1vh;
   margin-left: 2px;
   margin-right: 1vh;
