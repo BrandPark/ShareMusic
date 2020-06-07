@@ -66,7 +66,6 @@ public class CollectionController {
 	@PostMapping("/new")
 	public ResponseEntity<String> insertCollection(CollectionDTO collectionDTO,
 			@RequestParam(required = false) MultipartFile file) {
-		
 
 		CollectionVO collection = collectionDTO.getCollection();
 
@@ -75,14 +74,16 @@ public class CollectionController {
 		List<SongVO> songs = collectionDTO.getSongs();
 		if (!songs.isEmpty()) {
 			for (SongVO song : collectionDTO.getSongs()) {
-				
+
 				song.setCno(cno);
-				
+
 				try {
 					String videoId = youtubeService.searchSong(song.getMusicName(), song.getSinger());
 					song.setVideoId(videoId);
-				} catch (Exception e) { e.printStackTrace(); }
-				
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 				collectionSongService.insertCollectionSong(song);
 			}
 		}
@@ -94,10 +95,10 @@ public class CollectionController {
 				collectionTagService.insertCollectionTag(tag);
 			}
 		}
-		
-		//admin 폴더에 cno-collectionName.png 형태로 저장
-		if(file != null) {
-			awsService.doUploadFile(file,collection.getUserId(), cno + "-" + collection.getCollectionName());
+
+		// admin 폴더에 cno-collectionName.png 형태로 저장
+		if (file != null) {
+			awsService.doUploadFile(file, collection.getUserId(), cno + "-" + collection.getCollectionName());
 		}
 
 		return new ResponseEntity<>("success", HttpStatus.OK);
@@ -168,9 +169,9 @@ public class CollectionController {
 				collectionTagService.updateCollectionTag(tag);
 			}
 		}
-		
-		if(file != null) {
-			awsService.deleteFile(collection.getUserId(),  cno + "-" + collection.getCollectionName());
+
+		if (file != null) {
+			awsService.deleteFile(collection.getUserId(), cno + "-" + collection.getCollectionName());
 			awsService.doUploadFile(file, collection.getUserId(), cno + "-" + collection.getCollectionName());
 		}
 
@@ -208,8 +209,7 @@ public class CollectionController {
 		if (collection == null) {
 			throw new CollectionException("NotExistCollection");
 		}
-		
-		Criteria cri = new Criteria();
+
 
 		CollectionDTO collectionDTO = new CollectionDTO();
 		collectionDTO.setCollection(collection);
@@ -220,10 +220,10 @@ public class CollectionController {
 		List<TagVO> tags = collectionTagService.getCollectionTags(cno);
 		collectionDTO.setTags(tags);
 
-		List<LikeVO> likes = collectionLikeService.getColletionLikes(cno, cri);
+		List<LikeVO> likes = collectionLikeService.getColletionLikes(cno);
 		collectionDTO.setLikes(likes);
 
-		List<ReplyVO> replys = collectionReplyService.getCollectionReplys(cno, cri);
+		List<ReplyVO> replys = collectionReplyService.getCollectionReplys(cno);
 		collectionDTO.setReplys(replys);
 
 		return collectionDTO;
