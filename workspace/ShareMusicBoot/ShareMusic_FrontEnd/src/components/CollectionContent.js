@@ -39,7 +39,6 @@ class CollectionContent extends Component {
                     // tracks:data.collection.songs.length
                 });
                 
-                if(data.likes)
           });
         }
     }
@@ -91,7 +90,6 @@ class CollectionContent extends Component {
                             <div style={{display:"inline-block"}}>
                             <span> {/*#ED4956*/}
                             <i className="fas fa-heart fa-lg" style={{color:"#ED4956"}} 
-                                onClick={onClickLike}
                             ></i>
                             </span>
                             </div>

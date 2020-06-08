@@ -45,6 +45,9 @@ public class CollectionReplyDao {
 				reply.setCno(rs.getInt("cno"));
 				reply.setFromUserId(rs.getString("from_user_id"));
 				reply.setContent(rs.getString("content"));
+				
+				reply.setRegTime(rs.getTimestamp("reg_date"));
+				reply.setModTime(rs.getTimestamp("mod_date"));
 					
 				return reply;
 			}
@@ -66,6 +69,8 @@ public class CollectionReplyDao {
 				reply.setCno(rs.getInt("cno"));
 				reply.setFromUserId(rs.getString("from_user_id"));
 				reply.setContent(rs.getString("content"));
+				reply.setRegTime(rs.getTimestamp("reg_date"));
+				reply.setModTime(rs.getTimestamp("mod_date"));
 				
 				return reply;
 			}

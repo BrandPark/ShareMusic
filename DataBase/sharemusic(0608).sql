@@ -18,6 +18,10 @@
 --
 -- Table structure for table `tb_authorities`
 --
+DROP DATABASE IF EXISTS sharemusic;
+CREATE DATABASE sharemusic;
+USE sharemusic;
+
 DROP TABLE IF EXISTS `tb_authorities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -89,7 +93,7 @@ CREATE TABLE `tb_collection_like` (
 
 LOCK TABLES `tb_collection_like` WRITE;
 /*!40000 ALTER TABLE `tb_collection_like` DISABLE KEYS */;
-INSERT INTO `tb_collection_like` VALUES (55,'admin');
+INSERT INTO `tb_collection_like` VALUES (55,'admin'),(55,'admin10'),(55,'admin11'),(55,'admin3'),(55,'admin4'),(55,'admin5'),(55,'admin6'),(55,'admin7'),(55,'admin8'),(55,'admin9');
 /*!40000 ALTER TABLE `tb_collection_like` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,11 +109,13 @@ CREATE TABLE `tb_collection_reply` (
   `cno` int NOT NULL,
   `from_user_id` varchar(20) NOT NULL,
   `content` varchar(200) NOT NULL,
+  `reg_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  `mod_date` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`rno`),
   KEY `fk_tb_collection_reply_idx` (`cno`),
   KEY `fk_tb_collection_reply_from_user_id_idx` (`from_user_id`),
   CONSTRAINT `fk_tb_collection_reply_cno` FOREIGN KEY (`cno`) REFERENCES `tb_collection` (`cno`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +124,7 @@ CREATE TABLE `tb_collection_reply` (
 
 LOCK TABLES `tb_collection_reply` WRITE;
 /*!40000 ALTER TABLE `tb_collection_reply` DISABLE KEYS */;
-INSERT INTO `tb_collection_reply` VALUES (9,55,'admin','It\'s very nice'),(10,55,'admin','my style~'),(11,55,'admin','Good~'),(12,55,'admin2','My name is admin2');
+INSERT INTO `tb_collection_reply` VALUES (9,55,'admin','It\'s very nice','2020-06-08 15:50:28','2020-06-08 15:50:58'),(10,55,'admin','my style~','2020-06-08 15:50:28','2020-06-08 15:50:58'),(11,55,'admin','Good~','2020-06-08 15:50:28','2020-06-08 15:50:58'),(12,55,'admin2','My name is admin2','2020-06-08 15:50:28','2020-06-08 15:50:58'),(14,55,'admin','g1','2020-06-08 15:50:28','2020-06-08 15:50:58'),(15,55,'admin','g2','2020-06-08 15:50:28','2020-06-08 15:50:58'),(16,55,'admin','asdfasdfasdf','2020-06-08 15:50:28','2020-06-08 15:51:30'),(17,55,'admin','g6asdf','2020-06-08 15:50:28','2020-06-08 15:51:12');
 /*!40000 ALTER TABLE `tb_collection_reply` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -243,4 +249,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-21 15:59:47
+-- Dump completed on 2020-06-08 15:59:03
