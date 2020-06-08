@@ -1,17 +1,15 @@
 * {
     box-sizing: border-box;
 }
-/* 
-******************* 첫 번째 페이지 영역 css ******************************
-*/
+
 .small-title{
     display:flex;
     justify-content: center;
-    align-items: top;
+    align-items: center;
     margin:0;
     height:10vh;
     font-size:2rem;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.219);
+   
 }
 .move-area{
     position:absoulte;
@@ -45,9 +43,6 @@
     height:60vh;
     top:10vh;
 }
-/* 
-******************* 화면 이동 버튼 ******************************
-*/
 .left-btn{
     display:flex;
     justify-content: center;
@@ -89,7 +84,9 @@
 .left-btn button, .right-btn button{
     height: 100%;
 }
-
+.left-btn i, .right-btn i{
+    font-size: 3em;
+}
 .blank-block-left{
     position:absolute;
     top:10vh;
@@ -106,31 +103,6 @@
     height:60vh;
     background-color:var(--background-color);
 }
-.submit-btn{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    position:absolute;
-    top:9vh;
-    right:10%;
-    background-color:var(--background-color);
-    width:6vw;
-    height:60vh;
-    font-size: 3em;
-    transition: all 0.3s cubic-bezier(0.420, 0.000, 0.315, 1.000);
-}
-.submit-btn-hide{
-    opacity:0;
-    pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.420, 0.000, 0.315, 1.000) ;
-}
-.left-btn i, .right-btn i, .submit-btn i{
-    font-size: 3em;
-    cursor: pointer;
-}
-/* 
-******************* 입력 컴포넌트 css ******************************
-*/
 #view{
     display:flex;
     flex-direction: row;
@@ -143,7 +115,6 @@
 	width: 30vmin;
     height: 30vmin;
     border-radius:50%;
-    box-shadow: 3px 3px 5px rgba(0,0,0,.219);
 }
 #forms{
     position: relative;
@@ -151,7 +122,7 @@
     display:flex;
     flex-direction:column;
     background-color: var(--background-color);
-    box-shadow: 3px 3px 5px rgba(0,0,0,.219);
+    box-shadow: 3px 3px 5px rgba(0,0,0,.075);
     border-radius: 8px;
     padding:15px;
     -webkit-border-radius: 8px;
@@ -213,9 +184,7 @@
     border-radius: .25em;
 }
 
-/* 
-*******************  두 번째 페이지 영역 ******************************
-*/
+/* 2번째 페이지 */
 .ocr-area{
     position:relative;
     display:flex;
@@ -223,68 +192,24 @@
     justify-content: center;
     width:88vw;
 }
-table{
-   
-    width:40vw;
-    
-    
-}
-
-
 .table-wrapper{
     background-color:var(--background-color);
     margin-right: 5%;
-    width: 40vw;
+    width:40vw;
 }
 .table-box{
-    margin-top:50px;
-    height:calc(60vh - 50px);
-    width:40vw;
+    margin-top:39px;
+    height:calc(60vh - 39px);
     overflow-y:scroll;
     overflow-x:hidden; 
 }
-/* 테이블 첫번째 제목 행 고정 */
-.table thead tr{
-    position: absolute;
+thead tr{
+    position: fixed;
     width:40vw;
     display:inline-table;
     background-color: var(--background-color);
     border-radius: 8px 8px 0 0;
     top:0;
-    
-   
-}
-
-.table thead th{
-    height:50px;
-    padding-left:5px;
-    padding-right:5px;
-    text-align: center;
-}
-.table tbody td{
-    height:50px;
-    text-align: center;
-    padding-left:5px;
-    padding-right:5px;
-    
-}
-.table tbody td i {
-    color: gray;
-    cursor: pointer;
-}
-.table tbody td i:hover{
-    color:black;
-}
-
-.table tbody tr td:first-child, .table thead tr th:first-child{
-    width: 50px;
-}
-
-.table tbody tr td:nth-child(2), .table thead tr th:nth-child(2){
-    width: 60%;
-}
-.table tbody tr td:nth-child(4), .table thead tr th:nth-child(4){
-    width: 43px;
 }
 
 ::-webkit-scrollbar {
@@ -305,7 +230,7 @@ height: 0;
 .input-direct{
     position:relative;
     background-color: var(--background-color);
-    box-shadow: 3px 3px 5px rgba(0,0,0,.219);
+	box-shadow: 3px 3px 5px rgba(0,0,0,.075);
     border-radius: 8px;
     -webkit-border-radius: 8px;
     padding:10px;
@@ -318,8 +243,7 @@ height: 0;
     position:relative;
 	background-color: var(--background-color);
     height:60%;
-    width:35vmin;
-    box-shadow: 3px 3px 5px rgba(0,0,0,.219);
+	box-shadow: 3px 3px 5px rgba(0,0,0,.075);
     border-radius: 8px;
 	-webkit-border-radius: 8px;
 }
@@ -329,26 +253,25 @@ height: 0;
     align-items: center;
     position:relative;
     background-color: lightgray;
-    height: 80%;
     width: 100%;
+    height: 80%;
     border-radius: 8px;
     -webkit-border-radius: 8px;  
     
     opacity: 60%;
 }
 .image-btn{
-    
-    position: absolute;
-    left:5%;
-    bottom:-1%;
-    
+    position:absolute;
+    bottom:5%;
+    right:5%;
 }
 .add-btn{
-    position: absolute;
+    display:inline-block;
+    position:absolute;
     right:5%;
-    bottom:3%;
+    bottom:6%;
 }
 
-
-
-
+tr > td:nth-child(1) {
+    width:1em;
+}

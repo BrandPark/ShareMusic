@@ -14,7 +14,7 @@ class AddCollectionPage extends Component {
         return (
             <>
             <Header2 userId={userId} {...this.props}></Header2>
-            <AddCollectionContent></AddCollectionContent>
+            <AddCollectionContent userId={userId} auth={auth} {...this.props}></AddCollectionContent>
             </>
         );
     }
