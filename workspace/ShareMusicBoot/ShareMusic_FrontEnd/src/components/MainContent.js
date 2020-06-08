@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CollectionInfo from './CollectionInfo';
+import CollectionItem from './CollectionItem';
 import '../css/mainPage.css';
 import '../css/scroll.css';
 class MainContent extends Component {
@@ -26,7 +26,6 @@ class MainContent extends Component {
       })
       .then(res=>res.json())
       .then(data=> {
-        //console.log("data : " + data);
         this.setState({
           collections:data
         })
@@ -39,27 +38,27 @@ class MainContent extends Component {
     return (
       <section>
       <div className="main">
-        <div class="container-fluid main-info">
+        <div className="container-fluid main-info">
             <div id="main-info">
               Follower's Recent Updates collections
             </div>
         </div>
         <div className="horizontal-scroll-block">
           <div className="horizontal-scroll">
-          {collections.map((c, i) => {
-            return (
-              <CollectionInfo
-                collOwner={c.collection.userId}
-                cno={c.collection.cno}
-                collectionName={c.collection.collectionName}
-                regTime={c.collection.regTime}
-                tracks={c.songs.length}
-                likes={c.likes.length}
-                tags={c.tags}
-                key={c.collection.cno} {...this.props}
-              ></CollectionInfo>
-            );
-          })}
+            {collections.map((c, i) => {
+              return (
+                <CollectionItem
+                  collOwner={c.collection.userId}
+                  cno={c.collection.cno}
+                  collectionName={c.collection.collectionName}
+                  regTime={c.collection.regTime}
+                  tracks={c.songs.length}
+                  likes={c.likes.length}
+                  tags={c.tags}
+                  key={c.collection.cno} {...this.props}
+                ></CollectionItem>
+              );
+            })}
           </div>
         </div>
       </div>

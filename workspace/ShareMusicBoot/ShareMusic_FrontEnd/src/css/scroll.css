@@ -48,6 +48,8 @@
     /* justify-content: center; */
     
     transition: all 0.5s cubic-bezier(0, 0.105, 0.035, 1.57) 0.3s;
+
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.219);
   }
   
   /* 컬렉션 대표 이미지 */
@@ -61,18 +63,18 @@
     box-shadow: 5px 5px 5px rgba(0,0,0,.219);
   
   }
-  #collector-name{
+  /* #collector-name-scroll{
     text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.219);
     margin-bottom: 50px;
-  }
-  .user-info{
+  } */
+  /* .user-info{
     display:flex;
     justify-content: space-between;
     text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.219);
-  }
-  .user-info button{
+  } */
+  /* .user-info button{
     box-shadow: 5px 5px 5px rgba(0,0,0,.219);
-  }
+  } */
   .collection-info{
     text-align: center;
   }

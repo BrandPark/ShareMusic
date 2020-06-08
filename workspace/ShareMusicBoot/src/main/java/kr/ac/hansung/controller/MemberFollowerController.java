@@ -36,16 +36,16 @@ public class MemberFollowerController {
 				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	//해당 유저아이디에 대한 팔로워 조회
-	@GetMapping("/follower/{userId}")
+	//해당 유저아이디에 대한 팔로잉 조회
+	@GetMapping("/following/{userId}")
 	public ResponseEntity<List<String>> getMemberFollower(
 			@PathVariable("userId") String userId) {
 		List<String> followers = followerService.getMemberFollowers(userId);
 		return new ResponseEntity<>(followers,HttpStatus.OK);
 	}
 	
-	//해당 유저아이디에 대한 팔로잉 조회
-	@GetMapping("/following/{userId}")
+	//해당 유저아이디에 대한 팔로워 조회
+	@GetMapping("/follower/{userId}")
 	public ResponseEntity<List<String>> getMemberFollowing(
 			@PathVariable("userId") String userId) {
 		List<String> followings = followerService.getMemberFollowings(userId);

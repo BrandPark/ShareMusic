@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Header2 from './Header2';
+import Header from './Header';
 
 import '../css/add-collection.css';
 import AddCollectionContent from './AddCollectionContent';
@@ -13,7 +13,7 @@ class AddCollectionPage extends Component {
         const {userId, auth} = this.props;
         return (
             <>
-            <Header2 userId={userId} {...this.props}></Header2>
+            <Header userId={userId} {...this.props}></Header>
             <AddCollectionContent userId={userId} auth={auth} {...this.props}></AddCollectionContent>
             </>
         );

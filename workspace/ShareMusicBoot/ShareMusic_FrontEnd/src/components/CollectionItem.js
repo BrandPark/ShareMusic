@@ -46,11 +46,11 @@ class CollectionInfo extends Component {
             <img className="collection-image-scroll" src={imgURL}
                 onClick={onClick}>
             </img>
-            <div class="collection-info">
-                <div class="collection-name">
+            <div className="collection-info">
+                <div className="collection-name">
                     {collectionName}
                 </div>
-                <div class="collection-info-fade">
+                <div className="collection-info-fade">
                     <div>
                         <small>{String(regTime).substr(0,10)}</small>
                     </div>

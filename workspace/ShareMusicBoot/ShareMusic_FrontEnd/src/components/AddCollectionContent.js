@@ -110,7 +110,6 @@ class AddCollectionContent extends Component {
     }
 
     onClickTag(e) {
-        console.log(this.state.tags);
         const str = this.state.tagName.substring(1);
         this.setState({
             tags:str.split('#')
@@ -150,7 +149,6 @@ class AddCollectionContent extends Component {
             return;
         }
 
-        console.log("OCR!!");
         const formData = new FormData();
         formData.append('file', this.state.ocrFile);
         fetch("/ShareMusic/ocr/", {
@@ -159,7 +157,6 @@ class AddCollectionContent extends Component {
         })
         .then(res=>res.json())
         .then(data=> {
-            console.log(data);
             for(let i=0; i<data.length; i++){
                 this.setState({
                     songs:this.state.songs.concat({
@@ -180,11 +177,9 @@ class AddCollectionContent extends Component {
 
     //add collection api 호출
     onClickSubmit() {
-        const {userId} = this.props;
+        const {userId, history} = this.props;
         const {collectionName, songs, tags, cFile} = this.state;
 
-        console.log("add");
-        console.log(userId);
         const fd = new FormData();
         
         fd.append("file", cFile);
@@ -207,12 +202,9 @@ class AddCollectionContent extends Component {
         })
         .then(res=>res.text())
         .then(data=> {
-            console.log("data : " + data);
             data === "success" ? alert("SUCCESS!!") : alert("FAIL!!");
+            history.push("/profile/" + userId);
         });
-        for(let j=0; j<songs.lengh; j++)
-            console.log(fd.get("song[" + j + "].musicName"));
-        console.log(fd.get("collection.userId"));
     }
 
     render() {

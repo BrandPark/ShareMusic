@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
-import '../css/modal.css';
 import defaultImg from '../images/defaultImg.PNG';
 import ReplyItem from './ReplyItem';
 import SongItem from './SongItem';
+
+import '../css/reply-modal.css';
 
 class CollectionContent extends Component {
     constructor(props) {
         super(props);
         this.state={
+            likeIcon:false,
             vId:'',
             replyText:'',
             showModal:false,
             likeColor:{
-                color:"#DEE1E6"
+                color:"black"
             },
             imgURL:defaultImg,
             collectionInfo:{
@@ -50,8 +52,9 @@ class CollectionContent extends Component {
             
             if(data.likes.findIndex(like => like.fromUserId == userId) != -1) {
                 this.setState({
+                    likeIcon:true,
                     likeColor:{
-                        color:"#ED4956"
+                        color:"red"
                     }
                 })
             }
@@ -61,9 +64,9 @@ class CollectionContent extends Component {
     onClickLike(e) {
         const {likeColor} = this.state;
         const {userId, match} = this.props;
-        
+        // #ED4956
         // 좋아요 안 눌러져 있으면
-        if(likeColor.color == "#DEE1E6") {
+        if(likeColor.color == "black") {
             fetch("/ShareMusic/collections/likes/", {
                 method :"POST",
                 headers:{
@@ -78,8 +81,9 @@ class CollectionContent extends Component {
             .then(data=> {
                 if(data == "success") {        
                     this.setState({
+                        likeIcon:true,
                         likeColor:{
-                            color:"#ED4956"
+                            color:"red"
                         }
                     });
 
@@ -97,7 +101,7 @@ class CollectionContent extends Component {
         }
 
         // 이미 좋아요 눌러져있으면
-        else if(likeColor.color == "#ED4956"){
+        else if(likeColor.color == "red"){
             fetch("/ShareMusic/collections/likes/" + match.params.cno + "/" + userId, {
                 method :'DELETE'
             })
@@ -105,8 +109,9 @@ class CollectionContent extends Component {
             .then(data=> {
                 if(data == "success") {           
                     this.setState({
+                        likeIcon:false,
                         likeColor:{
-                            color:"#DEE1E6"
+                            color:"black"
                         }
                     });
                     
@@ -182,13 +187,13 @@ class CollectionContent extends Component {
 
     render() {
         const {match, userId} = this.props;
-        const {imgURL, collectionInfo, likeColor, showModal, replyText, vId} = this.state;
+        const {imgURL, collectionInfo, likeColor, showModal, replyText, vId, likeIcon} = this.state;
         const {onClickVideo, onClickLike, showModalToggle, onChangeReply, onClickPost} = this;
         return (
             <section>
             <div className="main">
                 <div className="container-fluid" id="top">
-                <div className="profile">
+                <div className="profile-collection">
                     <div id="image-box">
                     <img
                         src={imgURL}
@@ -214,20 +219,19 @@ class CollectionContent extends Component {
                         </div>
 
                         <div className="row">
-
-                        {collectionInfo.tags.map((tag, i) => {
-                            return (
-                                <span id="tag" key={i}>
-                                    #{tag.tag}&nbsp;
-                                </span>
-                            );
-                        })}
+                            {collectionInfo.tags.map((tag, i) => {
+                                return (
+                                    <span id="tag" key={i}>
+                                        #{tag.tag}&nbsp;
+                                    </span>
+                                );
+                            })}
                         </div>
 
                         <div className="row" style={{width:"80%", marginTop:"0.5vh"}}>
                             <div style={{display:"inline-block"}}>
                             <span> {/*#ED4956*/}
-                            <i className="fas fa-heart fa-lg" style={likeColor} 
+                            <i className={likeIcon ? "fas fa-heart fa-lg" : "far fa-heart fa-lg"} style={likeColor} 
                                 onClick={onClickLike}
                             ></i>
                             </span>
@@ -303,7 +307,7 @@ class CollectionContent extends Component {
                     <div className="container-fluid modal-container">
                         <div className="row reply-item">
                             <div className="reply-image">
-                            <img className="collection-image" alt="image"
+                            <img className="reply-user-image" alt="image"
                                 src={"https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/"
                                 + userId + "/" + userId + ".png"}
                             ></img>

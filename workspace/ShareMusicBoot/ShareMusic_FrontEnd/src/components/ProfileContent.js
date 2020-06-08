@@ -1,509 +1,339 @@
 import React, { Component } from 'react';
+import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import CollectionItem from './CollectionItem';
 
+import '../css/follow-modal.css';
+import '../css/profile.css';
+import '../css/scroll.css';
+import FollowItem from './FollowItem';
+
+// import '../css/follow-modal.css';
 class ProfileContent extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state={
+            isFollow:true,
+            showFollowerModal:false,
+            showFollowingModal:false,
+            follower:[],
+            following:[],
+            collections:[{
+                collection:{
+                },
+                songs:[],
+                tags:[],
+                likes:[]
+            }]
+        }
+        this.onClickFollow = this.onClickFollow.bind(this);
+        this.closeFollowerModal = this.closeFollowerModal.bind(this);
+        this.closeFollowingModal = this.closeFollowingModal.bind(this);
+        this.showFollowerModalToggle = this.showFollowerModalToggle.bind(this);
+        this.showFollowingModalToggle = this.showFollowingModalToggle.bind(this);
+    }
+
+    componentDidMount() {
+        const {match, userId} = this.props;
+
+        fetch("/ShareMusic/collections/userid/" + match.params.userId + "?page=1&amount=20", {
+            method :"GET"
+        })
+        .then(res=>res.json())
+        .then(data=> {
+            this.setState({
+                collections:data
+            });
+        });
+
+        fetch("/ShareMusic/members/follows/follower/" + match.params.userId, {
+            method :"GET"
+        })
+        .then(res=>res.json())
+        .then(data=> {
+            this.setState({
+                follower:data
+            });
+        });
+
+        fetch("/ShareMusic/members/follows/following/" + match.params.userId, {
+            method :"GET"
+        })
+        .then(res=>res.json())
+        .then(data=> {
+            this.setState({
+                following:data
+            });
+        });
+
+        fetch("/ShareMusic/members/follows/following/" + userId, {
+            method :"GET"
+        })
+        .then(res=>res.json())
+        .then(data=> {
+            if(data.findIndex(following => following == match.params.userId) == -1) {
+                this.setState({
+                    isFollow:false
+                })
+            }
+        });
+    }
+
+    showFollowerModalToggle() {
+        const {closeFollowerModal} = this;
+        const {match} = this.props;
+
+        if(this.state.showFollowerModal) {
+            fetch("/ShareMusic/members/follows/following/" + match.params.userId, {
+                method :"GET"
+            })
+            .then(res=>res.json())
+            .then(data=> {
+                this.setState({
+                    following:data
+                });
+            });
+        }
+        closeFollowerModal();
+    }
+
+    closeFollowerModal() {
+        this.setState({
+            showFollowerModal:!this.state.showFollowerModal
+        })
+    }
+
+    showFollowingModalToggle() {
+        const {closeFollowingModal} = this;
+        const {match} = this.props;
+
+        if(this.state.showFollowingModal) {
+            fetch("/ShareMusic/members/follows/following/" + match.params.userId, {
+                method :"GET"
+            })
+            .then(res=>res.json())
+            .then(data=> {
+                this.setState({
+                    following:data
+                });
+            });
+        }
+        closeFollowingModal();
+    }
+
+    closeFollowingModal() {
+        this.setState({
+            showFollowingModal:!this.state.showFollowingModal
+        })
+    }
+
+    onClickFollow() {
+        const {userId, match} = this.props;
+        
+        if(!this.state.isFollow) {
+            fetch("/ShareMusic/members/follows/", {
+                method :"POST",
+                headers:{
+                    "content-type":"application/json"
+                },
+                body:JSON.stringify({
+                    "fromUserId":userId,
+                    "toUserId":match.params.userId
+                })
+            })
+            .then(res=>res.text())
+            .then(data=> {
+                if(data == "success") {        
+                    this.setState({
+                        isFollow:true
+                    });
+                    //팔로우 버튼 누르고 프로필 페이지 팔로워 수 업데이트
+                    fetch("/ShareMusic/members/follows/follower/" + match.params.userId, {
+                        method :"GET"
+                    })
+                    .then(res=>res.json())
+                    .then(data=> {
+                        this.setState({
+                            follower:data
+                        });
+                    });
+                }
+            });
+        }
+        else {
+            fetch("/ShareMusic/members/follows/" + userId + "/" + match.params.userId, {
+                method :"DELETE"
+            })
+            .then(res=>res.text())
+            .then(data=> {
+                if(data == "success") {        
+                    this.setState({
+                        isFollow:false
+                    });
+                    //언 팔로우 버튼 누르고 프로필 페이지 팔로워 수 업데이트
+                    fetch("/ShareMusic/members/follows/follower/" + match.params.userId, {
+                        method :"GET"
+                    })
+                    .then(res=>res.json())
+                    .then(data=> {
+                        this.setState({
+                            follower:data
+                        });
+                    });
+                }
+            });
+        }
+    }
+
     render() {
+        const {match, userId} = this.props;
+        const {collections, follower, following, showFollowerModal, showFollowingModal, isFollow} = this.state;
+        const {showFollowerModalToggle, showFollowingModalToggle, closeFollowingModal, closeFollowerModal, onClickFollow} = this;
+        
         return (
             <>
+            <div className="main">
+            <div className="container">
             <div className="profile">
                 <div className="col-md-5">
-                    <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image.png"
+                    <img src={"https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/"
+                     + match.params.userId + "/" + match.params.userId + ".png"}
                     className="profile-image" alt="image" />
                 </div>
 
                 <div className="col-md-7">
                     <div className="collector-name">
                     <div>
-                        <strong style={{fontSize:"40px"}}>hyongsoo</strong>
+                        <strong style={{fontSize:"40px"}}>{match.params.userId}</strong>
                     </div> 
                     {/* 버튼크기조절 */}
-                    <button type="button" className="btn btn-primary btn-sm"
-                        style={{marginLeft:"50px", marginTop:"18px", height:"30px", verticalAlign:"center"}}>팔로우</button>
+                    <button type="button" className={isFollow ? "btn btn-secondary btn-sm" : "btn btn-primary btn-sm"}
+                        style={{display:(userId == match.params.userId ? "none":"block"), marginLeft:"40px", marginTop:"18px", height:"30px", verticalAlign:"center"}}
+                        onClick={onClickFollow}>
+                        {isFollow ? "팔로잉" : "팔로우"}
+                    </button>
                     </div>
 
                     <div className="user-info">
                         <div>
-                            <strong> 컬렉션 </strong>
-                            <div>55</div>
+                            <strong>컬렉션</strong>
+                            <div>{collections.length}</div>
                         </div>
 
                         <div>
-                            <strong> 팔로워 </strong>
-                            <div data-toggle="modal" data-target="#follower-modal">50</div>
+                            <strong onClick={showFollowerModalToggle}> 
+                                팔로워
+                            </strong>
+                            <div data-toggle="modal" data-target="#follower-modal"
+                                onClick={showFollowerModalToggle}
+                            >{follower.length}
+                            </div>
                         </div>
 
                         <div>
-                            <strong> 팔로우 </strong>
-                            <div data-toggle="modal" data-target="#following-modal">78</div>
+                            <strong onClick={showFollowingModalToggle}>
+                                팔로잉
+                            </strong>
+                            <div data-toggle="modal" data-target="#following-modal"
+                                onClick={showFollowingModalToggle}
+                            >{following.length}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            </div>
             <div className="horizontal-scroll-block">
                 <div className="horizontal-scroll">
-
-                <div className="img-wrapper">
-                    <img style={{display:"inline-block"}} className="collection-image"
-                    src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image2.png"
-                    alt="image"></img>
-                    {/* <!-- 정보 시작 --> */}
-                    <div className="collection-info">
-                    <div className="collection-name">
-                        Collection Name
-                    </div>
-                    <div className="collection-info-fade">
-                        <div><strong>32&nbsp;</strong><small>Tracks</small></div>
-                        <div><strong>20&nbsp;</strong><small>Likes</small></div>
-                        <div><span id="tag">#sleepy #hello #lonely</span></div>
-                    </div>
-                    </div>
-                </div>
-
-
-                <div className="img-wrapper">
-                    <img className="collection-image"
-                    src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image3.png"
-                    alt="image"></img>
-                    {/* <!-- 정보 시작 --> */}
-                    <div className="collection-info">
-                    <div className="collection-name">
-                        Collection Name
-                    </div>
-                    <div className="collection-info-fade">
-                        <div><strong>32&nbsp;</strong><small>Tracks</small></div>
-                        <div><strong>20&nbsp;</strong><small>Likes</small></div>
-                        <div><span id="tag">#sleepy #hello #lonely</span></div>
-                    </div>
-                    </div>
-                </div>
-
-                <div className="img-wrapper">
-                    <img className="collection-image"
-                    src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image4.png"
-                    alt="image"></img>
-                    <div className="collection-info">
-                    <div className="collection-name">
-                        Collection Name
-                    </div>
-                    <div className="collection-info-fade">
-                        <div><strong>32&nbsp;</strong><small>Tracks</small></div>
-                        <div><strong>20&nbsp;</strong><small>Likes</small></div>
-                        <div><span id="tag">#sleepy #hello #lonely</span></div>
-                    </div>
-                    </div>
-                </div>
-
-
-                <div className="img-wrapper">
-                    <img className="collection-image"
-                    src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image5.png"
-                    alt="image"></img>
-                    <div className="collection-info">
-                    <div className="collection-name">
-                        Collection Name
-                    </div>
-                    <div className="collection-info-fade">
-                        <div><strong>32&nbsp;</strong><small>Tracks</small></div>
-                        <div><strong>20&nbsp;</strong><small>Likes</small></div>
-                        <div><span id="tag">#sleepy #hello #lonely</span></div>
-                    </div>
-                    </div>
-                </div>
+                    {collections.map((c, i) => {
+                        return (
+                        <CollectionItem
+                            collOwner={c.collection.userId}
+                            cno={c.collection.cno}
+                            collectionName={c.collection.collectionName}
+                            regTime={c.collection.regTime}
+                            tracks={c.songs.length}
+                            likes={c.likes.length}
+                            tags={c.tags}
+                            key={c.collection.cno} {...this.props}
+                        ></CollectionItem>
+                        );
+                    })}
                 </div>
             </div>
 
-               {/* <!-- Follower-Modal --> */}
-            <div class="modal fade" id="follower-modal" role="dialog">
-                <div class="modal-dialog">
+            {/* <!-- Follower-Modal --> */}
+            <Modal isOpen={showFollowerModal} toggle={showFollowerModalToggle} className="follow-modal-dialog">
                 {/* <!-- Modal content--> */}
-                <div class="modal-content" style="border-radius: 30px;">
-                    <div class="modal-header" style="height: 11%; margin-bottom: 0px; margin-top: 0px;">
-                        <div style="width: 25%;">
-                        
-                        </div>
-                        <div style="width:50%; text-align:center;">
-                        <div class="modal-title">
-                            <strong style="font-size: 17px;">팔로워</strong>
-                        </div>
-                        </div>
-                        <div style="width: 25%; text-align: right; vertical-align: center;">
-                        <i class="fas fa-times fa-lg" data-toggle="modal" data-target="#follower-modal" ></i>
-                        </div>
-                        
+                <div className="modal-header" style={{height:"11%", marginBottom:"0px", marginTop:"0px"}}>
+                    <div style={{width:"25%"}}>      
                     </div>
-                    {/* <!-- modal-header -->  */}
-
-                    <div class="modal-body">
-                        <div class="container-fluid modal-container">
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image2.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>parkmingon</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
+                    <div style={{width:"50%", textAlign:"center"}}>
+                        <div className="modal-title">
+                            <strong style={{fontSize:"17px"}}>팔로워</strong>
                         </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image3.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>youngho</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image4.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>hyongsoo</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image5.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>yeeun</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image6.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>aliceKim</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image7.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>BobMally</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>CharileChoi</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image2.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>SamKim</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image3.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>TrudyPark</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image4.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>sallyMins</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image5.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>TimLee</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-                    
-                        {/* <!-- reply-item --> */}
                     </div>
+                    <div style={{width:"25%", textAlign:"right", verticalAlign:"center"}}>
+                        <i className="fas fa-times fa-lg" data-toggle="modal" data-target="#follower-modal" 
+                            onClick={showFollowerModalToggle}
+                        ></i>
                     </div>
-
-                    {/* <!-- modal-body --> */}
                 </div>
-                </div>
-            </div>
+                {/* <!-- modal-header -->  */}
 
-               {/* <!-- Following-Modal --> */}
-            <div class="modal fade" id="following-modal" role="dialog">
-                <div class="modal-dialog">
+                <div className="follow-modal-body">
+                    <div className="container-fluid modal-container">
+                        {follower.map((f, i) => {
+                            return (
+                            <FollowItem
+                                followId={f}
+                                key={i}
+                                modalToggle = {closeFollowerModal}
+                                {...this.props}
+                            ></FollowItem>
+                            );
+                        })}
+                    </div>
+                </div>
+                {/* <!-- modal-body --> */}
+            </Modal>
+
+            {/* <!-- Following-Modal --> */}
+            <Modal isOpen={showFollowingModal} toggle={showFollowingModalToggle} className="follow-modal-dialog">
                 {/* <!-- Modal content--> */}
-                <div class="modal-content" style="border-radius: 30px;">
-                    <div class="modal-header" style="height: 11%; margin-bottom: 0px; margin-top: 0px;">
-                        <div style="width: 25%;">
-                        
-                        </div>
-                        <div style="width:50%; text-align:center;">
-                        <div class="modal-title">
-                            <strong style="font-size: 17px;">팔로잉</strong>
-                        </div>
-                        </div>
-                        <div style="width: 25%; text-align: right; vertical-align: center;">
-                        <i class="fas fa-times fa-lg" data-toggle="modal" data-target="#following-modal" ></i>
-                        </div>
-                        
+                <div className="modal-header" style={{height:"11%", marginBottom:"0px", marginTop:"0px"}}>
+                    <div style={{width:"25%"}}>
                     </div>
-                    {/* <!-- modal-header -->  */}
-
-                    <div class="modal-body">
-                        <div class="container-fluid modal-container">
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image2.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>parkmingon</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
+                     <div style={{width:"50%", textAlign:"center"}}>
+                        <div className="modal-title">
+                            <strong style={{fontSize:"17px"}}>팔로잉</strong>
                         </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image3.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>youngho</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image4.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>hyongsoo</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image5.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>yeeun</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image6.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>aliceKim</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image7.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>BobMally</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>CharileChoi</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image2.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>SamKim</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image3.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>TrudyPark</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image4.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>sallyMins</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-
-                        <div class="row reply-item">
-                            <div class="user-image-area">
-                            <img src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image5.png"
-                                class="user-image" alt="image" />
-                            </div>
-
-                            <div class="user-id-area">
-                            <strong>TimLee</strong>
-                            </div>
-
-                            <div class="follow-button-area">
-                            <button type="button" class="btn btn-primary btn-sm">팔로우</button>
-                            </div>  
-                        </div>
-                    
-                        {/* <!-- reply-item --> */}
+                    </div>
+                    <div style={{width:"25%", textAlign:"right", verticalAlign:"center"}}>
+                        <i className="fas fa-times fa-lg" data-toggle="modal" data-target="#follower-modal" 
+                            onClick={showFollowingModalToggle}
+                        ></i>
                     </div>
                 </div>
+                {/* <!-- modal-header -->  */}
 
-                    {/* <!-- modal-body --> */}
+                {/* <!-- modal-body -->  */}
+                <div className="follow-modal-body">
+                    <div className="container-fluid modal-container">
+                        {following.map((f, i) => {
+                            return (
+                            <FollowItem
+                                followId={f}
+                                key={i} 
+                                modalToggle = {closeFollowingModal}
+                                {...this.props}
+                            ></FollowItem>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
+                {/* <!-- modal-body --> */}
+            </Modal>
             </div>
             </>
         );

@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import $ from 'jquery';
-import {BrowserRouter as Link } from 'react-router-dom'
 
-class Header extends React.Component {
+class Header extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            searchBy:'컬렉션',
+            searchType:false
+        }
+        this.onClickSearchBy = this.onClickSearchBy.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onClickLogo = this.onClickLogo.bind(this);
+        this.onSearchType = this.onSearchType.bind(this);
     };
 
+    onSearchType() {
+        this.setState({
+            searchType:!(this.state.searchType)
+        });
+    }
+
     onClick(e) {
+        console.log("this.props.history.push(e.target.accessKey);");
         this.props.history.push(e.target.accessKey);
         // if(e.target.innerHTML === "Link1")
         //     this.props.history.push("/i");
@@ -21,7 +33,40 @@ class Header extends React.Component {
         //     this.props.history.push("/addColl/2");
     }
 
+
+    searchToggle(e) {
+        console.log("searchToggle");
+        var container = $(document).find('.search-wrapper');
+        var searchDropdown = $(document).find('.search-dropdown');
+        //펼쳐진 상태가 아니라면 
+        if(!container.hasClass('active')){
+            console.log("has");
+            container.addClass('active');
+            searchDropdown.removeClass('hide');
+            e.preventDefault();
+        }
+        //펼쳐진 상태라면   if(container.hasClass('active') && $(document).find('.input-holder').length == 0)
+        else {
+            console.log("hasNot");
+            container.removeClass('active');
+            searchDropdown.addClass('hide');
+            // clear input
+            container.find('.search-input').val('');
+        }
+    }
+
     componentDidMount() {
+        var dropdownMenu = $(document).find('.dropdown-menu');
+        var dropdownItem = dropdownMenu.find('.dropdown-item');
+
+
+        $(document).on('click touch', '.dropdown-menu .dropdown-item', function(e) {  //document에서 리스트의 요소를 클릭이나 touch를 할때  발생
+            e.preventDefault();                             //이벤트의 기본이벤트 값을 실행한다
+            var dropdownButton = $(document).find('.search-dropdown').children('button'); 
+            dropdownButton.text($(this).text());
+        });
+
+
         var currentUserId = this.props.userId;
         var t = this;
 
@@ -32,6 +77,7 @@ class Header extends React.Component {
             $(this).wrap(dropdown); //dropdown클래스를 가진 select엘리먼트를 생성한 div로 감싼다.
         
             var user = $('<span />'); //임시로 UserID란 계정이 있다고 가정하고 출력
+            //user.append('<i aria-hidden="true"><img width="30px" height="30px" src="https://sharemusic-bucket.s3.ap-northeast-2.amazonaws.com/admin/collection-image2.png"></i>');
             user.append('<i class="fas fa-user-circle" aria-hidden="true"></i>');   //계정 옆에 fontAwesome usericon출력
             user.append(currentUserId).insertAfter($(this));
           
@@ -76,6 +122,7 @@ class Header extends React.Component {
             }
         });
 
+
         var menuBtn = document.querySelector('.menu-btn');
         var nav = document.querySelector('nav');
         var lineOne = document.querySelector('nav .menu-btn .line--1');
@@ -97,9 +144,24 @@ class Header extends React.Component {
         this.props.history.push("/");
     }
 
-    render() {
-        const { onClick, onClickLogo } = this;
+    onClickSearchBy(e) {
+        if(e.target.id == "tag") {
+            this.setState({
+                searchBy:'태그'
+            });
+        }
+        else if(e.target.id == "collectionName") {
+            this.setState({
+                searchBy:'컬렉션'
+            }); 
+        }
+    }
 
+    render() {
+        const { onClick, onClickLogo, searchToggle, onSearchType, onClickSearchBy } = this;
+        const {searchBy} = this.state;
+        const {userId} = this.props;
+        const show = (this.state.searchType) ? "show" : "";
         return (
             <>
             <header>
@@ -107,12 +169,51 @@ class Header extends React.Component {
                 <div className="title" onClick={onClickLogo}>
                     <a>ShareMusic</a>
                 </div>
-    
+
+
+                {/* <!-- 검색 --> */}
+                <form className="search-wrapper">
+                <div className="search-dropdown hide">
+                    <button
+                    type="button"
+                    className="btn dropdown-toggle"
+                    datatoggle="dropdown"
+                    onClick={onSearchType}
+                    >
+                    {searchBy}
+                    </button>
+                    {/* <!-- 검색 드롭다운 메뉴: id넣어야함 --> */}
+                    <div className={"dropdown-menu" + show}>
+                        <div id="collectionName" className="dropdown-item" onClick={onClickSearchBy}>
+                            컬렉션
+                        </div>
+                        <div id="tag" className="dropdown-item" onClick={onClickSearchBy}>
+                            태그
+                        </div>
+                    </div>
+                </div>
+                <div className="input-holder">
+                    <input
+                        type="text"
+                        className="search-input"
+                        placeholder="Type to search"
+                    />
+                    <button
+                        type="button"
+                        className="search-icon"
+                        onClick={searchToggle}
+                    >
+                    <span></span>
+                    </button>
+                </div>
+                <span className="close" onClick={searchToggle}></span>
+                </form>
+
                 <div className="user">
                     <select className="dropdown" >
-                        <option value="/" >Home</option>
-                        <option value="/addColl/1">Add Collection</option>
-                        <option value="/i">iFrame</option>
+                        <option value={"/profile/" + userId}>My Page</option>
+                        <option value="/addColl">Add Collection</option>             
+                        <option value="/login">Logout</option>
                     </select>
                 </div>
             </div>
@@ -135,6 +236,6 @@ class Header extends React.Component {
             </>
         );
     };
-};
+}
 
 export default Header;
