@@ -10,6 +10,7 @@ class FollowItem extends Component {
         this.onClickFollow = this.onClickFollow.bind(this);
     }
 
+    //팔로우 목록 api 호출
     componentDidMount() {
         const {followId, userId} = this.props;
         
@@ -26,9 +27,11 @@ class FollowItem extends Component {
         });
     }
 
+    //팔로우 버튼 클릭
     onClickFollow() {
         const {userId, followId} = this.props;
         
+        //팔로우 안되어 있는 경우, 팔로우하기
         if(!this.state.isFollow) {
             fetch("/ShareMusic/members/follows/", {
                 method :"POST",
@@ -49,6 +52,7 @@ class FollowItem extends Component {
                 }
             });
         }
+        //팔로우 되어 있는 경우, 언팔로우하기
         else {
             fetch("/ShareMusic/members/follows/" + userId + "/" + followId, {
                 method :"DELETE"

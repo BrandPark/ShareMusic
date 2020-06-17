@@ -17,11 +17,12 @@ class MainContent extends Component {
     }
   }
   
+  // 최근 팔로워들의 업데이트 목록 api 호출
   componentDidMount() {
     const {userId} = this.props;
     if(userId) {
       fetch("/ShareMusic/collections/recent/followers/"
-       + userId + "?page=1&amount=10", {
+       + userId + "?page=1&amount=20", {
         method :"GET"
       })
       .then(res=>res.json())
@@ -37,10 +38,15 @@ class MainContent extends Component {
     const {collections} = this.state;
     return (
       <section>
+      <div type="hidden" className="isMain"></div>
       <div className="main">
         <div className="container-fluid main-info">
             <div id="main-info">
-              Follower's Recent Updates collections
+              Follower's Recent Updates Collections
+            </div>
+            <div id="result-comment">
+              Discover the collections of various users and<br/>
+              follow them to receive news
             </div>
         </div>
         <div className="horizontal-scroll-block">
@@ -48,6 +54,7 @@ class MainContent extends Component {
             {collections.map((c, i) => {
               return (
                 <CollectionItem
+                  style={{left:"5vh"}}
                   collOwner={c.collection.userId}
                   cno={c.collection.cno}
                   collectionName={c.collection.collectionName}

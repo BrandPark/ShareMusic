@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import {Modal} from 'reactstrap';
 import defaultImg from '../images/defaultImg.PNG';
 import ReplyItem from './ReplyItem';
 import SongItem from './SongItem';
 
 import '../css/reply-modal.css';
+import '../css/youtube-modal.css';
+import '../css/collection.css'
 
 class CollectionContent extends Component {
     constructor(props) {
@@ -13,7 +15,8 @@ class CollectionContent extends Component {
             likeIcon:false,
             vId:'',
             replyText:'',
-            showModal:false,
+            showVideoModal:false,
+            showReplyModal:false,
             likeColor:{
                 color:"black"
             },
@@ -31,9 +34,11 @@ class CollectionContent extends Component {
         this.onClickPost = this.onClickPost.bind(this);
         this.onChangeReply = this.onChangeReply.bind(this);
         this.onClickLike = this.onClickLike.bind(this);
-        this.showModalToggle = this.showModalToggle.bind(this);
+        this.showVideoModalToggle = this.showVideoModalToggle.bind(this);
+        this.showReplyModalToggle = this.showReplyModalToggle.bind(this);
     }
 
+    //컬렉션 정보 api 호출
     componentDidMount() {
         const {match, userId} = this.props;
         fetch("/ShareMusic/collections/cno/" + match.params.cno, {
@@ -61,10 +66,11 @@ class CollectionContent extends Component {
         });
     }
 
+    //좋아요 클릭
     onClickLike(e) {
         const {likeColor} = this.state;
         const {userId, match} = this.props;
-        // #ED4956
+        
         // 좋아요 안 눌러져 있으면
         if(likeColor.color == "black") {
             fetch("/ShareMusic/collections/likes/", {
@@ -87,6 +93,7 @@ class CollectionContent extends Component {
                         }
                     });
 
+                    //좋아요 수 업데이트
                     fetch("/ShareMusic/collections/cno/" + match.params.cno, {
                         method :"GET"
                     })
@@ -115,6 +122,7 @@ class CollectionContent extends Component {
                         }
                     });
                     
+                    //좋아요 수 업데이트
                     fetch("/ShareMusic/collections/cno/" + match.params.cno, {
                         method :"GET"
                     })
@@ -129,18 +137,26 @@ class CollectionContent extends Component {
         }
     }
 
-    showModalToggle() {
+    //유튜브 modal toggle
+    showVideoModalToggle() {
         this.setState({
-            showModal:!this.state.showModal
+            showVideoModal:!this.state.showVideoModal
         })
     }
-
+    //댓글 modal toggle
+    showReplyModalToggle() {
+        this.setState({
+            showReplyModal:!this.state.showReplyModal
+        })
+    }
+    //댓글 입력 value 변화 시
     onChangeReply(e) {
         this.setState({
             [e.target.name]:e.target.value
         })
     }
 
+    //댓글 등록
     onClickPost(e) {
         const {match, userId} = this.props;
         const {replyText} = this.state;
@@ -160,6 +176,7 @@ class CollectionContent extends Component {
             .then(res=>res.text())
             .then(data=> {
                 if(data == "success") {
+                    //댓글 업데이트
                     fetch("/ShareMusic/collections/cno/" + match.params.cno, {
                         method :"GET"
                     })
@@ -178,6 +195,7 @@ class CollectionContent extends Component {
         }
     }
 
+    //특정 SongItem 클릭 시 유튜브 video id 해당 곡으로 변경
     onClickVideo(index) {
         const {collectionInfo} = this.state;
         this.setState({
@@ -187,10 +205,11 @@ class CollectionContent extends Component {
 
     render() {
         const {match, userId} = this.props;
-        const {imgURL, collectionInfo, likeColor, showModal, replyText, vId, likeIcon} = this.state;
-        const {onClickVideo, onClickLike, showModalToggle, onChangeReply, onClickPost} = this;
+        const {imgURL, collectionInfo, likeColor, showVideoModal, showReplyModal, replyText, vId, likeIcon} = this.state;
+        const {onClickVideo, onClickLike, showVideoModalToggle, showReplyModalToggle, onChangeReply, onClickPost} = this;
         return (
             <section>
+            <div type="hidden" className="isCollection"></div>
             <div className="main">
                 <div className="container-fluid" id="top">
                 <div className="profile-collection">
@@ -241,7 +260,7 @@ class CollectionContent extends Component {
                             <span> 
                             <i className="far fa-comment fa-lg"
                                 datatoggle="modal" datatarget="#myModal"
-                                onClick={showModalToggle}
+                                onClick={showReplyModalToggle}
                             ></i>
                             </span>
                             </div>
@@ -252,41 +271,65 @@ class CollectionContent extends Component {
                 {/* <!-- container --> */}
 
                 <div className="container-fluid" id="bottom">
-                <div id="track">
-                    <ul className="list-group mb-3">
-                        {collectionInfo.songs.map((song, i) => {
-                            return (
-                                <SongItem
-                                    musicName={song.musicName}
-                                    singer={song.singer}
-                                    no={i+1}
-                                    onClickVideo={onClickVideo}
-                                    key={i} {...this.props}
-                                ></SongItem>
-                            );
-                        })}
-                    </ul>
-                </div>
-
-                <div id="youtube">
-                    <iframe
-                        id="ytplayer"
-                        type="text/html"
-                        width="100%"
-                        height="100%"
-                        src={"https://www.youtube.com/embed/"+ vId +"?autoplay=1&origin=http://example.com"}
-                        frameBorder="0"
-                        //   -webkit-border-radius:30px;
-                        //   float:right;
-                    >
-                    </iframe>
-                </div>
+                    <div id="track">
+                        <ul className="list-group mb-3">
+                            {collectionInfo.songs.map((song, i) => {
+                                return (
+                                    <SongItem
+                                        showVideoModalToggle={showVideoModalToggle}
+                                        musicName={song.musicName}
+                                        singer={song.singer}
+                                        no={i+1}
+                                        onClickVideo={onClickVideo}
+                                        key={i} {...this.props}
+                                    ></SongItem>
+                                );
+                            })}
+                        </ul>
+                    </div>
                 </div>
                 {/* <!-- container --> */}
             </div>
+
+
+            {/* <!-- Youtube-Modal --> */}
+            <Modal isOpen={showVideoModal} toggle={showVideoModalToggle} contentClassName="content-border-radius" style={{top:"13%"}}> 
+                {/* <!-- modal-header --> */}
+                <div className="modal-header" style={{height:"11%", marginBottom:"0px", marginTop:"0px"}}>
+                    <div style={{width:"25%"}}>
+                    </div>
+                    <div style={{width:"50%", textAlign:"center"}}>
+                        <div className="modal-title">
+                            <strong style={{fontSize:"17px"}}>
+                                YouTube<i className="fab fa-youtube fa-lg" style={{color:"red"}}></i>
+                            </strong>
+                        </div>
+                    </div>
+                    <div style={{width:"25%", textAlign:"right", verticalAlign:"center"}}>
+                        <i className="fas fa-times fa-lg" data-toggle="modal" data-target="#youtube-modal" 
+                            onClick={showVideoModalToggle}
+                        ></i>
+                    </div>
+                </div>
+                {/* <!-- modal-header -->  */}
+
+                {/* <!-- modal-body --> */}
+                <div className="modal-body">
+                    <div className="container-fluid modal-container" style={{height:"100%"}}>                
+                    <iframe id="ytplayer" type="text/html" width="100%" height="87%" allow="autoplay" frameBorder="0" src={"https://www.youtube.com/embed/"+ vId +"?autoplay=1&origin=http://example.com"}>
+                    </iframe>
+                    </div>
+                </div>
+                {/* <!-- modal-body --> */}
+            </Modal>
+            
+
+
+
+
+
             {/* modal start*/}
-            <Modal isOpen={showModal} toggle={showModalToggle}  className="modal-content">
-                {/* <ModalHeader toggle={showModalToggle}>Modal title</ModalHeader> */}
+            <Modal isOpen={showReplyModal} toggle={showReplyModalToggle}  contentClassName="content-border-radius" style={{top:"10%"}}>
                 {/* <ModalBody> */}
                 <div className="modal-body">
                     <div className="container-fluid modal-container">
@@ -295,6 +338,7 @@ class CollectionContent extends Component {
                                 <ReplyItem
                                     fromUserId={reply.fromUserId}
                                     content={reply.content}
+                                    regTime={reply.regTime}
                                     key={i} {...this.props}
                                 ></ReplyItem>
                             );
@@ -303,7 +347,7 @@ class CollectionContent extends Component {
                 </div>
                 {/* </ModalBody> */}
                 {/* <ModalFooter> */}
-                <div className="modal-footer">
+                <div className="modal-footer">                  
                     <div className="container-fluid modal-container">
                         <div className="row reply-item">
                             <div className="reply-image">
@@ -313,17 +357,17 @@ class CollectionContent extends Component {
                             ></img>
                             </div>
             
-                            <div className="reply-user">
+                            <div className="reply-login-user">
                                 <strong>{userId}</strong>
                             </div>
         
                             <div id="reply-input">
-                                <div style={{width:"75%"}}>
+                                <div style={{width:"73%"}}>
                                     <textarea className="form-control" style={{overflow:"hidden", width:"100%", height:"100%"}} name="replyText"
                                         rows="1" placeholder="reply..." value={replyText} onChange={onChangeReply}
                                     ></textarea>
                                 </div>
-                                <div style={{width:"25%"}}>
+                                <div style={{width:"27%"}}>
                                     <button type="button"  className="btn btn-secondary btn-lg" id="reply-btn" style={{marginLeft:"1vh", marginRight:"1px"}}
                                         onClick={onClickPost}
                                     >Post

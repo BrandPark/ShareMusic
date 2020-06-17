@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
+import jQuery from 'jquery';
 import defaultImg from '../images/defaultImg.PNG'
 import AddSongItem from './AddSongItem';
 
@@ -30,13 +30,19 @@ class AddCollectionContent extends Component {
     };
     
     componentDidMount() {
-        var moveArea = $(document).find('.move-area');
-        var leftBtn = $(document).find('.left-btn');
-        var rightBtn = $(document).find('.right-btn');
-        var submitBtn = $(document).find('.submit-btn');
-        
+        var moveArea = jQuery(document).find('.move-area');
+        var leftBtn = jQuery(document).find('.left-btn');
+        var rightBtn = jQuery(document).find('.right-btn');
+        var submitBtn = jQuery(document).find('.submit-btn');
+        var waveBox = jQuery(document).find(".wave-box");
+        var colorBoxTop = jQuery(document).find('.color-box-top');
+        var colorBoxBottom = jQuery(document).find('.color-box-bottom');
+        var main = jQuery(document).find('.main');
+        var nav = jQuery(document).find('nav');
+        var titleBar = jQuery(document).find('.title-bar');
+
         //왼쪽 화살표를 눌렀을 때
-        $(document).on('click touch', '.left-btn',function(e){
+        jQuery(document).on('click touch', '.left-btn',function(e){
             e.preventDefault();
             moveArea.removeClass('move-right');    //영역 왼쪽으로 이동
             submitBtn.addClass('submit-btn-hide') //submit버튼 숨기기
@@ -44,20 +50,45 @@ class AddCollectionContent extends Component {
             rightBtn.removeClass('right-btn-hide')  //오른쪽버튼 보이기
         });
         //오른쪽 화살표를 눌렀을 때
-        $(document).on('click touch', '.right-btn',function(e){
+        jQuery(document).on('click touch', '.right-btn',function(e){
             e.preventDefault();
             moveArea.addClass('move-right');        //영역 오른쪽으로 이동
             leftBtn.removeClass('left-btn-hide');   //왼쪽버튼 보이기
             rightBtn.addClass('right-btn-hide');    //오른쪽버튼 숨기기
             submitBtn.removeClass('submit-btn-hide');   //submit버튼 보이기
         });
+
+        //컬렉션 생성 버튼을 눌렀을 때
+        jQuery(document).on('click touch', '.submit-btn',function(e){
+            e.preventDefault();
+            //부드럽게 변화주는 css추가
+            waveBox.css('transition','all 1.5s cubic-bezier(0.550, 0.055, 0.675, 0.190)');   
+            //main, title, nav 사라지게하기
+            main.addClass('slide');
+            titleBar.addClass('slide');
+            nav.addClass('slide');
+
+            //y축 이동
+            waveBox.css('transform','translateY(-40vh)');
+            //빈공간 coloBox로 채우기
+            colorBoxBottom.animate({
+                height: '40vh'
+            },1500);
+
+
+            //Loading글씨 띄우기
+            colorBoxBottom.children().delay(1700).fadeIn(500);
+        });
     }
 
+    // input태그 value 변화 시
     onChange(e) {
         this.setState({
             [e.target.name]:e.target.value
         });
     }
+
+    //컬렉션 대표 이미지 첨부
     previewImage1(e) {
         let reader = new FileReader();
 
@@ -77,13 +108,10 @@ class AddCollectionContent extends Component {
                 cFileName:e.target.files[0].name,
                 cFile:e.target.files[0]
             })
-            //파일 상태 업데이트
-            // this.props.onCommunicate(
-            //     e.target.files[0], e.target.files[0].name, this.props.submitImgBase64, this.props.submitCollectionName
-            // );
         }
     }
 
+    //OCR 이미지 첨부
     previewImage2(e) {
         let reader = new FileReader();
 
@@ -98,17 +126,15 @@ class AddCollectionContent extends Component {
             }
         }
         if (e.target.files[0]) {
-            reader.readAsDataURL(e.target.files[0]); //파일을 읽어 버퍼에 저장
+            //파일을 읽어 버퍼에 저장
+            reader.readAsDataURL(e.target.files[0]); 
             this.setState({
                 ocrFile:e.target.files[0]
             })
-            //파일 상태 업데이트
-            // this.props.onCommunicate(
-            //     e.target.files[0], e.target.files[0].name, this.props.submitImgBase64, this.props.submitCollectionName
-            // );
         }
     }
 
+    //태그 등록
     onClickTag(e) {
         const str = this.state.tagName.substring(1);
         this.setState({
@@ -116,6 +142,7 @@ class AddCollectionContent extends Component {
         })
     }
 
+    //업로드할 SongItem에 추가
     onClickAdd(e) {
         const {songs, addMusic, addSinger} = this.state;
 
@@ -137,13 +164,15 @@ class AddCollectionContent extends Component {
         });
     }
 
+    //upload page songItem 삭제
     onClickDelete(e) {
         const { songs } = this.state;
         this.setState({
-          songs:songs.filter(song => song.musicName !== "aaa")
+          songs:songs.filter(song => song.musicName == song.musicName)
         });
     }
 
+    //OCR api 호출
     onClickOCR(e) {
         if(this.state.ocrImg64 === defaultImg) {
             return;
@@ -202,8 +231,13 @@ class AddCollectionContent extends Component {
         })
         .then(res=>res.text())
         .then(data=> {
-            data === "success" ? alert("SUCCESS!!") : alert("FAIL!!");
-            history.push("/profile/" + userId);
+            console.log("s or f");
+            if(data == "success") {
+                history.push("/profile/" + userId);
+            }
+            else {
+                history.push("/addColl");
+            }
         });
     }
 
@@ -212,6 +246,7 @@ class AddCollectionContent extends Component {
         const {previewImage1, previewImage2, onChange, onClickTag, onClickAdd, onClickOCR, onClickDelete, onClickSubmit} = this;
         return (
             <section>
+            <div type="hidden" className="isAddCollection"></div>
             <div className="main">
                 <div className="small-title">
                     Add Collection
@@ -332,7 +367,7 @@ class AddCollectionContent extends Component {
                     </span>
                 </div>
                 <div className="right-btn">
-                    <span type="submit" className="btn btn-link"
+                    <span type="submit" className="btn btn-link "right-btn
                         onClick={onClickTag}
                     >
                         <i className="fas fa-caret-right"></i>

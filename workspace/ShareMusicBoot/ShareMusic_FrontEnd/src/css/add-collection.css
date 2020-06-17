@@ -54,8 +54,7 @@
     align-items: center;
     position:absolute;
     top:10vh;
-    left:10%;
-    background-color:var(--background-color);
+    left:10%; 
     width:6vw;
     height:60vh;
     text-align:center;
@@ -69,7 +68,6 @@
     position:absolute;
     top:10vh;
     right:10%;
-    background-color:var(--background-color);
     width:6vw;
     height:60vh;
     font-size: 3em;
@@ -90,22 +88,6 @@
     height: 100%;
 }
 
-.blank-block-left{
-    position:absolute;
-    top:10vh;
-    left:0;
-    width:10%;
-    height:60vh;
-    background-color:var(--background-color);
-}
-.blank-block-right{
-    position:absolute;
-    top:10vh;
-    right:0;
-    width:10%;
-    height:60vh;
-    background-color:var(--background-color);
-}
 .submit-btn{
     display:flex;
     justify-content: center;
@@ -113,7 +95,6 @@
     position:absolute;
     top:9vh;
     right:10%;
-    background-color:var(--background-color);
     width:6vw;
     height:60vh;
     font-size: 3em;
@@ -124,6 +105,7 @@
     pointer-events: none;
     transition: all 0.3s cubic-bezier(0.420, 0.000, 0.315, 1.000) ;
 }
+
 .left-btn i, .right-btn i, .submit-btn i{
     font-size: 3em;
     cursor: pointer;
@@ -329,8 +311,8 @@ height: 0;
     align-items: center;
     position:relative;
     background-color: lightgray;
-    height: 80%;
     width: 100%;
+    height: 80%;
     border-radius: 8px;
     -webkit-border-radius: 8px;  
     

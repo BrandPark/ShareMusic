@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import {Modal} from 'reactstrap';
 import CollectionItem from './CollectionItem';
+import FollowItem from './FollowItem';
 
 import '../css/follow-modal.css';
 import '../css/profile.css';
 import '../css/scroll.css';
-import FollowItem from './FollowItem';
 
-// import '../css/follow-modal.css';
 class ProfileContent extends Component {
 
     constructor(props) {
@@ -36,6 +35,7 @@ class ProfileContent extends Component {
     componentDidMount() {
         const {match, userId} = this.props;
 
+        //해당 사용자의 컬렉션들 정보 api 호출
         fetch("/ShareMusic/collections/userid/" + match.params.userId + "?page=1&amount=20", {
             method :"GET"
         })
@@ -46,6 +46,7 @@ class ProfileContent extends Component {
             });
         });
 
+        //해당 사용자의 팔로워 정보 api 호출
         fetch("/ShareMusic/members/follows/follower/" + match.params.userId, {
             method :"GET"
         })
@@ -56,6 +57,7 @@ class ProfileContent extends Component {
             });
         });
 
+        //해당 사용자의 팔로잉 정보 api 호출
         fetch("/ShareMusic/members/follows/following/" + match.params.userId, {
             method :"GET"
         })
@@ -66,6 +68,7 @@ class ProfileContent extends Component {
             });
         });
 
+        //로그인한 사용자의 팔로우 api 호출로 팔로우 여부 확인
         fetch("/ShareMusic/members/follows/following/" + userId, {
             method :"GET"
         })
@@ -79,6 +82,7 @@ class ProfileContent extends Component {
         });
     }
 
+    // 팔로워 modal toggle
     showFollowerModalToggle() {
         const {closeFollowerModal} = this;
         const {match} = this.props;
@@ -97,12 +101,14 @@ class ProfileContent extends Component {
         closeFollowerModal();
     }
 
+    // 팔로워 modal 닫기
     closeFollowerModal() {
         this.setState({
             showFollowerModal:!this.state.showFollowerModal
         })
     }
 
+    // 팔로잉 modal toggle
     showFollowingModalToggle() {
         const {closeFollowingModal} = this;
         const {match} = this.props;
@@ -121,15 +127,18 @@ class ProfileContent extends Component {
         closeFollowingModal();
     }
 
+    // 팔로잉 modal 닫기
     closeFollowingModal() {
         this.setState({
             showFollowingModal:!this.state.showFollowingModal
         })
     }
 
+    // 팔로우 버튼 클릭
     onClickFollow() {
         const {userId, match} = this.props;
         
+        //팔로우 안되어 있는 경우, 팔로우하기
         if(!this.state.isFollow) {
             fetch("/ShareMusic/members/follows/", {
                 method :"POST",
@@ -160,6 +169,7 @@ class ProfileContent extends Component {
                 }
             });
         }
+        //팔로우 되어 있는 경우, 언팔로우하기
         else {
             fetch("/ShareMusic/members/follows/" + userId + "/" + match.params.userId, {
                 method :"DELETE"
@@ -192,6 +202,7 @@ class ProfileContent extends Component {
         
         return (
             <>
+            <div type="hidden" className="isProfile"></div>
             <div className="main">
             <div className="container">
             <div className="profile">
@@ -206,7 +217,7 @@ class ProfileContent extends Component {
                     <div>
                         <strong style={{fontSize:"40px"}}>{match.params.userId}</strong>
                     </div> 
-                    {/* 버튼크기조절 */}
+                    
                     <button type="button" className={isFollow ? "btn btn-secondary btn-sm" : "btn btn-primary btn-sm"}
                         style={{display:(userId == match.params.userId ? "none":"block"), marginLeft:"40px", marginTop:"18px", height:"30px", verticalAlign:"center"}}
                         onClick={onClickFollow}>
@@ -248,6 +259,7 @@ class ProfileContent extends Component {
                     {collections.map((c, i) => {
                         return (
                         <CollectionItem
+                            style={{right:"5vh"}}
                             collOwner={c.collection.userId}
                             cno={c.collection.cno}
                             collectionName={c.collection.collectionName}
@@ -263,7 +275,7 @@ class ProfileContent extends Component {
             </div>
 
             {/* <!-- Follower-Modal --> */}
-            <Modal isOpen={showFollowerModal} toggle={showFollowerModalToggle} className="follow-modal-dialog">
+            <Modal isOpen={showFollowerModal} toggle={showFollowerModalToggle} contentClassName="content-border-radius" className="follow-modal-dialog">
                 {/* <!-- Modal content--> */}
                 <div className="modal-header" style={{height:"11%", marginBottom:"0px", marginTop:"0px"}}>
                     <div style={{width:"25%"}}>      
@@ -299,7 +311,7 @@ class ProfileContent extends Component {
             </Modal>
 
             {/* <!-- Following-Modal --> */}
-            <Modal isOpen={showFollowingModal} toggle={showFollowingModalToggle} className="follow-modal-dialog">
+            <Modal isOpen={showFollowingModal} toggle={showFollowingModalToggle} contentClassName="content-border-radius" className="follow-modal-dialog">
                 {/* <!-- Modal content--> */}
                 <div className="modal-header" style={{height:"11%", marginBottom:"0px", marginTop:"0px"}}>
                     <div style={{width:"25%"}}>

@@ -1,13 +1,5 @@
 @charset "UTF-8";
 
-@font-face {
-  font-family: "S-CoreDream-8Heavy";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
 .container-fluid {
   padding-left: 0px;
   padding-right: 0px;
@@ -35,7 +27,6 @@ div.profile-collection {
 
 /* 컬렉션 대표 이미지 */
 img.collection-image {
-  /* margin-left: 70px; */
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -45,8 +36,7 @@ img.collection-image {
 }
 
 div.collection-information {
-  /* margin-top: 30px; */
-  width: 30vh;
+  width: 50vh;
   height: 14vh;
   text-align: left;
   font-size: 1.6vh;
@@ -61,16 +51,21 @@ div.collection-information {
 #bottom {
   display: flex;
   height: 75%;
+  margin-top: 20px;
 }
 
 #track {
-  width: 50%;
+  width: 100%;
   height: 100%;
-  background-color: #33476a;
+  background-color: #182645;
   overflow-x: hidden;
   overflow-y: auto;
   -ms-overflow-style: none;
-  /* // IE에서 스크롤바 감춤  */
+}
+/* // IE에서 스크롤바 감춤  */
+  ::-webkit-scrollbar {
+    display: none !important;
+    /* // 윈도우 크롬 등 */
 }
 
 #track::-webkit-scrollbar {
@@ -81,17 +76,25 @@ div.collection-information {
 }
 
 #track ul li {
-  background-color: #33476a;
-  color: linen;
+  background-color: #182645;
+  color: #f1dfdd;
+  opacity: 1.0;
+  border: none;
 }
 
-#youtube {
-  width: 50%;
-  height: 100%;
-  /* position: fixed; */
-  /* margin-left: 50.5%; */
+#track ul li:hover {
+  opacity: 0.6;
+  /* color:green; */
+  /* background-color: #373D51; */
+  -webkit-transition-delay: 0s;
 }
 
 #lists {
   background-color: midnightblue;
 }
+
+.singer {
+  display: flex;
+}
+
+

@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import Header from './Header';
 import MainContent from './MainContent';
 
-// import '../css/mainPage.css';
-
 class MainPage extends Component {
     
     render() {
-        const {userId, auth} = this.props;
+        const {userId, auth, onCommunicate} = this.props;
         
         if(auth == false) {
             this.props.history.push("/login");
@@ -15,7 +13,12 @@ class MainPage extends Component {
 
         return (
             <>
-            <Header userId={userId} {...this.props}></Header>
+            <div className="color-box-top"></div>
+            <div className="wave-box">
+                <canvas></canvas>
+            </div>
+            <div className="color-box-bottom"></div>
+            <Header userId={userId} auth={auth} onCommunicate={onCommunicate} {...this.props}></Header>
             <MainContent userId={userId} {...this.props}></MainContent>
             </>
         );
