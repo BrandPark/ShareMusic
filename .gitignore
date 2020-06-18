@@ -2,6 +2,8 @@
 # Created by https://www.gitignore.io/api/java,eclipse
 # Edit at https://www.gitignore.io/?templates=java,eclipse
 
+.DS_Store
+
 ### Eclipse ###
 Servers/
 .metadata
@@ -15,6 +17,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+
 
 # External tool builders
 .externalToolBuilders/
@@ -110,8 +113,7 @@ hs_err_pid*
 temp/
 
 #Target Folder
-target/
-
-
-
-
+classes/
+generated-sources/
+getnerated-test-sources/
+test-classes/

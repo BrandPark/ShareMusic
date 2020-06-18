@@ -1,0 +1,16 @@
+@charset "UTF-8";
+/* 
+******************************메인 part css********************************
+ */
+.main-info {
+  text-align: center;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.219);
+}
+
+#main-info {
+  font-family: "S-CoreDream-8Heavy";
+  font-size: 3em;
+  margin-top: 2em;
+  text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.219);
+  display:inline-block;
+}

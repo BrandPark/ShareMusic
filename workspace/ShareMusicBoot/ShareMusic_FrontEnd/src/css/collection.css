@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+.container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+#top {
+  display: flex;
+  height: 25%;
+}
+
+div.profile-collection {
+  width: 100%;
+  height: 100%;
+  margin-left: 0;
+  display: flex;
+}
+
+#image-box {
+  width: 19vh;
+  height: 19vh;
+  margin-left: 12vh;
+}
+
+/* 컬렉션 대표 이미지 */
+img.collection-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -khtml-border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
+
+div.collection-information {
+  width: 50vh;
+  height: 14vh;
+  text-align: left;
+  font-size: 1.6vh;
+  margin-left: 3vh;
+  margin-top: 1vh;
+}
+
+#collection-title {
+  font-family: "S-CoreDream-8Heavy";
+}
+
+#bottom {
+  display: flex;
+  height: 75%;
+  margin-top: 20px;
+}
+
+#track {
+  width: 100%;
+  height: 100%;
+  background-color: #182645;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+}
+/* // IE에서 스크롤바 감춤  */
+  ::-webkit-scrollbar {
+    display: none !important;
+    /* // 윈도우 크롬 등 */
+}
+
+#track::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+  scroll-behavior: smooth;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+#track ul li {
+  background-color: #182645;
+  color: #f1dfdd;
+  opacity: 1.0;
+  border: none;
+}
+
+#track ul li:hover {
+  opacity: 0.6;
+  /* color:green; */
+  /* background-color: #373D51; */
+  -webkit-transition-delay: 0s;
+}
+
+#lists {
+  background-color: midnightblue;
+}
+
+.singer {
+  display: flex;
+}
+
+

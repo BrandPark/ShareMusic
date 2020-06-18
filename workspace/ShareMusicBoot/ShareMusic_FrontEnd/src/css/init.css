@@ -1,0 +1,65 @@
+@charset "UTF-8";
+:root {
+  --header-height: 15vh;
+  --main-height: 70vh;
+  --main-width: 98vw;
+  --horizontal-scroll-height: 50vh;
+  --form-height: 10vh;
+  --background-color: #ebcdcd;
+  --wave-fill-color:#182645;
+}
+
+@font-face {
+  font-family: "S-CoreDream-8Heavy";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NeuzeitGroteskW01-Regular"; 
+  src: url("//db.onlinewebfonts.com/t/edeb336ecd776e23d99355eb2b52cbc7.eot"); 
+  font-weight: lighter;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-size: 16px;
+  background-color: var(--background-color);
+  /* background-image: radial-gradient(
+    circle 248px at center,
+    #16d9e3 0%,
+    #30c7ec 47%,
+    #46aef7 100%
+  ); */
+  height: 100vh;
+  width: 100vw;
+  overflow:hidden;
+}
+div {
+  margin: 0;
+}
+.main {
+  position: absolute;
+  z-index: 0;
+  top: var(--header-height);
+  height: 85vh;
+  width: 100vw;
+  padding-left: 0vw;
+  padding-right: 0vw;
+/*   background-color: #ebcdcd; */
+}
+.main.slide{
+  transition: all 800ms cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  transform: translate(-15px);
+  opacity:0;
+  pointer-events: none;
+}
